@@ -1,0 +1,11 @@
+*.o
+data/bfl/
+data/interval_scheme/
+data/processed/
+data/queries/
+data/raw/
+data/results/
+data/spareach/
+*.pyc
+
+Executables/
