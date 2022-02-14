@@ -51,14 +51,13 @@ bool strictSpatialFirstQuery(Graph* SocialGraph, bgi::rtree<SpatialNode, bgi::li
 {
     int node = queryParam->queryNode;
     box spatialRegion = queryParam->spatialRegion;
-    vector<SpatialNode> possibleHits;
     
     
     #ifdef STATISTICS
         Timer clock;
         clock.start();
     #endif
-    
+    vector<SpatialNode> possibleHits;
     rTree->query(bgi::intersects(spatialRegion), back_inserter(possibleHits));
 
     #ifdef STATISTICS

@@ -32,7 +32,6 @@ public:
 
     // Returns the location of the node.
     Location getVanillaLocation(int node);
-
     // Returns the complete Location Scheme.
     unordered_map <int, Location> returnVanillaMap();
 

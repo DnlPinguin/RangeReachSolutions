@@ -157,10 +157,14 @@ void LocationMap::printLocations() {
 }
 
 void LocationMap::printMap() {
-    cout << "Locations => " << endl;
+    cout << "SpatialData : \n";
     unordered_map<int, spatialMbrRelation>::iterator it;
     for (it = Map.begin(); it != Map.end(); it++) {
-        cout << it->first << "-> ";
+        if (it->second.isMbr){
+            cout <<"PNT " << it->first << ": ";
+        } else {
+            cout <<"MBR " << it->first << ": ";
+        }
         for (coordinates i : it->second.spatialData)
         {
             cout << i << " ";

@@ -8,28 +8,28 @@ string getFileName(){
 }
 
 float getMAX_RMBR(){
-    cout << "Enter MAX_RMBR:";
+    cout << "Enter float to specify when R-Vertices will be degraded to B-Vertex:";
 	string input;
 	cin >> input;
 	return stof(input);
 }
 
 int getMAX_REACH_GRIDS(){
-    cout << "Enter MAX REACH GRIDS:";
+    cout << "Enter amount of grids per g_vertex before degrading to r_vertex:";
 	string input;
 	cin >> input;
 	return stoi(input);
 }
 
 int getLayer(){
-    cout << "Enter amount of grids in top layer:";
+    cout << "Enter amount of layers: (e.g: 1 equals 1 | equals 4-1 | 3 equals 16-4-1 ) \n";
 	string input;
 	cin >> input;
 	return stoi(input);
 }
 
 int getMergeCount(){
-    cout << "Enter merge count:";
+    cout << "Enter amount of grids necessary to be merged into lower level:";
 	string input;
 	cin >> input;
 	return stoi(input);
@@ -59,25 +59,31 @@ int main(int argc, char **argv){
     LocationMap LocationGraph;
     RangeReachVertex RangeReach;
 
-    loadFile(filename, &SocialGeoGraph);
-    loadVanillaGeoFileData(filename, &LocationGraph);
-    SocialGeoGraph.createSCCsUsingTarjans();
-    SocialGeoGraph.writeSuperConnectedComponents(filename);
-    SocialGeoGraph.writeReducedGraph(filename);
-    LocationGraph.createMbrs(&SocialGeoGraph.SuperConnectedComponents);
-	LocationGraph.writeMapToFile("./data/processed/" + filename + "_reduced_spatial_data");
+    SocialGeoGraph.readReducedGraph("./data/processed/" + filename + "_reduced_scheme");
+    SocialGeoGraph.readSuperConnectedComponents("./data/processed/" + filename + "_strongly_connected_components");
+    LocationGraph.readFileForMap("./data/processed/" + filename + "_reduced_spatial_data");
+    
+	//RangeReach.maximumMBR = MBR(LocationGraph.MinMaxCorners[0],LocationGraph.MinMaxCorners[1],LocationGraph.MinMaxCorners[2],LocationGraph.MinMaxCorners[3]);
 	RangeReach.maximumMBR = MBR(0,0,1,1);
+    
     RangeReach.createGridField(LAYER);
-	RangeReach.CreateRangeReachVertex(&SocialGeoGraph, &LocationGraph, MAX_RMBR, MAX_REACH_GRIDS, LAYER);
-    if (MERGE_COUNT != 0 ){
+
+    
+	RangeReach.createGVertex(&SocialGeoGraph, &LocationGraph, MAX_RMBR, MAX_REACH_GRIDS, LAYER);
+    
+    if (MERGE_COUNT > 1 ){
         RangeReach.MergeGVertex(MERGE_COUNT);
     }
     RangeReach.createRVertex(MAX_REACH_GRIDS, &LocationGraph);
 
+    float totalSizeOfArea = fabs(RangeReach.maximumMBR.xMax - RangeReach.maximumMBR.xMin) * (RangeReach.maximumMBR.yMax - RangeReach.maximumMBR.yMin);
+    RangeReach.createBVertex(MAX_RMBR, totalSizeOfArea);
+
     // RangeReach.printBVertex();
-    RangeReach.printGVertex();
     // RangeReach.printRVertex();
+    // RangeReach.printGVertex();
     // RangeReach.printAllGridLayers();
+    RangeReach.checkVertexCorrectnes();
     RangeReach.writeAttributesToFile(filename);
 
     return 0;

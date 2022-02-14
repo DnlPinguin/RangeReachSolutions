@@ -23,7 +23,8 @@ public:
 	//Expands the Miniumum Bound Reactangle according to the parameter;
 	void insertLoc(Location loc);
 	void insertMBR(MBR mbr);
-
+	bool containsPoint(Location loc);
+	
 	void print();
 	string getString();
 	string stringify();

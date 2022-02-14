@@ -5,7 +5,7 @@
 void runHybrid(Graph* SocialGeoGraph, LocationMap* LocationGraph, string outputFile, vector<queryParameter>* queries, int amount_of_queries_used_for_averaging)
 {
 	Timer clock;
-	rTreeLines* rTree = buildThreeDimensionalRtree(SocialGeoGraph, LocationGraph);
+	rTreeLines rTree = buildThreeDimensionalRtree(SocialGeoGraph, LocationGraph);
 	ofstream out(outputFile + "_hybrid_query_result");
 	int counter = 0;
 	for (vector<queryParameter>::iterator it = queries->begin(); it != queries->end(); it++)
@@ -16,9 +16,10 @@ void runHybrid(Graph* SocialGeoGraph, LocationMap* LocationGraph, string outputF
 
 		for (int i = 0; i < amount_of_queries_used_for_averaging; i++){
 			clock.start();
-			result = hybridQuery(thirdDimensionOfNode, rTree, it, &counter);
+			result = hybridQuery(thirdDimensionOfNode, &rTree, it, &counter);
 			results.push_back(clock.stop());
 		}
+		
 		double timer = accumulate( results.begin(), results.end(), 0.0)/results.size(); 
 
 		#ifdef STATISTICS
@@ -32,7 +33,7 @@ void runHybrid(Graph* SocialGeoGraph, LocationMap* LocationGraph, string outputF
 void runHybridCube(Graph* SocialGeoGraph, LocationMap* LocationGraph, string outputFile, vector<queryParameter>* queries, int amount_of_queries_used_for_averaging) 
 {
 	Timer clock;
-	rTreeCubes* rTree = buildThreeDimensionalRtreeWithCuboids(SocialGeoGraph, LocationGraph);
+	rTreeCubes rTree = buildThreeDimensionalRtreeWithCuboids(SocialGeoGraph, LocationGraph);
 	ofstream out(outputFile + "_hybrid_mbr_query_result");
 	int counter = 0;
 	for (vector<queryParameter>::iterator it = queries->begin(); it != queries->end(); it++)
@@ -57,7 +58,7 @@ void runHybridCube(Graph* SocialGeoGraph, LocationMap* LocationGraph, string out
 
 void runReverseHybrid(Graph* SocialGeoGraph, LocationMap* LocationGraph, string outputFile, vector<queryParameter>* queries, int amount_of_queries_used_for_averaging){
 	Timer clock;
-	rTreePoints* rTree = buildThreeDimensionalRtreeWithPoints(SocialGeoGraph, LocationGraph);
+	rTreePoints rTree = buildThreeDimensionalRtreeWithPoints(SocialGeoGraph, LocationGraph);
 	ofstream out(outputFile + "_hybrid_query_reverse_result");
 	int counter = 0;
 	for (vector<queryParameter>::iterator it = queries->begin(); it != queries->end(); it++)
@@ -85,9 +86,10 @@ void runReverseHybrid(Graph* SocialGeoGraph, LocationMap* LocationGraph, string 
 
 void runReverseHybridCube(Graph* SocialGeoGraph, LocationMap* LocationGraph, string outputFile, vector<queryParameter>* queries, int amount_of_queries_used_for_averaging){
 	Timer clock;
-	rTreeCubes* rTree = buildThreeDimesionalRTreeWithPlanes(SocialGeoGraph, LocationGraph);
+	rTreeCubes rTree = buildThreeDimesionalRTreeWithPlanes(SocialGeoGraph, LocationGraph);
 	ofstream out(outputFile + "_hybrid_mbr_query_reverse_result");
 	int counter = 0;
+	out << "time\tresult\tarea\tdegree\tcardinality\n";
 	for (vector<queryParameter>::iterator it = queries->begin(); it != queries->end(); it++)
 	{
 		vector<IntervalScheme> intervals = SocialGeoGraph->getIntervalSchemeNode(it->queryNode);

@@ -42,8 +42,9 @@ int main(int argc, char **argv) {
 
 
 	RangeReach.readAttributesFromFile(filename);
-	SocialGeoGraph.readReducedGraph("data/processed/" + filename + "_reduced_scheme");
-    loadVanillaGeoFileData(filename, &LocationGraph);
+    SocialGeoGraph.readReducedGraph("./data/processed/" + filename + "_reduced_scheme");
+    SocialGeoGraph.readSuperConnectedComponents("./data/processed/" + filename + "_strongly_connected_components");
+    LocationGraph.readFileForMap("./data/processed/" + filename + "_reduced_spatial_data");
 
 	vector<queryParameter>* queries = readQueries("./data/queries/" + filename + "_queries");
 	int amount_of_queries_used_for_averaging = 1; 
@@ -53,7 +54,9 @@ int main(int argc, char **argv) {
 
 	RangeReach.maximumMBR = MBR(0, 0, 1, 1);
 	// RangeReach.createGridField(layers);
-
+	//RangeReach.maximumMBR = MBR(LocationGraph.MinMaxCorners[0],LocationGraph.MinMaxCorners[1],LocationGraph.MinMaxCorners[2],LocationGraph.MinMaxCorners[3]);
+	RangeReach.maximumMBR = MBR(0,0,1,1);
+    
 	RangeReach.printAllGridLayers();
 
 

@@ -753,6 +753,9 @@ void Graph::topologicalSort(vector<int>* topologicalSortedVertices)
         for (int entry : node->second) 
             VReduced.insert(entry);
     }
+
+    cout << VReduced.size() << endl;
+
     stack<int> Stack;
     int size = VReduced.size();
     if (size < *(VReduced.rbegin())) { size = *(VReduced.rbegin()); }
@@ -762,6 +765,8 @@ void Graph::topologicalSort(vector<int>* topologicalSortedVertices)
     {
         visited[i] = false;
     }
+
+
     for (int i : VReduced) 
     {
         if (visited[i] == false)
@@ -775,6 +780,7 @@ void Graph::topologicalSort(vector<int>* topologicalSortedVertices)
         topologicalSortedVertices->push_back(Stack.top());
         Stack.pop();
     }
+
 }
        
 #pragma endregion
@@ -784,7 +790,7 @@ void Graph::topologicalSort(vector<int>* topologicalSortedVertices)
 #pragma region Print Statements
 
 void Graph::print() {
-    cout << " Print Graph Structure..." << endl;
+    cout << "Graph Structure:\n";
     unordered_map<int, vector<int>>::iterator node;
     for (node = GraphScheme.begin(); node != GraphScheme.end(); node++) {
         cout << "Node :" << node->first << " -> (";
@@ -923,12 +929,12 @@ void Graph::writeReducedGraph(string fileName)
 void Graph::readReducedGraph(string filePath)
 {
     this->GraphScheme.clear();
-    cout << "Read reduced graph file" << endl;
+    cout << "Read reduced graph file: ";
     ifstream file;
     file.open(filePath);
     string line;
     bool isRootNode = true;
-    int rootNode, node;
+    int rootNode, node, counter;
     if (file.is_open())
     {
         while (getline(file, line))
@@ -942,6 +948,7 @@ void Graph::readReducedGraph(string filePath)
                     isRootNode = false;
                 }
                 if (rootNode != node) {
+                    counter++;
                     this->GraphScheme[rootNode].push_back(node);
                     this->GraphSchemeReverse[node].push_back(rootNode);
                     this->V.insert(rootNode);
@@ -952,6 +959,7 @@ void Graph::readReducedGraph(string filePath)
             isRootNode = true;
         }
     }
+    cout << counter << " lines read.\n" ;
     file.close();
 }
 

@@ -2,28 +2,32 @@
 
 typedef int node;
 
-rTreeLines* buildThreeDimensionalRtree(Graph* HybridGraph, LocationMap* LocationGraph) {
+rTreeLines buildThreeDimensionalRtree(Graph* HybridGraph, LocationMap* LocationGraph) {
     cout << "Build R-Tree with lines \n";
     rTreeLines rtree;
     int counter = 0;
     int lineCounter = 0;
+    int counter2 = 0;
+    cout << LocationGraph->Map.size() << endl;
     for (unordered_map<int, spatialMbrRelation>::iterator iter = LocationGraph->Map.begin(); iter != LocationGraph->Map.end(); iter++)
     {
         spatialMbrRelation Locations = iter->second;
+        cout <<counter2 << endl;
+        counter2++;
         for (IntervalScheme it : HybridGraph->IntervalSchemeGraphMap[iter->first]) {
             if (!Locations.isMbr)
             {
                 threeDimLine line(
-                    threeDimPoint(iter->second.spatialData[0], iter->second.spatialData[1], it.pre),
-                    threeDimPoint(iter->second.spatialData[0], iter->second.spatialData[1], it.post)
+                    threeDimPoint(iter->second.spatialData[0], iter->second.spatialData[1], float(it.pre)),
+                    threeDimPoint(iter->second.spatialData[0], iter->second.spatialData[1], float(it.post))
                 );
                 lineCounter++;
-                // cout << it.pre << " " << it.post << " " << iter->second.spatialData[0]  << " " << iter->second.spatialData[1] << endl;
+
                 rtree.insert(line);
             }
             else
             {
-                for (int i = 4; i != Locations.spatialData.size(); i = i + 2)
+                for (int i = 4; i < Locations.spatialData.size() - 1; i = i + 2)
                 {
                     threeDimLine line(
                         threeDimPoint(iter->second.spatialData[i], iter->second.spatialData[i + 1], it.pre),
@@ -36,10 +40,10 @@ rTreeLines* buildThreeDimensionalRtree(Graph* HybridGraph, LocationMap* Location
         }
     }
     cout << "R-Tree completed: " << lineCounter << " lines added.\n";
-    return &rtree;
+    return rtree;
 }
 
-rTreeCubes* buildThreeDimensionalRtreeWithCuboids(Graph* HybridGraph, LocationMap* LocationGraph) {
+rTreeCubes buildThreeDimensionalRtreeWithCuboids(Graph* HybridGraph, LocationMap* LocationGraph) {
     rTreeCubes rtree;
 
     unordered_map<int, spatialMbrRelation> SpatialData = LocationGraph->returnMap();
@@ -62,10 +66,14 @@ rTreeCubes* buildThreeDimensionalRtreeWithCuboids(Graph* HybridGraph, LocationMa
         }
     }
     cout << "\tR-Tree completed." << cube_counter << " cubes added.\n";
-    return &rtree;
+    return rtree;
 }
 
-rTreePoints* buildThreeDimensionalRtreeWithPoints(Graph* HybridGraph, LocationMap* LocationGraph){
+
+
+
+
+rTreePoints buildThreeDimensionalRtreeWithPoints(Graph* HybridGraph, LocationMap* LocationGraph){
     cout << "Build reverse R-Tree with points \n";
     rTreePoints rtree;
     int lineCounter = 0;
@@ -83,16 +91,16 @@ rTreePoints* buildThreeDimensionalRtreeWithPoints(Graph* HybridGraph, LocationMa
             {
                 for (int i = 4; i != Locations.spatialData.size(); i = i + 2)
                 {
-                    rtree.insert(threeDimPoint(iter->second.spatialData[0], iter->second.spatialData[1], it.post));
+                    rtree.insert(threeDimPoint(iter->second.spatialData[i], iter->second.spatialData[i + 1], it.post));
                 }
             }
         }
     }
     cout << "R-Tree completed: " << lineCounter << " lines added.\n";
-    return &rtree;
+    return rtree;
 }
 
-rTreeCubes* buildThreeDimesionalRTreeWithPlanes(Graph* HybridGraph, LocationMap* LocationGraph){
+rTreeCubes buildThreeDimesionalRTreeWithPlanes(Graph* HybridGraph, LocationMap* LocationGraph){
     rTreeCubes rtree;
     unordered_map<int, spatialMbrRelation> SpatialData = LocationGraph->returnMap();
     int cube_counter = 0;
@@ -112,8 +120,14 @@ rTreeCubes* buildThreeDimesionalRTreeWithPlanes(Graph* HybridGraph, LocationMap*
         cube_counter++;
     }
     cout << cube_counter << " cubes added. R-Tree completed. \n";
-    return &rtree;
+    return rtree;
 }
+
+
+
+
+
+
 
 rTreePlanes* buildTwoDimensionalRtree(LocationMap* LocationGraph) {
     rTreePlanes* rtree = new rTreePlanes;

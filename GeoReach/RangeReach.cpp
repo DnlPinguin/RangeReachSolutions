@@ -87,8 +87,6 @@ void RangeReachVertex::createGridField(int LAYERS)
 		// int gridsPerRow = sqrt(gridsPerLayer);
 
 		int gridsPerRow = gridsPerLayer / 2;
-
-
 		float layerChunkStepX = abs(maximumMBR.xMax - maximumMBR.xMin) / gridsPerRow;
 		float layerChunkStepY = abs(maximumMBR.yMax - maximumMBR.yMin) / gridsPerRow;
 		gridPerLayerCounter = 0;
@@ -112,196 +110,54 @@ void RangeReachVertex::createGridField(int LAYERS)
 	}
 };
 
-void RangeReachVertex::CreateRangeReachVertex(Graph* socialGraph, LocationMap* locationGraph, float MAX_RMBR = 1, float MAX_REACH_GRIDS = 3, int LAYERS=4) {
+void RangeReachVertex::createGVertex(Graph* socialGraph, LocationMap* locationGraph, float MAX_RMBR = 1, float MAX_REACH_GRIDS = 3, int LAYERS=4) {
 	cout << "create SPA-Graph structure  \n";
 
 	vector<int> topologicalOrderedVertices;
+	
 	socialGraph->topologicalSort(&topologicalOrderedVertices);
 
+	cout << "Size of topological order: " << topologicalOrderedVertices.size() << endl;
 	vector<coordinates> maxMBR = locationGraph->getMinMaxCorners();
 
 	this->maximumMBR = MBR(maxMBR[0], maxMBR[1], maxMBR[2], maxMBR[3]);
 	this->maximumMBR = MBR(0, 0, 1, 1);
 
-	
-	this->createGridField(LAYERS);
 
-	/**
-	 * Create Vertices by iterating trough the topological order in reverse
-	 */
-	for (int iter = topologicalOrderedVertices.size(); iter >= 0; iter--)
-	{
-		int currentNode = topologicalOrderedVertices[iter];
-		
+	for (int iter = topologicalOrderedVertices.size(); iter >= 0; iter--){
+		int currentNode = topologicalOrderedVertices[iter];	
+		bool currentNodeReachesSpatial = false;
+		for (int reachableNode : socialGraph->GraphScheme[currentNode]){
+			if (locationGraph->existLocation(reachableNode)){
+				currentNodeReachesSpatial = true;
+				vector<coordinates> pointsInsideScc = locationGraph->getLocation(reachableNode).spatialData;
+				if (socialGraph->SuperConnectedComponents.count(reachableNode)){
 
-		for (int reachableNode : socialGraph->GraphScheme[currentNode])
-		{
-
-			// If a reachable node has a spatial attribute, we can add it to the vertex structure			
-			if (locationGraph->existLocation(reachableNode))
-			{
-				//B_Vertex is set to true, since it is able to reach atleast one node, that as a spatial attribute
-				B_Vertex[currentNode] = true;
-
-				/**
-				 * IMPORTANT: Check if the reachable node is a strongly connected component
-				 * If so, we have to add the child element of the strongly connected component
-				 * to the vertices.
-				 * If not, we only add the node
-				 */
-				if (socialGraph->SuperConnectedComponents.count(reachableNode))
-				{
-					for (int nodeInScc : socialGraph->SuperConnectedComponents[reachableNode]){
-						if (locationGraph->existLocation(nodeInScc)){
-							Location locationOfNodeInScc = locationGraph->getVanillaLocation(nodeInScc);
-
-							/**
-							 * Aslong the G_Vertex of our current node doesnt exceed the maximum limit defined
-							 * in MAX_REACH_GRIDS, we can append the spatial grid field of the reachable 
-							 * node into the G_Vertex.
-							 * Else we need to expand our R_Vertex
-							 * 
-							 */
-							if (G_Vertex[currentNode].size() < MAX_REACH_GRIDS)
-							{
-								G_Vertex[currentNode].insert(getSpatialGridField(locationOfNodeInScc, LAYERS));
-								Nodes_In_G_Vertex[currentNode].push_back(nodeInScc);
-							} 
-							else
-							{
-								/**
-								 * If there was no R_Vertex established, we first need to create a new one,
-								 * by creating an minimum bounding rectangle consisting of all nodes
-								 * that are currently stored inside the G_Vertex;
-								 * 
-								 */
-								if (this->R_Vertex.count(currentNode) == 0)
-								{
-									this->R_Vertex[currentNode] = MBR(locationOfNodeInScc);
-									for (int node : Nodes_In_G_Vertex[currentNode]) {
-										this->R_Vertex[currentNode].insertLoc(locationGraph->getVanillaLocation(node));
-									}
-								}
-								/**
-								 * After that, we just insert the new found location
-								 * 
-								 */
-								this->R_Vertex[currentNode].insertLoc(locationOfNodeInScc);
-							}			
-						}
-								
+					for (int i = 4; i < pointsInsideScc.size() - 1; i += 2){
+						Location pos = Location(pointsInsideScc[i], pointsInsideScc[i+1]);
+						G_Vertex[currentNode].insert(getSpatialGridField(pos, LAYERS));
+						Locations_Inside_G_Vertex[currentNode].push_back(pos);
 					}
-				} 
-				else
-				{
-					/**
-					 * Same process for non strongly connected components
-					 */
-					if (G_Vertex[currentNode].size() < MAX_REACH_GRIDS)
-					{
-						G_Vertex[currentNode].insert(getSpatialGridField(locationGraph->getVanillaLocation(reachableNode), LAYERS));
-						Nodes_In_G_Vertex[currentNode].push_back(reachableNode);
-					} 
-					else
-					{
-						if (this->R_Vertex.count(currentNode) == 0)
-						{
-							this->R_Vertex[currentNode] = MBR(locationGraph->getVanillaLocation(reachableNode));
-							for (int node : Nodes_In_G_Vertex[currentNode]) {
-								this->R_Vertex[currentNode].insertLoc(locationGraph->getVanillaLocation(node));
-							}
-						}
-						this->R_Vertex[currentNode].insertLoc(locationGraph->getVanillaLocation(reachableNode));
-					}
+
+				} else {
+					Location pos = Location(pointsInsideScc[0], pointsInsideScc[1]);
+					G_Vertex[currentNode].insert(getSpatialGridField(pos, LAYERS));
+					Locations_Inside_G_Vertex[currentNode].push_back(pos);
 				}
-			} 
-			/**
-			 * Additionally, there is still the possibility, that the reachable node
-			 * itself has no spatiala attribute, but its vertices were already enhanced.
-			 * In this case, we check if B_Vertex is true, and insert the already existing
-			 * vertices into our current node
-			 */
-
-			if (B_Vertex[reachableNode])
-			{
-
-				B_Vertex[currentNode] = true;
-				/** 
-				 * If a R-Vertex already exists in reachable node, we can append it to the current node
-				*/
-				if (R_Vertex.count(reachableNode) > 0)
-				{
-
-					if (R_Vertex.count(currentNode))
-					{
-						R_Vertex[currentNode].insertMBR(R_Vertex[reachableNode]);
-					} else
-					{
-						R_Vertex[currentNode] = MBR(R_Vertex[reachableNode]);
-					}
-					if (locationGraph->existLocation(reachableNode)){
-						this->R_Vertex[currentNode].insertLoc(locationGraph->getVanillaLocation(reachableNode));
-					}
-				} 
-				else 
-				{
-					/**
-					 * Otherwise we have to pick every node from the g vertex and incrementally add it to the 
-					 * current node
- 					 */
-
-					for (int gVertex : G_Vertex[reachableNode])
-					{
-
-						if (G_Vertex[currentNode].size() < MAX_REACH_GRIDS)
-						{
-							G_Vertex[currentNode].insert(gVertex);
-							
-							for (int nodeInGVertex : Nodes_In_G_Vertex[reachableNode])
-							{
-								if (!(find(Nodes_In_G_Vertex[currentNode].begin(), Nodes_In_G_Vertex[currentNode].end(), nodeInGVertex) != Nodes_In_G_Vertex[currentNode].end()))
-									Nodes_In_G_Vertex[currentNode].push_back(nodeInGVertex);
-							}
-
-						}
-						else
-						{
-							if (this->R_Vertex.count(currentNode) == 0)
-							{
-								this->R_Vertex[currentNode] = MBR(locationGraph->getVanillaLocation(Nodes_In_G_Vertex[currentNode][0]));
-
-								for (int node : Nodes_In_G_Vertex[currentNode]) {
-									this->R_Vertex[currentNode].insertLoc(locationGraph->getVanillaLocation(node));
-								}
-							}
-							if (locationGraph->existLocation(reachableNode))
-							{
-								if (socialGraph->SuperConnectedComponents.count(reachableNode)){
-									for (int nodeInScc : socialGraph->SuperConnectedComponents[reachableNode])
-									{
-										if (locationGraph->existLocation(nodeInScc))
-										{
-											this->R_Vertex[currentNode].insertLoc(locationGraph->getVanillaLocation(nodeInScc));
-										}
-									}
-								} 
-								else 
-								{
-									this->R_Vertex[currentNode].insertLoc(locationGraph->getVanillaLocation(reachableNode));
-								}
-							}
-						}
+				if (this->G_Vertex.count(reachableNode) > 0){
+					currentNodeReachesSpatial = true;
+					for (int vertex : G_Vertex[reachableNode]){
+						G_Vertex[currentNode].insert(vertex);
+						for (Location  pos : Locations_Inside_G_Vertex[reachableNode])
+							Locations_Inside_G_Vertex[currentNode].push_back(pos);
 					}
 				}
 			}
-				
 		}
-		if (B_Vertex.count(currentNode) == 0) {
-			B_Vertex[currentNode] = false;
-		}
+		if (!currentNodeReachesSpatial) B_Vertex[currentNode] = false;
 	}
 
-
+	return;
 }
 
 MBR RangeReachVertex::getGridFieldById(int id){
@@ -343,17 +199,15 @@ void RangeReachVertex::MergeGVertex(int MERGE_COUNT){
 	map<int,map<int, MBR>>::iterator layerIterator = this->gridLayers.begin();
 	layerIterator++;
 
-	
-
 	for (layerIterator; layerIterator != this->gridLayers.end(); layerIterator++){
 		int currentLayer = layerIterator->first;
-		// cout << "layer " << currentLayer  << " : " << this->gridLayers[currentLayer].size() << endl;	
+		// cout << "Layer: " << currentLayer  << ", Size" << this->gridLayers[currentLayer].size() << endl;	
 		map<int, MBR>::iterator gridIterator;
 		for (gridIterator = this->gridLayers[currentLayer].begin(); gridIterator != this->gridLayers[currentLayer].end(); gridIterator++){
 			int gridId = gridIterator->first;
 			MBR grid = gridIterator->second;
 			vector<int> lowerLevelGrids = this->getLowerLevelsGridsInside(currentLayer, grid);
-			
+			// for (int i : lowerLevelGrids) cout << i << " "
 			for (unordered_map<int,unordered_set<int>>::iterator iter = G_Vertex.begin(); iter != G_Vertex.end(); iter++) {
 				int sameGrids = 0;
 				vector<int> sameGridIds;
@@ -368,16 +222,7 @@ void RangeReachVertex::MergeGVertex(int MERGE_COUNT){
 						}
 					}
 				}
-				if (sameGrids > MERGE_COUNT){
-					// cout << "g_vertex: ";
-					// for (int gVertexGridId : iter->second)
-					// 	cout << gVertexGridId << " ";
-					// cout << endl << "lowerGrid: ";
-					// for (int lowerGridId : lowerLevelGrids)
-					// 	cout << lowerGridId << " ";
-					// cout << endl << "same grids: ";
-					// for (int i : sameGridIds)
-						// cout << i << " ";
+				if (sameGrids >= MERGE_COUNT){
 
 					unordered_set<int> mergedGrids;
 					for (int gVertexGridId : iter->second) {
@@ -394,8 +239,6 @@ void RangeReachVertex::MergeGVertex(int MERGE_COUNT){
 					mergedGrids.insert(gridId);
 					iter->second = mergedGrids;
 
-					// cout << endl << " => " << sameGrids << endl;
-					// cout << "current grid" << gridId << endl;
 				}
 				
 			}
@@ -404,34 +247,67 @@ void RangeReachVertex::MergeGVertex(int MERGE_COUNT){
 }
 
 void RangeReachVertex::createRVertex(int MAX_REACH_GRIDS, LocationMap* spatialGraph){
-	// for (unordered_map<int,unordered_set<int>>::iterator iter = G_Vertex.begin(); iter != G_Vertex.end(); iter++) {
-	// 	int node = iter->first;
-	// 	if (iter->second.size() > MAX_REACH_GRIDS){
-	// 		for (int nodeWithSpatial : this->Nodes_In_G_Vertex[node]) {
-				
-
-	// 			if (this->R_Vertex.count(nodeWithSpatial) == 0)
-	// 			{
-	// 				this->R_Vertex[nodeWithSpatial] = MBR(spatialGraph->getVanillaLocation(nodeWithSpatial));
-	// 			} else 
-	// 			{
-	// 				this->R_Vertex[nodeWithSpatial]
-	// 			}
-	// 		}
-	// 	}
-		
-	// 	cout << endl;
-	// }
-	// cout << endl;
+	vector<int> GVerticesToErase;
+	for (unordered_map<int,unordered_set<int>>::iterator iter = G_Vertex.begin(); iter != G_Vertex.end(); iter++) {
+		int node = iter->first;
+		if (iter->second.size() > MAX_REACH_GRIDS){
+			R_Vertex[node] = MBR();
+			for (Location pos : this->Locations_Inside_G_Vertex[node]) {
+				R_Vertex[node].insertLoc(pos);
+			}
+			GVerticesToErase.push_back(node);
+		}
+	}
+	for (int keyToErase: GVerticesToErase)
+		G_Vertex.erase(keyToErase);
 }
 
+void RangeReachVertex::createBVertex(float MAX_RMBR, float totalSize){
+	vector<int> RVerticesToDelete;
+
+	for (unordered_map<int, MBR>::iterator it = R_Vertex.begin(); it != R_Vertex.end(); it++) 
+	{
+		float rVertexArea = fabs(it->second.xMax - it->second.xMin) * (it->second.yMax - it->second.yMin);
+		if (totalSize * MAX_RMBR <= rVertexArea){
+			this->B_Vertex[it->first] = true;
+			RVerticesToDelete.push_back(it->first);
+		}
+	}
+
+	for (int node : RVerticesToDelete)
+		R_Vertex.erase(node);
+}
+
+void RangeReachVertex::checkVertexCorrectnes(){
+	unordered_set<int> NodesInSet;
+	vector<int> NodesInGVertex;
+	vector<int> NodesInRVertex;
+	vector<int> NodesInBVertex;
+
+	for(unordered_map<int,unordered_set<int>>::iterator g_iter = G_Vertex.begin(); g_iter != G_Vertex.end(); g_iter++)
+	{
+		NodesInSet.insert(g_iter->first);
+		NodesInGVertex.push_back(g_iter->first);
+	}
+
+	for(unordered_map<int, MBR>::iterator r_iter = R_Vertex.begin(); r_iter != R_Vertex.end(); r_iter++)
+	{
+		NodesInSet.insert(r_iter->first);
+		NodesInRVertex.push_back(r_iter->first);
+	}
+
+	for(unordered_map<int, bool>::iterator b_iter = B_Vertex.begin(); b_iter != B_Vertex.end(); b_iter++)
+	{
+		NodesInSet.insert(b_iter->first);
+		NodesInBVertex.push_back(b_iter->first);
+	}
+	cout << "Total Unique Nodes" << NodesInSet.size();
+	cout << "B Nodes: " << NodesInBVertex.size() << " G Nodes:" << NodesInGVertex.size() << " R Nodes: " << NodesInRVertex.size() << endl;
+	int totalNodesInVertices = NodesInBVertex.size() + NodesInGVertex.size() + NodesInRVertex.size();
+	cout << NodesInSet.size() << "  " << totalNodesInVertices << endl;;
+}
 
 bool RangeReachVertex::SpaReachQuery(int node, box queryWindow, Graph* socialGraph, LocationMap* spatialGraph, int layers) {
-	if (socialGraph->NodeBelongsToSCC.count(node))
-	{
-		node = socialGraph->NodeBelongsToSCC[node];
-	}
-	//printBox(queryWindow);
 	
 	MBR queryWindowToMBR(
 		queryWindow.min_corner().get<0>(),
@@ -440,86 +316,64 @@ bool RangeReachVertex::SpaReachQuery(int node, box queryWindow, Graph* socialGra
 		queryWindow.max_corner().get<1>()
 	);
 	
-	vector<int> reachableGrids;
-	getAllSpatialGridsInArea(queryWindowToMBR, layers, &reachableGrids);
-	
-	cout << "spatialGrid in area: ";
-	for (int i : reachableGrids){
-		cout << i << " ";
-	}
-	cout << endl;
-	
 	queue<int> Q;
 	Q.push(node);
-	cout << "run for " << node << endl;
-	while(!Q.empty())
-	{
+
+	while(!Q.empty()){
 		int curr_node = Q.front();
         Q.pop();
-		if (spatialGraph->existLocation(curr_node) && curr_node != node)
-		{
-			cout << curr_node << " exists location" << endl;
-			Location loc = spatialGraph->getVanillaLocation(curr_node);
-			//cout << queryWindow.min_corner().get<0>() << " " << loc.x << " "<<queryWindow.max_corner().get<0>() << endl; 
-			if (queryWindow.min_corner().get<0>() <= loc.x && loc.x <= queryWindow.max_corner().get<0>())
-			{
-				//cout << " x is inside \n";
-				if (queryWindow.min_corner().get<1>() <= loc.y && loc.y <= queryWindow.max_corner().get<1>())
-				{
-					//cout << " y is inside \n";
-					return true;
-				}
-			}
-		}
-		if (B_Vertex[curr_node] == true) //R_Vertex doesnt exist
-		{
-			cout << curr_node << " b is true " << endl;
-			//cout << curr_node << " B_Vertex is true. \n";
-			if (R_Vertex.count(curr_node) == 0)
-			{
-				cout << curr_node << " has no b attribute" << endl;
-				//cout << curr_node << " R_Vertex is false. " << this->G_Vertex[curr_node].size() << "\n";
-				for (int i : this->G_Vertex[curr_node])
-				{
-		
-					if (overlaps(getGridFieldById(i), queryWindow))
-					{
-							cout << "queryWindow overlaps G-Vertex. \n";
+
+		if (curr_node != node){
+			if(spatialGraph->existLocation(curr_node)){
+
+				vector<coordinates> pointsInsideScc = spatialGraph->getLocation(curr_node).spatialData;
+				if (socialGraph->SuperConnectedComponents.count(curr_node)){
+					for (int i = 4; i < pointsInsideScc.size() - 1; i += 2){
+
+						Location pos = Location(pointsInsideScc[i], pointsInsideScc[i+1]);
+						if (queryWindowToMBR.containsPoint(pos)){
+							return true;
+						}
+					}
+				} else {
+					Location pos = Location(pointsInsideScc[0], pointsInsideScc[1]);
+					if (queryWindowToMBR.containsPoint(pos)){
 							return true;
 					}
-					if (intersects(getGridFieldById(i), queryWindow))
-					{
-							cout << "G_Vertex intersects query window. "<< i <<"\n";
-							vector<int> reachable_nodes = socialGraph->GraphScheme[curr_node];
-							for (int node : reachable_nodes)Q.push(node);
-					}
 				}
 			}
-			else // R_Vertex exists
-			{
-				cout << curr_node << " has r attribute" << endl;
-				if (overlaps(R_Vertex[curr_node], queryWindow))
-				{
-					cout << "queryWindow overlaps R-Vertex. \n";
+		}
+
+		if (B_Vertex.count(curr_node) == 1 && B_Vertex[curr_node] == false){
+			cout << "Node reaches no spatial vertices" << endl;
+			return false;
+		}
+		if (R_Vertex.count(curr_node) != 0){
+			if (overlaps(R_Vertex[curr_node], queryWindow)){
+				return true;
+			}
+			if (intersects(R_Vertex[curr_node], queryWindow)){
+				for (int reachable_node : socialGraph->GraphScheme[curr_node]){
+					Q.push(reachable_node);
+				}
+			} 
+		}
+		if (G_Vertex.count(curr_node) != 0){
+			for (int gVertex : G_Vertex[curr_node]){
+				MBR grid = this->getGridFieldById(gVertex);
+				if (overlaps(grid, queryWindow)){
 					return true;
 				}
-				if (intersects(R_Vertex[curr_node], queryWindow))
-				{
-					cout << curr_node << " R_Vertex interesects query window. \n";
-					vector<int> reachable_nodes = socialGraph->GraphScheme[curr_node];
-					for (int i : reachable_nodes)Q.push(i);
+				if (intersects(grid, queryWindow)){
+					for (int reachable_node : socialGraph->GraphScheme[curr_node]){
+						Q.push(reachable_node);
+					}
 				} 
-			}	
+			}
 		}
 	}
-
-	cout << "Return False \n";
-	cout << endl;
 	return false;
 }
-
-
-
 
 /*
 Returns the spatial gridfield this for the location given in the parameters
@@ -527,8 +381,14 @@ Returns the spatial gridfield this for the location given in the parameters
 int RangeReachVertex::getSpatialGridField(Location nodeLocation, int layers) {
 	bool spatialGridFound = false;
 	int chunkIteratorX, chunkIteratorY;
-
 	// nodeLocation.print();
+	for(map<int, MBR>::iterator iter = this->gridLayers[0].begin(); iter != this->gridLayers[0].end(); iter++){
+		if (iter->second.containsPoint(nodeLocation)){
+			return iter->first;
+		}
+	}
+	return -1;
+
 	for (int chunkIteratorX = 0; chunkIteratorX < layers; chunkIteratorX++) {
 		for (int chunkIteratorY = 0; chunkIteratorY < layers; chunkIteratorY++) {
 			if (nodeLocation.x >= maximumMBR.xMin + (chunkIteratorX)*chunkStepX && nodeLocation.x <= maximumMBR.xMin + (chunkIteratorX + 1) * chunkStepX) {
@@ -551,7 +411,6 @@ int doesRectanglesIntersect(MBR queryArea,  MBR grid)
 
 	bool doIntersect = boost::geometry::intersects(rec1, rec2);
 	return doIntersect;
-		
 }
 
 
@@ -735,9 +594,9 @@ void RangeReachVertex::printGridField(){
 }
 
 void RangeReachVertex::printBVertex() {
-	cout << "B Vertex: \n";
-	for (auto B : B_Vertex) {
-		cout <<" Node:  "<< B.first << "\t" << B.second << endl;
+	cout << "B Vertex:\n";
+	for (unordered_map<int, bool>::iterator it = B_Vertex.begin(); it != B_Vertex.end(); it++) {
+		cout <<"N: "<< it->first << "\t" << it->second << endl;
 	}
 	cout << endl;
 }

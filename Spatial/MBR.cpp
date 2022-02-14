@@ -36,6 +36,16 @@ void MBR::insertLoc(Location loc) {
 	if (loc.y < yMin) { yMin = loc.y; }
 }
 
+bool MBR::containsPoint(Location loc){
+	if (loc.x <= xMin || loc.x >= xMax){
+		return false;
+	}
+	if (loc.y <= yMin || loc.y >= yMax){
+		return false;
+	}
+	return true;
+}
+
 string MBR::getString() {
 	string output = "MBR (xMin, yMin, xMax, yMax)  |  (" + to_string(xMin)  + ", " + to_string(yMin) + ", " + to_string(xMax) + ", " + to_string(yMax) + " ) ";
 	return output;
