@@ -5,13 +5,12 @@
 
 void runStrictSpatialFirstQueryUsingBfl(Graph* SocialGeoGraph, LocationMap* LocationGraph, string outputFile, vector<queryParameter>* queries, int amount_of_queries_used_for_averaging){
 	cout << "run Strict Spatial First Query Using Bfl" << endl;
-
 	rTreePlanes* rTree = buildTwoDimensionalRtree(LocationGraph);
 	Timer clock;
 	spatialFirstResult statistics;
 	double time;
 
-	ofstream file(outputFile + "_bfl_strict_spatial_first");
+	ofstream file(outputFile + "_first_strict_points_bfl");
 	for (vector<queryParameter>::iterator it = queries->begin(); it != queries->end(); it++)
 	{
 		vector<double> results;
@@ -39,7 +38,8 @@ void runStrictSpatialFirstQueryUsingBflWithMbr(Graph* SocialGeoGraph, LocationMa
 
 	Timer clock;
 	rTreeSccPlanes* rTreeWithScc = buildTwoDimensionalRtreeWithMbr(LocationGraph);
-	ofstream file(outputFile + "_bfl_strict_mbr_spatial_first");
+	
+	ofstream file(outputFile + "_first_strict_mbr_bfl");
 	spatialFirstResult statistics;
 
 	for (vector<queryParameter>::iterator it = queries->begin(); it != queries->end(); it++)
@@ -68,7 +68,7 @@ void runSpatialFirstQueryUsingBfl(Graph* SocialGeoGraph, LocationMap* LocationGr
 	Timer clock;
 	spatialFirstResult statistics;
 	rTreePlanes* rTreeWithScc = buildTwoDimensionalRtree(LocationGraph);
-	ofstream out(outputFile + "_bfl_spatial_first");
+	ofstream out(outputFile + "_first_sequential_points_bfl");
 
 	for (vector<queryParameter>::iterator it = queries->begin(); it != queries->end(); it++)
 	{
@@ -96,7 +96,8 @@ void runSpatialFirstMbrQueryUsingBfl(Graph* SocialGeoGraph, LocationMap* Locatio
 
 	Timer clock;
 	rTreeSccPlanes* rTreeWithScc = buildTwoDimensionalRtreeWithMbr(LocationGraph);
-	ofstream out(outputFile + "_bfl_mbr_spatial_first");
+	
+	ofstream out(outputFile + "_first_sequential_mbr_bfl");
 
 	spatialFirstResult statistics;
 
@@ -119,7 +120,6 @@ void runSpatialFirstMbrQueryUsingBfl(Graph* SocialGeoGraph, LocationMap* Locatio
 	}
 }
 
-
 void runSpatialFirstQuery(Graph* SocialGeoGraph, LocationMap* LocationGraph, string outputFile, vector<queryParameter>* queries, int amount_of_queries_used_for_averaging) 
 {
 	cout << "Run spatial first query" << endl;
@@ -127,7 +127,7 @@ void runSpatialFirstQuery(Graph* SocialGeoGraph, LocationMap* LocationGraph, str
 	Timer clock;
 	spatialFirstResult statistics;
 	rTreePlanes* rTreeWithScc = buildTwoDimensionalRtree(LocationGraph);
-	ofstream out(outputFile + "_spatial_first");
+	ofstream out(outputFile + "_first_sequential_points_interval");
 
 	for (vector<queryParameter>::iterator it = queries->begin(); it != queries->end(); it++)
 	{
@@ -153,7 +153,7 @@ void runSpatialFirstMbrQuery(Graph* SocialGeoGraph, LocationMap* LocationGraph, 
 {
 	Timer clock;
 	rTreeSccPlanes* rTreeWithScc = buildTwoDimensionalRtreeWithMbr(LocationGraph);
-	ofstream out(outputFile + "_mbr_spatial_first");
+	ofstream out(outputFile + "_first_sequential_mbr_interval");
 
 	spatialFirstResult statistics;
 
@@ -180,7 +180,7 @@ void runStrictSpatialFirstQuery(Graph* SocialGeoGraph, LocationMap* LocationGrap
 {
 	rTreePlanes* rTree = buildTwoDimensionalRtree(LocationGraph);
 	Timer clock;
-	ofstream file(outputFile + "_strict_spatial_first");
+	ofstream file(outputFile + "_first_strict_points_interval");
 	spatialFirstResult statistics;
 
 
@@ -207,7 +207,7 @@ void runStrictSpatialFirstMbrQuery(Graph* SocialGeoGraph, LocationMap* LocationG
 {
 	Timer clock;
 	rTreeSccPlanes* rTreeWithScc = buildTwoDimensionalRtreeWithMbr(LocationGraph);
-	ofstream file(outputFile + "_strict_mbr_spatial_first");
+	ofstream file(outputFile + "_first_strict_mbr_interval");
 	spatialFirstResult statistics;
 
 	for (vector<queryParameter>::iterator it = queries->begin(); it != queries->end(); it++)
@@ -266,7 +266,6 @@ string getFileName(){
 int main(int argc, char **argv) {
     string superFile;
 	bool useMbr, useStrict, useBfl;
-	cout  << argc << endl;
 	if (argc == 5){
         superFile = argv[1];
         useStrict = strcmp(argv[2], "strict") == 0 ? true  : false;
@@ -284,12 +283,10 @@ int main(int argc, char **argv) {
 		read_graph_for_bfl(bflFileName.c_str());
 	}
 
-	cout << superFile << " " << useStrict << useMbr << useBfl << endl;
 
 	string outputFile = "data/results/" + superFile;
 	vector<queryParameter>* queries = readQueries("data/queries/" + superFile + "_queries");
 
-    cout << endl;;
 
     Graph SocialGeoGraph;
     LocationMap LocationGraph;
@@ -301,7 +298,6 @@ int main(int argc, char **argv) {
 	SocialGeoGraph.readIntervalSchemeFromFile("data/interval_scheme/" + superFile + "_interval_scheme");
 	LocationGraph.readFileForMap("data/processed/" + superFile + "_reduced_spatial_data");
     
-
 	int amount_of_queries_used_for_averaging = 1;
 
 	if (useBfl  && useStrict && useMbr)

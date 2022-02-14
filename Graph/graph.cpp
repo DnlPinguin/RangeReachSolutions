@@ -949,6 +949,11 @@ void Graph::readReducedGraph(string filePath)
                 }
                 if (rootNode != node) {
                     counter++;
+                    if (rootNode > maxNode)
+                        this->maxNode = rootNode;
+                    if (node > maxNode)
+                        this->maxNode = rootNode;
+
                     this->GraphScheme[rootNode].push_back(node);
                     this->GraphSchemeReverse[node].push_back(rootNode);
                     this->V.insert(rootNode);
@@ -1351,7 +1356,11 @@ void Graph::createBflFileForQuerying(string filepath){
     ofstream file;
     file.open(filepath);
     file << "graph_for_greach \n";
-    file << this->VReduced.size() << "\n";
+    if (this->V.size() > this->maxNode + 1){
+        file << this->V.size()  << "\n";
+    } else {
+        file << this->maxNode + 1  << "\n";
+    }
 
     unordered_map<int,vector<int>>::iterator graphIterator;
     for (graphIterator = this->GraphScheme.begin(); graphIterator != this->GraphScheme.end(); graphIterator++){

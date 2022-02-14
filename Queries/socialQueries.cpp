@@ -14,6 +14,7 @@ bool socialFirstQuery(Graph* socialGraph, LocationMap* spatialGraph, vector<quer
         clock.start();
     #endif
 
+
     vector<IntervalScheme>*  Intervals = &(socialGraph->IntervalSchemeGraphMap[node]);
     for (vector<IntervalScheme>::iterator iter = Intervals->begin() ; iter != Intervals->end(); iter++)
     {

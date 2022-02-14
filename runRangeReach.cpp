@@ -50,16 +50,7 @@ int main(int argc, char **argv) {
 	int amount_of_queries_used_for_averaging = 1; 
 	ofstream out("./data/results/" + filename + "_spareach");
     Timer clock;
-
-
-	RangeReach.maximumMBR = MBR(0, 0, 1, 1);
-	// RangeReach.createGridField(layers);
-	//RangeReach.maximumMBR = MBR(LocationGraph.MinMaxCorners[0],LocationGraph.MinMaxCorners[1],LocationGraph.MinMaxCorners[2],LocationGraph.MinMaxCorners[3]);
-	RangeReach.maximumMBR = MBR(0,0,1,1);
     
-	RangeReach.printAllGridLayers();
-
-
 	for (vector<queryParameter>::iterator it = queries->begin(); it != queries->end(); it++)
 	{
 		vector<double> results;

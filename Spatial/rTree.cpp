@@ -113,8 +113,8 @@ rTreeCubes buildThreeDimesionalRTreeWithPlanes(Graph* HybridGraph, LocationMap* 
         coordinates x_2 = Locations.spatialData[2];
         coordinates y_2 = Locations.spatialData[3];
 
-        Locations.print();
-        cout << "postorder" << postOrder << endl;
+        // Locations.print();
+        // cout << "postorder" << postOrder << endl;
         plane cuboid(threeDimPoint(x_1, y_1, postOrder), threeDimPoint(x_2, y_2, postOrder));
         rtree.insert(make_pair(cuboid, iter->first));
         cube_counter++;

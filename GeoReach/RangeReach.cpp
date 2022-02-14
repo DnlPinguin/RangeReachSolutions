@@ -74,6 +74,7 @@ RangeReachVertex::RangeReachVertex()
  */
 void RangeReachVertex::createGridField(int LAYERS) 
 {
+	cout << "Create Grid Field for " << LAYERS << " layers." << endl;
 	int layerLevel = 0;
 	this->maximumMBR.print();
 	int layerCounter = static_cast<float>(LAYERS);
@@ -301,8 +302,8 @@ void RangeReachVertex::checkVertexCorrectnes(){
 		NodesInSet.insert(b_iter->first);
 		NodesInBVertex.push_back(b_iter->first);
 	}
-	cout << "Total Unique Nodes" << NodesInSet.size();
-	cout << "B Nodes: " << NodesInBVertex.size() << " G Nodes:" << NodesInGVertex.size() << " R Nodes: " << NodesInRVertex.size() << endl;
+	cout << "Total Unique Nodes: " << NodesInSet.size();
+	cout << "\nB Nodes: " << NodesInBVertex.size() << "\nG Nodes:" << NodesInGVertex.size() << "\nR Nodes: " << NodesInRVertex.size() << endl;
 	int totalNodesInVertices = NodesInBVertex.size() + NodesInGVertex.size() + NodesInRVertex.size();
 	cout << NodesInSet.size() << "  " << totalNodesInVertices << endl;;
 }
@@ -318,14 +319,15 @@ bool RangeReachVertex::SpaReachQuery(int node, box queryWindow, Graph* socialGra
 	
 	queue<int> Q;
 	Q.push(node);
-
+	cout << "bla" << endl;
 	while(!Q.empty()){
 		int curr_node = Q.front();
         Q.pop();
-
+		cout << "Curr Node: " << curr_node << endl;
 		if (curr_node != node){
+			
 			if(spatialGraph->existLocation(curr_node)){
-
+				cout << "Location exists" << endl;
 				vector<coordinates> pointsInsideScc = spatialGraph->getLocation(curr_node).spatialData;
 				if (socialGraph->SuperConnectedComponents.count(curr_node)){
 					for (int i = 4; i < pointsInsideScc.size() - 1; i += 2){
@@ -349,6 +351,7 @@ bool RangeReachVertex::SpaReachQuery(int node, box queryWindow, Graph* socialGra
 			return false;
 		}
 		if (R_Vertex.count(curr_node) != 0){
+			cout << "Check  R_Vertex" << endl;
 			if (overlaps(R_Vertex[curr_node], queryWindow)){
 				return true;
 			}
@@ -359,7 +362,9 @@ bool RangeReachVertex::SpaReachQuery(int node, box queryWindow, Graph* socialGra
 			} 
 		}
 		if (G_Vertex.count(curr_node) != 0){
+			cout << "check G_Vertex"<< endl;
 			for (int gVertex : G_Vertex[curr_node]){
+				cout << gVertex << " ";
 				MBR grid = this->getGridFieldById(gVertex);
 				if (overlaps(grid, queryWindow)){
 					return true;
@@ -517,6 +522,7 @@ void RangeReachVertex::readAttributesFromFile(string filename){
 		int node = gVertices[0];
 		gVertices.erase(gVertices.begin());
 		this->G_Vertex[node] = unordered_set<int> (gVertices.begin(), gVertices.end());
+		gVertices.clear();
 	}
     file.close();
 

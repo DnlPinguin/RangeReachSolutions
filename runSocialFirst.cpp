@@ -4,7 +4,7 @@
 
 void runSocialFirstQuery(Graph* SocialGeoGraph, LocationMap* LocationGraph, string outputFile, vector<queryParameter>* queries, int amount_of_queries_used_for_averaging)
 {
-	ofstream out(outputFile + "_social_first");
+	ofstream out(outputFile + "_social_first_sequential_points");
 	Timer clock;
 	socialFirstResult statistics;
 	vector<double> results;
@@ -30,7 +30,7 @@ void runSocialFirstQuery(Graph* SocialGeoGraph, LocationMap* LocationGraph, stri
 
 void runSocialFirstMbrQuery(Graph* SocialGeoGraph, LocationMap* LocationGraph, string outputFile, vector<queryParameter>* queries, int amount_of_queries_used_for_averaging)
 {
-	ofstream out(outputFile + "_mbr_social_first");
+	ofstream out(outputFile + "_social_first_sequential_mbr");
 	socialFirstResult statistics;
 	Timer clock;
 
@@ -56,7 +56,7 @@ void runSocialFirstMbrQuery(Graph* SocialGeoGraph, LocationMap* LocationGraph, s
 
 void runStrictSocialFirstQuery(Graph* SocialGeoGraph, LocationMap* LocationGraph, string outputFile, vector<queryParameter>* queries, int amount_of_queries_used_for_averaging)
 {
-	ofstream out(outputFile + "_strict_social_first");
+	ofstream out(outputFile + "_social_first_strict_points");
 	Timer clock;
 	socialFirstResult statistics;
 
@@ -82,7 +82,7 @@ void runStrictSocialFirstQuery(Graph* SocialGeoGraph, LocationMap* LocationGraph
 
 void runStrictSocialFirstMbrQuery(Graph* SocialGeoGraph, LocationMap* LocationGraph, string outputFile, vector<queryParameter>* queries, int amount_of_queries_used_for_averaging)
 {
-	ofstream out(outputFile + "_mbr_strict_social_first");
+	ofstream out(outputFile + "_social_first_mbr_strict");
 	Timer clock;
 	socialFirstResult statistics;
 

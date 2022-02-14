@@ -43,7 +43,7 @@ void runHybridCube(Graph* SocialGeoGraph, LocationMap* LocationGraph, string out
 		bool result; 
 		for (int i = 0; i < amount_of_queries_used_for_averaging; i++){
 			clock.start();
-			result = hybridQueryWithCubes(rTree, it->spatialRegion, LocationGraph, thirdDimensionOfNode, &counter);
+			result = hybridQueryWithCubes(&rTree, it->spatialRegion, LocationGraph, thirdDimensionOfNode, &counter);
 			results.push_back(clock.stop());
 		}
 		double timer = accumulate( results.begin(), results.end(), 0.0)/results.size(); 
@@ -69,7 +69,7 @@ void runReverseHybrid(Graph* SocialGeoGraph, LocationMap* LocationGraph, string 
 
 		for (int i = 0; i < amount_of_queries_used_for_averaging; i++){
 			clock.start();
-			result = hybridQueryReverse(&intervals, rTree, it, &counter);
+			result = hybridQueryReverse(&intervals, &rTree, it, &counter);
 			results.push_back(clock.stop());
 		}
 		double timer = accumulate( results.begin(), results.end(), 0.0)/results.size(); 
@@ -97,7 +97,7 @@ void runReverseHybridCube(Graph* SocialGeoGraph, LocationMap* LocationGraph, str
 		bool result; 
 		for (int i = 0; i < amount_of_queries_used_for_averaging; i++){
 			clock.start();
-			result = hybridQueryWithCubesReverse(&intervals, rTree, it->spatialRegion, LocationGraph , &counter);
+			result = hybridQueryWithCubesReverse(&intervals, &rTree, it->spatialRegion, LocationGraph , &counter);
 			results.push_back(clock.stop());
 		}
 		double timer = accumulate( results.begin(), results.end(), 0.0)/results.size(); 

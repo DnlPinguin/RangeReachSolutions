@@ -47,9 +47,9 @@ int main(int argc, char **argv){
     // Create R-Tree
     clock.start();
     if (minimum_bounding_rectangles == "y"){
-	    rTreeCubes* rTree = buildThreeDimensionalRtreeWithCuboids(&SocialGeoGraph, &LocationGraph);
+	    rTreeCubes rTree = buildThreeDimensionalRtreeWithCuboids(&SocialGeoGraph, &LocationGraph);
     }else{
-        rTreeLines* rTree = buildThreeDimensionalRtree(&SocialGeoGraph, &LocationGraph);
+        rTreeLines rTree = buildThreeDimensionalRtree(&SocialGeoGraph, &LocationGraph);
     }
 
     rTreeConstructionTime = clock.stop();

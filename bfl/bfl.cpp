@@ -18,8 +18,10 @@ void read_graph_for_bfl(const char *filename) {
   fscanf(file, "%s", header);
   int n;
   fscanf(file, "%d", &n);
+
   nodes.resize(n);
   vector<vector<int>> N_O(n), N_I(n);
+
   for (;;) {
     int u, v;
     if (feof(file) || fscanf(file, "%d", &u) != 1) {
@@ -33,6 +35,8 @@ void read_graph_for_bfl(const char *filename) {
     fgetc(file);
   }
   fclose(file);
+  
+
   for (int u = 0; u < n; u++) {
     nodes[u].N_O_SZ = N_O[u].size();
     nodes[u].N_O = new int[N_O[u].size()];
@@ -213,7 +217,6 @@ bool reach(node &u, node &v) {
 }
 
 bool run_single_bfl_query(int source, int target){
-  std::cout << "run single query" << std::endl;
   return reach(nodes[source], nodes[target]);
 }
 

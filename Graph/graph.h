@@ -27,7 +27,7 @@ public:
     // Set of all Vertices
     set<int> V;
     set<int> VReduced;
-
+    int maxNode = INT_MIN;
     //Stores the Postorder of Nodes in the correct order as an array of Ints.
     vector<int> postOrder;
     unordered_map<int, int> postOrderWithIndex;

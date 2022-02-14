@@ -15,21 +15,11 @@ int main(int argc, char **argv){
 	Graph SocialGeoGraph;
 	LocationMap LocationGraph;
 
-    loadFile(filename, &SocialGeoGraph);
-	loadVanillaGeoFileData(filename, &LocationGraph);
 
 
     double completeConstructionTime, rTreeConstructionTime, sccConstructiontime, intervalConstructionTime;
-    
-    clock.start();
-    SocialGeoGraph.createSCCsUsingTarjans();
-	sccConstructiontime  = clock.stop();
 
-    clock.start();
-    LocationGraph.createMbrs(&SocialGeoGraph.SuperConnectedComponents);
-    sccConstructiontime = clock.stop();
-	LocationGraph.writeMapToFile("./data/processed/" + filename + "_reduced_spatial_data");
-
+    SocialGeoGraph.readReducedGraph("data/processed/" + filename + "_reduced_scheme");
 
     SocialGeoGraph.createBflFileForQuerying("./data/bfl/" + filename + "_graph.sample");
     return 0;
