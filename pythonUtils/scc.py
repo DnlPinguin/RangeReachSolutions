@@ -52,6 +52,7 @@ def construct_super_nodes_on_graph(file_name):
     reduced_graph = {}
     for edge in G.edges:
         edge = list(edge)
+        print(edge)
         if (edge[0] in node_belongs_to_scc):
             edge[0] = node_belongs_to_scc[edge[0]]
         if (edge[1] in node_belongs_to_scc):

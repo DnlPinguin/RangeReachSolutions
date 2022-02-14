@@ -17,7 +17,7 @@ void loadSuperConnectedComponents(string fileName, Graph* graphToExpand, Locatio
 
 void loadVanillaGeoFileData(string fileName, LocationMap* locs);
 
-vector<queryParameter>* readQueries(string fileName);
+vector<queryParameter> readQueries(string fileName);
 
 vector<SpatialNode>* readGeoFile(string fileName, LocationMap* spatialGraph);
 

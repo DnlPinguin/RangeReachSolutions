@@ -147,7 +147,7 @@ int main(int argc, char **argv) {
 
 
 	string outputFile = "./data/results/" + superFile;
-	vector<queryParameter>* queries = readQueries("./data/queries/" + superFile + "_queries");
+	vector<queryParameter> queries = readQueries("./data/queries/" + superFile + "_queries");
 
 
 
@@ -162,18 +162,16 @@ int main(int argc, char **argv) {
 
 	int amount_of_queries_used_for_averaging = 1;
 
-	for (vector<queryParameter>::iterator qIter = queries->begin(); qIter != queries->end(); qIter++){
-		if (useMbr && useStrict)
-			runStrictSocialFirstMbrQuery(&SocialGeoGraph, &LocationGraph, outputFile, queries, amount_of_queries_used_for_averaging);
+	if (useMbr && useStrict)
+		runStrictSocialFirstMbrQuery(&SocialGeoGraph, &LocationGraph, outputFile, &queries, amount_of_queries_used_for_averaging);
 
-		if (useMbr && !useStrict)
-			runSocialFirstMbrQuery(&SocialGeoGraph, &LocationGraph, outputFile, queries, amount_of_queries_used_for_averaging);
+	if (useMbr && !useStrict)
+		runSocialFirstMbrQuery(&SocialGeoGraph, &LocationGraph, outputFile, &queries, amount_of_queries_used_for_averaging);
 
-		if (!useMbr && useStrict)
-			runStrictSocialFirstQuery(&SocialGeoGraph, &LocationGraph, outputFile, queries, amount_of_queries_used_for_averaging);
+	if (!useMbr && useStrict)
+		runStrictSocialFirstQuery(&SocialGeoGraph, &LocationGraph, outputFile, &queries, amount_of_queries_used_for_averaging);
 
-		if (!useMbr && !useStrict)
-			runSocialFirstQuery(&SocialGeoGraph, &LocationGraph, outputFile, queries , amount_of_queries_used_for_averaging);
-	}
+	if (!useMbr && !useStrict)
+		runSocialFirstQuery(&SocialGeoGraph, &LocationGraph, outputFile, &queries , amount_of_queries_used_for_averaging);
     return 0;
 }

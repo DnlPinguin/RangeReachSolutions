@@ -41,15 +41,28 @@ void loadVanillaGeoFileData(string fileName, LocationMap* locs) {
     coordinates xMin = INT_MAX, xMax = INT_MIN, yMin = INT_MAX, yMax = INT_MIN;
     coordinates xPos, yPos;
     string time;
+    int counter = 0;
 
     if (file.is_open()) {
-        while (file >> node >>  xPos >> yPos) {
+        string line;
+        while (getline(file, line)){
+
+            stringstream ss(line);
+            string _node, _xpos, _ypos;
+            getline(ss,_node,',');    
+            getline(ss,_xpos,','); 
+            getline(ss,_ypos,','); 
+
+            node = stoi(_node);
+            xPos = stof(_xpos);
+            yPos = stof(_ypos);
+            
+            cout << " add data " << node << " " << xPos << " " << yPos << endl;
+            locs->addSpatial(node, Location(xPos, yPos));
             if (xPos < xMin) { xMin = xPos; }
             if (yPos < yMin) { yMin = yPos; }
             if (xPos > xMax) { xMax = xPos; }
             if (yPos > yMax) { yMax = yPos; }
-            locs->addSpatial(node, Location(xPos, yPos));
-            locs->addSpatialToMap(node, spatialMbrRelation(false, vector<coordinates>{xPos, yPos, xPos, yPos}));
         }
     }else{
         cout << "No file found" << endl;
@@ -172,9 +185,9 @@ vector<SpatialNode>* readGeoFile(string filePath, LocationMap* spatialGraph)
     return data;
 }
 
-vector<queryParameter>* readQueries(string filePath)
+vector<queryParameter> readQueries(string filePath)
 {
-    vector<queryParameter>* queries = new vector<queryParameter>;
+    vector<queryParameter> queries;
     ifstream queryFile;
     int node, degree, cardinality;
     float area;
@@ -186,12 +199,12 @@ vector<queryParameter>* readQueries(string filePath)
         cout << "file is open \n";
         while (queryFile >> node >> degree >> xMin >> yMin >> xMax >> yMax >> area >> cardinality) {
             box spatial = box(point(xMin, yMin), point(xMax, yMax));
-            queries->push_back(
+            queries.push_back(
                 queryParameter(node, degree, spatial, area, cardinality)
             );
         }
     }
-    cout << queries->size() << " queries loaded.\n";
+    cout << queries.size() << " queries loaded.\n";
     return queries;
 }
 

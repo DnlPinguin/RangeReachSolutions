@@ -1,7 +1,7 @@
 #include "hybridQueries.h"
 #include "helper.h"
 
-bool hybridQuery(int nodeDimension, bgi::rtree<threeDimLine, bgi::linear<16>>* rTree, vector<queryParameter>::iterator queryParam, int* counter)
+bool hybridQuery(int nodeDimension, rTreeLines* rTree, vector<queryParameter>::iterator queryParam, int* counter)
 {
     box spatialRegion = queryParam->spatialRegion;
 
@@ -11,7 +11,11 @@ bool hybridQuery(int nodeDimension, bgi::rtree<threeDimLine, bgi::linear<16>>* r
     );
     for (auto it = rTree->qbegin(bgi::intersects(planeForQuerying)); it != rTree->qend(); ++it)
     {  
-        return true;
+        cout << queryParam->queryNode << " cut " <<  it->second << endl;
+
+        if (queryParam->queryNode != it->second){
+            return true;
+        }
     }
     return false;
 }
@@ -42,8 +46,14 @@ bool hybridQueryReverse(vector<IntervalScheme>* intervals, rTreePoints* rTree, v
     box spatialRegion = queryParam->spatialRegion;
 
     vector<IntervalScheme>::iterator interval;  
+
+
     for (interval = intervals->begin(); interval != intervals->end(); interval++)
     {
+        // cout << "Run For Interval: " << interval->pre << "  " << interval->post << endl;
+        // cout << "point_one: " << spatialRegion.min_corner().get<0>() << " " << spatialRegion.min_corner().get<1>() << " " << interval->pre << endl;
+        // cout << "point_one: " << spatialRegion.max_corner().get<0>() << " " << spatialRegion.max_corner().get<1>() << " " << interval->post << endl;
+
         plane planeForQuerying(
             threeDimPoint(spatialRegion.min_corner().get<0>(), spatialRegion.min_corner().get<1>(), interval->pre),
             threeDimPoint(spatialRegion.max_corner().get<0>(), spatialRegion.max_corner().get<1>(), interval->post)
@@ -52,7 +62,7 @@ bool hybridQueryReverse(vector<IntervalScheme>* intervals, rTreePoints* rTree, v
 
         for (auto it = rTree->qbegin(bgi::intersects(planeForQuerying)); it != rTree->qend(); ++it)
         {
-            counter++;
+            cout << " Hit" << endl;
             return true;
         }
     }

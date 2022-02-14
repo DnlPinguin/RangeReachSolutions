@@ -319,11 +319,9 @@ bool RangeReachVertex::SpaReachQuery(int node, box queryWindow, Graph* socialGra
 	
 	queue<int> Q;
 	Q.push(node);
-	cout << "bla" << endl;
 	while(!Q.empty()){
 		int curr_node = Q.front();
         Q.pop();
-		cout << "Curr Node: " << curr_node << endl;
 		if (curr_node != node){
 			
 			if(spatialGraph->existLocation(curr_node)){

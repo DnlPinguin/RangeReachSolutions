@@ -27,13 +27,15 @@ typedef bg::model::point<coordinates, 3, bg::cs::cartesian> threeDimPoint;
 typedef bg::model::segment<threeDimPoint> threeDimLine;
 typedef bg::model::box<point> box;
 typedef bg::model::box<threeDimPoint> plane;
-typedef pair<plane, int> cuboidStructure;
-typedef pair<point, pair<IntervalScheme, int>> value;
+// typedef pair<point, pair<IntervalScheme, int>> value;
 typedef pair<point, int> SpatialNode;
 typedef pair<box, pair<int, int>> SccWithMbr;
 
+typedef pair<plane, int> cuboidStructure;
 typedef bgi::rtree<cuboidStructure, bgi::linear<16>> rTreeCubes;
-typedef bgi::rtree<threeDimLine, bgi::linear<16>> rTreeLines;
+
+typedef pair<threeDimLine,int> lineStructureForrTree;
+typedef bgi::rtree<lineStructureForrTree, bgi::linear<16>> rTreeLines;
 typedef bgi::rtree<threeDimPoint, bgi::linear<16>> rTreePoints;
 typedef bgi::rtree<SccWithMbr, bgi::linear<16>> rTreeSccPlanes;
 typedef bgi::rtree<SpatialNode, bgi::linear<16>> rTreePlanes;

@@ -729,7 +729,7 @@ double Graph::graphPropagation(string filepath,bool createReverseScheme, Locatio
 
     double creationTime = clock.stop();
     // Write the labeling scheme to the file
-    writeLabelingSchemeToFile(filepath + "_parallel_" + to_string(num_of_threads), &(this->IntervalSchemeGraphMap));
+    // writeLabelingSchemeToFile(filepath + "_parallel_" + to_string(num_of_threads), &(this->IntervalSchemeGraphMap));
     writeLabelingSchemeToFile(filepath, &(this->IntervalSchemeGraphMap));
 
     return creationTime;

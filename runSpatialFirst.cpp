@@ -285,7 +285,7 @@ int main(int argc, char **argv) {
 
 
 	string outputFile = "data/results/" + superFile;
-	vector<queryParameter>* queries = readQueries("data/queries/" + superFile + "_queries");
+	vector<queryParameter> queries = readQueries("data/queries/" + superFile + "_queries");
 
 
     Graph SocialGeoGraph;
@@ -301,28 +301,28 @@ int main(int argc, char **argv) {
 	int amount_of_queries_used_for_averaging = 1;
 
 	if (useBfl  && useStrict && useMbr)
-		runStrictSpatialFirstQueryUsingBflWithMbr(&SocialGeoGraph, &LocationGraph, outputFile, queries, amount_of_queries_used_for_averaging);
+		runStrictSpatialFirstQueryUsingBflWithMbr(&SocialGeoGraph, &LocationGraph, outputFile, &queries, amount_of_queries_used_for_averaging);
 
 	if (useBfl  && useStrict && !useMbr)
-		runStrictSpatialFirstQueryUsingBfl(&SocialGeoGraph, &LocationGraph, outputFile, queries, amount_of_queries_used_for_averaging);
+		runStrictSpatialFirstQueryUsingBfl(&SocialGeoGraph, &LocationGraph, outputFile, &queries, amount_of_queries_used_for_averaging);
 
 	if (useBfl  && !useStrict && useMbr)
-		runSpatialFirstMbrQueryUsingBfl(&SocialGeoGraph, &LocationGraph, outputFile, queries, amount_of_queries_used_for_averaging);
+		runSpatialFirstMbrQueryUsingBfl(&SocialGeoGraph, &LocationGraph, outputFile, &queries, amount_of_queries_used_for_averaging);
 
 	if (useBfl  && !useStrict && !useMbr)
-		runSpatialFirstQueryUsingBfl(&SocialGeoGraph, &LocationGraph, outputFile, queries, amount_of_queries_used_for_averaging);
+		runSpatialFirstQueryUsingBfl(&SocialGeoGraph, &LocationGraph, outputFile, &queries, amount_of_queries_used_for_averaging);
 
 	if (!useBfl  && useStrict && useMbr)
-		runStrictSpatialFirstMbrQuery(&SocialGeoGraph, &LocationGraph, outputFile, queries, amount_of_queries_used_for_averaging);
+		runStrictSpatialFirstMbrQuery(&SocialGeoGraph, &LocationGraph, outputFile, &queries, amount_of_queries_used_for_averaging);
 
 	if (!useBfl  && useStrict && !useMbr)
-		runStrictSpatialFirstQuery(&SocialGeoGraph, &LocationGraph, outputFile, queries, amount_of_queries_used_for_averaging);
+		runStrictSpatialFirstQuery(&SocialGeoGraph, &LocationGraph, outputFile, &queries, amount_of_queries_used_for_averaging);
 
 	if (!useBfl  && !useStrict && useMbr)
-		runSpatialFirstMbrQuery(&SocialGeoGraph, &LocationGraph, outputFile, queries, amount_of_queries_used_for_averaging);
+		runSpatialFirstMbrQuery(&SocialGeoGraph, &LocationGraph, outputFile, &queries, amount_of_queries_used_for_averaging);
 
 	if (!useBfl  && !useStrict && !useMbr)
-		runSpatialFirstQuery(&SocialGeoGraph, &LocationGraph, outputFile, queries, amount_of_queries_used_for_averaging);
+		runSpatialFirstQuery(&SocialGeoGraph, &LocationGraph, outputFile, &queries, amount_of_queries_used_for_averaging);
     
 	
     return 0;

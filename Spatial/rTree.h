@@ -7,9 +7,9 @@ rTreeLines buildThreeDimensionalRtree(Graph* HybridGraph, LocationMap* LocationG
 
 rTreeCubes buildThreeDimensionalRtreeWithCuboids(Graph* HybridGraph, LocationMap* LocationGraph);
 
-rTreePoints buildThreeDimensionalRtreeWithPoints(Graph* HybridGraph, LocationMap* LocationGraph);
+rTreePoints buildThreeDimensionalRtreeWithPoints(Graph* HybridGraph, LocationMap* LocationGraph, Graph* SocialGraph);
 
-rTreeCubes buildThreeDimesionalRTreeWithPlanes(Graph* HybridGraph, LocationMap* LocationGraph);
+rTreeCubes buildThreeDimesionalRTreeWithPlanes(Graph* HybridGraph, LocationMap* LocationGraph, Graph* SocialGraph);
 
 rTreePlanes* buildTwoDimensionalRtree(LocationMap* LocationGraph);
 

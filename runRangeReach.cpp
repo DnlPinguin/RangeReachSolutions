@@ -46,12 +46,12 @@ int main(int argc, char **argv) {
     SocialGeoGraph.readSuperConnectedComponents("./data/processed/" + filename + "_strongly_connected_components");
     LocationGraph.readFileForMap("./data/processed/" + filename + "_reduced_spatial_data");
 
-	vector<queryParameter>* queries = readQueries("./data/queries/" + filename + "_queries");
+	vector<queryParameter> queries = readQueries("./data/queries/" + filename + "_queries");
 	int amount_of_queries_used_for_averaging = 1; 
 	ofstream out("./data/results/" + filename + "_spareach");
     Timer clock;
     
-	for (vector<queryParameter>::iterator it = queries->begin(); it != queries->end(); it++)
+	for (vector<queryParameter>::iterator it = queries.begin(); it != queries.end(); it++)
 	{
 		vector<double> results;
 		bool result;

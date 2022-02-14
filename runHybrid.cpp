@@ -4,28 +4,28 @@
     
 void runHybrid(Graph* SocialGeoGraph, LocationMap* LocationGraph, string outputFile, vector<queryParameter>* queries, int amount_of_queries_used_for_averaging)
 {
-	Timer clock;
+	cout << "Run Hybrid" <<endl;
+	Timer clock; 
 	rTreeLines rTree = buildThreeDimensionalRtree(SocialGeoGraph, LocationGraph);
 	ofstream out(outputFile + "_hybrid_query_result");
 	int counter = 0;
-	for (vector<queryParameter>::iterator it = queries->begin(); it != queries->end(); it++)
+	for (vector<queryParameter>::iterator query = queries->begin(); query != queries->end(); query++)
 	{
-		int thirdDimensionOfNode = SocialGeoGraph->getPostOrderOfNode(it->queryNode);
+		int thirdDimensionOfNode = SocialGeoGraph->getPostOrderOfNode(query->queryNode);
 		vector<double> results;
 		bool result; 
 
 		for (int i = 0; i < amount_of_queries_used_for_averaging; i++){
-			clock.start();
-			result = hybridQuery(thirdDimensionOfNode, &rTree, it, &counter);
+			result = hybridQuery(thirdDimensionOfNode, &rTree, query, &counter);
 			results.push_back(clock.stop());
 		}
 		
 		double timer = accumulate( results.begin(), results.end(), 0.0)/results.size(); 
 
 		#ifdef STATISTICS
-			out << fixed << timer << " " << result << " " << it->spaceUsed << " " << it->nodeDegree << " " << it->cardinality << " " << counter << endl;
+			out << fixed << timer << " " << result << " " << query->spaceUsed << " " << query->nodeDegree << " " << query->cardinality << " " << counter << endl;
 		#else 
-			out << fixed << timer << " " << result << " " << it->spaceUsed << " " << it->nodeDegree << " " << it->cardinality << " " << endl;
+			out << fixed << timer << " " << result << " " << query->spaceUsed << " " << query->nodeDegree << " " << query->cardinality << " " << endl;
 		#endif
 	}
 }
@@ -58,12 +58,19 @@ void runHybridCube(Graph* SocialGeoGraph, LocationMap* LocationGraph, string out
 
 void runReverseHybrid(Graph* SocialGeoGraph, LocationMap* LocationGraph, string outputFile, vector<queryParameter>* queries, int amount_of_queries_used_for_averaging){
 	Timer clock;
-	rTreePoints rTree = buildThreeDimensionalRtreeWithPoints(SocialGeoGraph, LocationGraph);
+	rTreePoints rTree = buildThreeDimensionalRtreeWithPoints(SocialGeoGraph, LocationGraph, SocialGeoGraph);
 	ofstream out(outputFile + "_hybrid_query_reverse_result");
 	int counter = 0;
 	for (vector<queryParameter>::iterator it = queries->begin(); it != queries->end(); it++)
 	{
-		vector<IntervalScheme> intervals = SocialGeoGraph->getIntervalSchemeNode(it->queryNode);
+		vector<IntervalScheme> intervals;
+		if (SocialGeoGraph->NodeBelongsToSCC.count(it->queryNode) != 0)
+		{
+			 intervals = SocialGeoGraph->getIntervalSchemeNode(SocialGeoGraph->NodeBelongsToSCC[it->queryNode]);
+
+		} else {
+			 intervals = SocialGeoGraph->getIntervalSchemeNode(it->queryNode);
+		}
 		vector<double> results;
 		bool result; 
 
@@ -86,13 +93,20 @@ void runReverseHybrid(Graph* SocialGeoGraph, LocationMap* LocationGraph, string 
 
 void runReverseHybridCube(Graph* SocialGeoGraph, LocationMap* LocationGraph, string outputFile, vector<queryParameter>* queries, int amount_of_queries_used_for_averaging){
 	Timer clock;
-	rTreeCubes rTree = buildThreeDimesionalRTreeWithPlanes(SocialGeoGraph, LocationGraph);
+	rTreeCubes rTree = buildThreeDimesionalRTreeWithPlanes(SocialGeoGraph, LocationGraph, SocialGeoGraph);
 	ofstream out(outputFile + "_hybrid_mbr_query_reverse_result");
 	int counter = 0;
 	out << "time\tresult\tarea\tdegree\tcardinality\n";
 	for (vector<queryParameter>::iterator it = queries->begin(); it != queries->end(); it++)
 	{
-		vector<IntervalScheme> intervals = SocialGeoGraph->getIntervalSchemeNode(it->queryNode);
+		vector<IntervalScheme> intervals;
+		if (SocialGeoGraph->NodeBelongsToSCC.count(it->queryNode) != 0)
+		{
+			 intervals = SocialGeoGraph->getIntervalSchemeNode(SocialGeoGraph->NodeBelongsToSCC[it->queryNode]);
+
+		} else {
+			 intervals = SocialGeoGraph->getIntervalSchemeNode(it->queryNode);
+		}
 		vector<double> results;
 		bool result; 
 		for (int i = 0; i < amount_of_queries_used_for_averaging; i++){
@@ -140,7 +154,7 @@ string getFileName(){
 }
 
 int main(int argc, char **argv) {
-	vector<queryParameter>* queries;
+	vector<queryParameter> queries;
     string superFile;
 	bool useMbr, useReverse;
 		
@@ -163,7 +177,8 @@ int main(int argc, char **argv) {
 	LocationMap LocationGraph;
 
 
-
+	loadVanillaGeoFileData(superFile, &LocationGraph);
+	LocationGraph.printLocations();
 	SocialGeoGraph.readSuperConnectedComponents("./data/processed/" + superFile + "_strongly_connected_components");
 	SocialGeoGraph.readPostorder("./data/processed/" + superFile + "_postorder");
 	LocationGraph.readFileForMap("./data/processed/" + superFile + "_reduced_spatial_data");
@@ -172,16 +187,16 @@ int main(int argc, char **argv) {
 	if (useReverse){
 		SocialGeoGraph.readIntervalSchemeFromFile("./data/interval_scheme/" + superFile + "_interval_scheme_reverse");
 		if (useMbr)
-			runReverseHybridCube(&SocialGeoGraph, &LocationGraph, outputFile, queries, amount_of_queries_used_for_averging);
+			runReverseHybridCube(&SocialGeoGraph, &LocationGraph, outputFile, &queries, amount_of_queries_used_for_averging);
     	else
-        	runReverseHybrid(&SocialGeoGraph, &LocationGraph, outputFile, queries, amount_of_queries_used_for_averging);
+        	runReverseHybrid(&SocialGeoGraph, &LocationGraph, outputFile, &queries, amount_of_queries_used_for_averging);
 
 	} else {
 		SocialGeoGraph.readIntervalSchemeFromFile("./data/interval_scheme/" + superFile + "_interval_scheme");
 		if (useMbr)
-			runHybridCube(&SocialGeoGraph, &LocationGraph, outputFile, queries, amount_of_queries_used_for_averging);
+			runHybridCube(&SocialGeoGraph, &LocationGraph, outputFile, &queries, amount_of_queries_used_for_averging);
 		else
-			runHybrid(&SocialGeoGraph, &LocationGraph, outputFile, queries, amount_of_queries_used_for_averging);
+			runHybrid(&SocialGeoGraph, &LocationGraph, outputFile, &queries, amount_of_queries_used_for_averging);
 	}
 	
 

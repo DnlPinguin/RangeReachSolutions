@@ -161,9 +161,9 @@ void LocationMap::printMap() {
     unordered_map<int, spatialMbrRelation>::iterator it;
     for (it = Map.begin(); it != Map.end(); it++) {
         if (it->second.isMbr){
-            cout <<"PNT " << it->first << ": ";
-        } else {
             cout <<"MBR " << it->first << ": ";
+        } else {
+            cout <<"PNT " << it->first << ": ";
         }
         for (coordinates i : it->second.spatialData)
         {
