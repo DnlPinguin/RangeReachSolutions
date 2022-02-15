@@ -24,7 +24,7 @@ bool isContained(box rectangleOne, box rectangleTwo) {
 }
 
 bool checkIfRectangleIsContainedInRegion(box rectangle, box spatialRegion) {
-    //cout << "queryWindow ->" << spatialRegion.min_corner().get<0>() << " " << spatialRegion.min_corner().get<1>() << " " << spatialRegion.max_corner().get<0>() << " " << spatialRegion.max_corner().get<1>() << endl;
+    cout << "queryWindow ->" << spatialRegion.min_corner().get<0>() << " " << spatialRegion.min_corner().get<1>() << " " << spatialRegion.max_corner().get<0>() << " " << spatialRegion.max_corner().get<1>() << endl;
     return boost::geometry::within(rectangle, spatialRegion);
 }
 
@@ -56,34 +56,34 @@ bool checkIfOneEdgeIsContainedInRectangle(box rectangle, box spatialRegion)
     // Right Bottom Corner
     point right_bottom_corner(right_x, bottom_y);
 
-    //edge = box (left_bottom_corner, right_bottom_corner);
-    //cout << "Bottom Edge ->" << edge.min_corner().get<0>() << " " << edge.min_corner().get<1>() << " " << edge.max_corner().get<0>() << " " << edge.max_corner().get<1>() << endl;
+    box edge = box (left_bottom_corner, right_bottom_corner);
+    cout << "Bottom Edge ->" << edge.min_corner().get<0>() << " " << edge.min_corner().get<1>() << " " << edge.max_corner().get<0>() << " " << edge.max_corner().get<1>() << endl;
     if (left_x >= min_x && right_x <= max_x && bottom_y >= min_y && bottom_y <= max_y)
     {
-        //cout << " Bottom Edge hit" << endl;
+        cout << " Bottom Edge hit" << endl;
         return true; 
     }
 
-    //edge = box(left_bottom_corner, left_upper_corner);
-    //cout << "Left Edge ->" << edge.min_corner().get<0>() << " " << edge.min_corner().get<1>() << " " << edge.max_corner().get<0>() << " " << edge.max_corner().get<1>() << endl;
+    edge = box(left_bottom_corner, left_upper_corner);
+    cout << "Left Edge ->" << edge.min_corner().get<0>() << " " << edge.min_corner().get<1>() << " " << edge.max_corner().get<0>() << " " << edge.max_corner().get<1>() << endl;
     if (left_x >= min_x && left_x <= max_x && bottom_y >= min_y && top_y <= max_y)
     {
-        //cout << " Left Edge hit" << endl;
+        cout << " Left Edge hit" << endl;
         return true; 
     }
 
-    //edge = box(right_bottom_corner, right_upper_corner);
-    //cout << "Right Edge ->" << edge.min_corner().get<0>() << " " << edge.min_corner().get<1>() << " " << edge.max_corner().get<0>() << " " << edge.max_corner().get<1>() << endl;
+    edge = box(right_bottom_corner, right_upper_corner);
+    cout << "Right Edge ->" << edge.min_corner().get<0>() << " " << edge.min_corner().get<1>() << " " << edge.max_corner().get<0>() << " " << edge.max_corner().get<1>() << endl;
     if (right_x >= min_x && right_x <= max_x && bottom_y >= min_y && top_y <= max_y)
     {
-        //cout << " Right Edge hit" << endl;
+        cout << " Right Edge hit" << endl;
         return true;
     }
-    //edge = box(left_upper_corner, right_upper_corner);
-    //cout << "Top Edge ->" << edge.in_corner().get<0>() << " " << edge.min_corner().get<1>() << " " << edge.max_corner().get<0>() << " " << edge.max_corner().get<1>() << endl;
+    edge = box(left_upper_corner, right_upper_corner);
+    cout << "Top Edge ->" << edge.min_corner().get<0>() << " " << edge.min_corner().get<1>() << " " << edge.max_corner().get<0>() << " " << edge.max_corner().get<1>() << endl;
     if (left_x >= min_x && right_x <= max_x && top_y >= min_y && top_y <= max_y)
     {
-        //cout << " Top Edge hit" << endl;
+        cout << " Top Edge hit" << endl;
         return true;
     }
 
@@ -110,17 +110,17 @@ tuple<bool,int> checkIfNodeIsInSpatialRegion(bool isMbr, vector<coordinates> Loc
     if (isMbr) 
     {
         box mbr = box(point(LocationNode[0], LocationNode[1]), point(LocationNode[2], LocationNode[3]));
-        // cout << "mbr ->" << mbr.min_corner().get<0>() << " " << mbr.min_corner().get<1>() << " " << mbr.max_corner().get<0>() << " " << mbr.max_corner().get<1>() << endl;
+        cout << "mbr ->" << mbr.min_corner().get<0>() << " " << mbr.min_corner().get<1>() << " " << mbr.max_corner().get<0>() << " " << mbr.max_corner().get<1>() << endl;
         counter++;
         if (checkIfRectangleIsContainedInRegion(mbr, spatialRegion)) 
         {
-            // cout << " Rectangle is fully contained in region." << endl;
+            cout << " Rectangle is fully contained in region." << endl;
             return make_tuple(true, counter);
         }
         counter++;
         if (checkIfOneEdgeIsContainedInRectangle(mbr, spatialRegion)) 
         {
-            // cout << " One Edge is fully contained in region." << endl;
+            cout << " One Edge is fully contained in region." << endl;
             return make_tuple(true, counter);
         }
         counter++;

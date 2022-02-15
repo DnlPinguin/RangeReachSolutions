@@ -6,6 +6,9 @@ bool spatialFirstQuery(Graph* SocialGraph, bgi::rtree<SpatialNode, bgi::linear<1
 {
     int node = queryParam->queryNode;
     box spatialRegion = queryParam->spatialRegion;
+    box mbr =     queryParam->spatialRegion;
+
+
     for (auto it = rTree->qbegin(bgi::intersects(spatialRegion)); it != rTree->qend(); ++it)
     {
         if (SocialGraph->reachNode(node, it->second)) 
@@ -25,10 +28,10 @@ bool spatialFirstQueryWithMbr(LocationMap* spatialGraph, Graph* socialGraph, bgi
     {
         box spatialRegionOfNode = it->first;
         int currnode = it->second.second;
-        int isPoint = it->second.first;
+        int isMbr = it->second.first;
         pair<int, int> currnodePair = it->second;
-        // CHECK FOR POINT
-        if (isPoint) {
+        if (!isMbr) {
+            cout << currnode << " is point " << endl;
             if (socialGraph->reachNode(node, currnode)) {
                return true;
             }
@@ -38,6 +41,7 @@ bool spatialFirstQueryWithMbr(LocationMap* spatialGraph, Graph* socialGraph, bgi
             spatialMbrRelation LocationNode = spatialGraph->getLocation(currnode);
             if (get<0>(checkIfNodeIsInSpatialRegion(LocationNode.isMbr, LocationNode.spatialData, spatialRegion)))
             {
+
                 if (socialGraph->reachNode(node, currnode)) {
                     return true;
                 }
@@ -66,7 +70,6 @@ bool strictSpatialFirstQuery(Graph* SocialGraph, bgi::rtree<SpatialNode, bgi::li
         double time_social = 0;
         clock.start();
     #endif
-
 
     for (vector<SpatialNode>::iterator iter = possibleHits.begin(); iter != possibleHits.end(); iter++)
     {
@@ -113,8 +116,8 @@ bool strictSpatialFirstQueryWithMbr(LocationMap* spatialGraph, Graph* socialGrap
     {
         box spatialRegionOfNode = it->first;
         int currnode = it->second.second;
-        int isPoint = it->second.first;
-        if (isPoint) {
+        int isMbr = it->second.first;
+        if (!isMbr) {
             points_inside_query_window.push_back(currnode);
         }
         else

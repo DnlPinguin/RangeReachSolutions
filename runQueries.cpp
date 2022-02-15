@@ -2,8 +2,8 @@
 
 int main(int argc, char **argv){
     string filename = argv[1];
-    bool runHybrid = true;
-    bool runSpatial = true;
+    bool runHybrid = false;
+    bool runSpatial = false;
     bool runSocial = true;
     bool runRangeReach = false;
 

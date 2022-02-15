@@ -14,6 +14,9 @@ bool socialFirstQuery(Graph* socialGraph, LocationMap* spatialGraph, vector<quer
         clock.start();
     #endif
 
+    if (socialGraph->NodeBelongsToSCC.count(node) != 0){
+        node = socialGraph->NodeBelongsToSCC[node];
+    }
 
     vector<IntervalScheme>*  Intervals = &(socialGraph->IntervalSchemeGraphMap[node]);
     for (vector<IntervalScheme>::iterator iter = Intervals->begin() ; iter != Intervals->end(); iter++)
@@ -23,7 +26,7 @@ bool socialFirstQuery(Graph* socialGraph, LocationMap* spatialGraph, vector<quer
             reachableNodes.push_back(socialGraph->nodeHasPostorder[it]);
         }
     }
-
+    for (int i : reachableNodes)
     #ifdef STATISTICS 
         int amount_of_reachable_nodes = 0;
         double social_time = clock.stop();
@@ -39,6 +42,7 @@ bool socialFirstQuery(Graph* socialGraph, LocationMap* spatialGraph, vector<quer
         if (spatialGraph->existLocation(nodeToCheck))
         {
             LocationNode = spatialGraph->getLocation(nodeToCheck);
+
             mbr = box(point(LocationNode.spatialData[0], LocationNode.spatialData[1]), point(LocationNode.spatialData[0], LocationNode.spatialData[1]));
             if (!LocationNode.isMbr) 
             {
@@ -47,7 +51,7 @@ bool socialFirstQuery(Graph* socialGraph, LocationMap* spatialGraph, vector<quer
                 #endif
                 if (boost::geometry::intersects(spatialRegion, mbr))
                 {
-                    if (nodeToCheck != node) {
+                    if (nodeToCheck != queryParam->queryNode) {
                         #ifdef STATISTICS
                             statistics->time_social = social_time;
                             statistics->time_spatial = clock.stop();
@@ -68,7 +72,7 @@ bool socialFirstQuery(Graph* socialGraph, LocationMap* spatialGraph, vector<quer
                     box mbr = box(point(LocationNode.spatialData[i], LocationNode.spatialData[(i + 1)]), point(LocationNode.spatialData[i], LocationNode.spatialData[(i + 1)]));
                     if (boost::geometry::intersects(spatialRegion, mbr))
                     {
-                        if (nodeToCheck != node) {
+                        if (nodeToCheck != queryParam->queryNode) {
                             #ifdef STATISTICS
                                 statistics->time_social = social_time;
                                 statistics->time_spatial = clock.stop();
@@ -94,7 +98,9 @@ bool socialFirstQuery(Graph* socialGraph, LocationMap* spatialGraph, vector<quer
 bool socialFirstQueryWithMbr(Graph* socialGraph, LocationMap* spatialGraph, vector<queryParameter>::iterator queryParam, socialFirstResult* statistics) {
     int node = queryParam->queryNode;
     box spatialRegion = queryParam->spatialRegion;
-
+    if (socialGraph->NodeBelongsToSCC.count(node) != 0){
+        node = socialGraph->NodeBelongsToSCC[node];
+    }
     vector<int> reachableNodes;
     #ifdef STATISTICS
         Timer clock;
@@ -132,7 +138,7 @@ bool socialFirstQueryWithMbr(Graph* socialGraph, LocationMap* spatialGraph, vect
             #endif
             if (get<0>(res))
             {
-                if (node != nodeToCheck) {
+                if (queryParam->queryNode != nodeToCheck) {
                     #ifdef STATISTICS
                         statistics->time_social = social_time;
                         statistics->time_spatial = clock.stop();
@@ -157,6 +163,9 @@ bool socialFirstQueryWithMbr(Graph* socialGraph, LocationMap* spatialGraph, vect
 bool strictSocialFirstQuery(Graph* socialGraph, LocationMap* spatialGraph, vector<queryParameter>::iterator queryParam, socialFirstResult* statistics)
 {
     int node = queryParam->queryNode;
+    if (socialGraph->NodeBelongsToSCC.count(node) != 0){
+        node = socialGraph->NodeBelongsToSCC[node];
+    }
     box spatialRegion = queryParam->spatialRegion;
     #ifdef STATISTICS
         Timer clock;
@@ -177,7 +186,7 @@ bool strictSocialFirstQuery(Graph* socialGraph, LocationMap* spatialGraph, vecto
                     // spatial_range_test_counter++;
                     if (boost::geometry::intersects(spatialRegion, mbr))
                     {
-                        if (reachableNode != node) {
+                        if (reachableNode != queryParam->queryNode) {
 
                             // statistics->time_social = social_time;
                             // statistics->time_spatial = clock.stop();
@@ -195,7 +204,7 @@ bool strictSocialFirstQuery(Graph* socialGraph, LocationMap* spatialGraph, vecto
                         box mbr = box(point(LocationNode.spatialData[i], LocationNode.spatialData[(i + 1)]), point(LocationNode.spatialData[i], LocationNode.spatialData[(i + 1)]));
                         if (boost::geometry::intersects(spatialRegion, mbr))
                         {
-                            if (reachableNode != node) {
+                            if (reachableNode != queryParam->queryNode) {
                                 // statistics->time_social = social_time;
                                 // statistics->time_spatial = clock.stop();
                                 // statistics->number_of_spatial_range_tests = spatial_range_test_counter;
@@ -214,6 +223,9 @@ bool strictSocialFirstQuery(Graph* socialGraph, LocationMap* spatialGraph, vecto
 bool strictSocialFirstQueryWithMbr(Graph* socialGraph, LocationMap* spatialGraph, vector<queryParameter>::iterator queryParam, socialFirstResult* statistics)
 {
     int node = queryParam->queryNode;
+    if (socialGraph->NodeBelongsToSCC.count(node) != 0){
+        node = socialGraph->NodeBelongsToSCC[node];
+    }
     box spatialRegion = queryParam->spatialRegion;
 
     vector<IntervalScheme>*  Intervals = &(socialGraph->IntervalSchemeGraphMap[node]);
@@ -230,7 +242,7 @@ bool strictSocialFirstQueryWithMbr(Graph* socialGraph, LocationMap* spatialGraph
             
                 if (get<0>(res))
                 {
-                    if (node != reachableNode)
+                    if (queryParam->queryNode != reachableNode)
                     {
 
                         // statistics->time_social = social_time;

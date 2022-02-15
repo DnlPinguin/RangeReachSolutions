@@ -110,12 +110,14 @@ rTreePlanes* buildTwoDimensionalRtree(LocationMap* LocationGraph) {
 
         if (!Locations.isMbr )
         {
+            cout << "INsert RTree " << iter->first << "  " << Locations.spatialData[0] << " " <<  Locations.spatialData[1] << endl;
             rtree->insert(make_pair(point(Locations.spatialData[0], Locations.spatialData[1]), iter->first));
         }
         else 
         {
             for (int i = 4; i < Locations.spatialData.size(); i = i + 2)
             {
+                cout << "INsert RTree " << iter->first << "  " << Locations.spatialData[i] << " " <<  Locations.spatialData[i+1] << endl;
                 rtree->insert(make_pair(point(Locations.spatialData[i], Locations.spatialData[i+1]), iter->first));
             }
         }
@@ -129,6 +131,8 @@ rTreeSccPlanes* buildTwoDimensionalRtreeWithMbr(LocationMap* spatialGraph) {
     unordered_map<int, spatialMbrRelation> SpatialData = spatialGraph->returnMap();
     for (unordered_map<int, spatialMbrRelation>::iterator iter = SpatialData.begin(); iter != SpatialData.end(); iter++)
     {   
+        cout << "R-Tree insert:" << iter->second.spatialData[0] << " " << iter->second.spatialData[1] << "  " << iter->second.spatialData[2]
+         << " " << iter->second.spatialData[3] << endl;
         box Mbr(point(iter->second.spatialData[0],iter->second.spatialData[1]), point(iter->second.spatialData[2], iter->second.spatialData[3]));
         rtree->insert(make_pair(Mbr, make_pair(iter->second.isMbr, iter->first)));
     }

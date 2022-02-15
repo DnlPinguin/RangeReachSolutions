@@ -226,12 +226,15 @@ int Graph::getMaximumNode() {
 Checks with the Interval Scheme node One is able to reach node Two
 */
 bool Graph::reachNode(int nodeOne, int nodeTwo) {
-    if (NodeBelongsToSCC.count(nodeOne) != 0) {
-        nodeOne = NodeBelongsToSCC[nodeOne];
-    }
+
     if (nodeOne == nodeTwo) {
         return false;
     }
+
+    if (NodeBelongsToSCC.count(nodeOne) != 0) {
+        nodeOne = NodeBelongsToSCC[nodeOne];
+    }
+
     for (auto it : IntervalSchemeGraphMap[nodeTwo]) 
     {
         if (postOrderWithIndex[nodeOne] >= it.pre && postOrderWithIndex[nodeOne] <= it.post)
