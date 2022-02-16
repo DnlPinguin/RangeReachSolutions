@@ -278,10 +278,7 @@ int main(int argc, char **argv) {
 		useBfl = requestBfl();
 	}
 
-	if (useBfl){
-		string bflFileName = "data/bfl/" + superFile + "_graph.sample"; 
-		read_graph_for_bfl(bflFileName.c_str());
-	}
+
 
 
 	string outputFile = "data/results/" + superFile;
@@ -292,6 +289,11 @@ int main(int argc, char **argv) {
     LocationMap LocationGraph;
     
      
+	if (useBfl){
+		string bflFileName = "data/bfl/" + superFile + "_graph.sample"; 
+		SocialGeoGraph.readBflForNodeIdentifer("data/bfl/" + superFile + "_bfl_id");
+		read_graph_for_bfl(bflFileName.c_str());
+	}
     SocialGeoGraph.readReducedGraph("data/processed/" + superFile + "_reduced_scheme");
 	SocialGeoGraph.readSuperConnectedComponents("data/processed/" + superFile + "_strongly_connected_components");
 	SocialGeoGraph.readPostorder("data/processed/" + superFile + "_postorder");

@@ -162,7 +162,18 @@ bool spatialFirstQueryUsingBfl(Graph* SocialGraph, bgi::rtree<SpatialNode, bgi::
     box spatialRegion = queryParam->spatialRegion;
     for (auto it = rTree->qbegin(bgi::intersects(spatialRegion)); it != rTree->qend(); ++it)
     {
-        if (run_single_bfl_query(node, it->second)) 
+        int u,v;
+        u = node;
+        if (SocialGraph->NodeBelongsToSCC.count(node) != 0)
+        {
+            u = SocialGraph->NodeBelongsToSCC[node]; 
+        }
+        v = it->second;
+        u = SocialGraph->nodeToBflIdentifier[u];
+        v = SocialGraph->nodeToBflIdentifier[v]; 
+        // cout << "bfl for " << node << " -> " << it->second <<  " =  " <<run_single_bfl_query(u,v) << endl;
+        // cout << "bfl for " << u << " -> " << v <<  " =  " <<run_single_bfl_query(u,v) << endl;
+        if (run_single_bfl_query(u,v)) 
         {
             return true;
         }
@@ -179,11 +190,21 @@ int node = queryParam->queryNode;
     {
         box spatialRegionOfNode = it->first;
         int currnode = it->second.second;
-        int isPoint = it->second.first;
+        int isMbr = it->second.first;
         pair<int, int> currnodePair = it->second;
         // CHECK FOR POINT
-        if (isPoint) {
-            if (run_single_bfl_query(node, currnode)) {
+
+        int u,v;
+        u = node;
+        if (socialGraph->NodeBelongsToSCC.count(node) != 0)
+        {
+            u = socialGraph->NodeBelongsToSCC[node]; 
+        }
+        v = currnode;
+        u = socialGraph->nodeToBflIdentifier[u];
+        v = socialGraph->nodeToBflIdentifier[v]; 
+        if (!isMbr) {
+            if (run_single_bfl_query(u,v)) {
                return true;
             }
         }
@@ -192,7 +213,7 @@ int node = queryParam->queryNode;
             spatialMbrRelation LocationNode = spatialGraph->getLocation(currnode);
             if (get<0>(checkIfNodeIsInSpatialRegion(LocationNode.isMbr, LocationNode.spatialData, spatialRegion)))
             {
-                if (run_single_bfl_query(node, currnode)) {
+                if (run_single_bfl_query(u,v)) {
                     return true;
                 }
             }
@@ -228,7 +249,17 @@ int node = queryParam->queryNode;
         #ifdef STATISTICS
             reachability_test_counter++;
         #endif
-        if (run_single_bfl_query(node, iter->second))
+        
+        int u,v;
+        u = node;
+        if (SocialGraph->NodeBelongsToSCC.count(node) != 0)
+        {
+            u = SocialGraph->NodeBelongsToSCC[node]; 
+        }
+        v = iter->second;
+        u = SocialGraph->nodeToBflIdentifier[u];
+        v = SocialGraph->nodeToBflIdentifier[v]; 
+        if (run_single_bfl_query(u, v))
         {
             #ifdef STATISTICS
                 statistics->time_spatial = spatial_time;
@@ -268,8 +299,8 @@ bool strictSpatialFirstQueryUsingBflWithMbr(LocationMap* spatialGraph, Graph* so
     {
         box spatialRegionOfNode = it->first;
         int currnode = it->second.second;
-        int isPoint = it->second.first;
-        if (isPoint) {
+        int isMbr = it->second.first;
+        if (!isMbr) {
             points_inside_query_window.push_back(currnode);
         }
         else
@@ -287,7 +318,18 @@ bool strictSpatialFirstQueryUsingBflWithMbr(LocationMap* spatialGraph, Graph* so
     for (vector<int>::iterator it = points_inside_query_window.begin(); it != points_inside_query_window.end(); it++)
     {
         reachability_test_counter++;
-        if (run_single_bfl_query(node, *it))
+
+                
+        int u,v;
+        u = node;
+        if (socialGraph->NodeBelongsToSCC.count(node) != 0)
+        {
+            u = socialGraph->NodeBelongsToSCC[node]; 
+        }
+        v = *it;
+        u = socialGraph->nodeToBflIdentifier[u];
+        v = socialGraph->nodeToBflIdentifier[v]; 
+        if (run_single_bfl_query(u,v))
         {
             #ifdef STATISTICS
                 statistics->time_spatial = spatial_time;

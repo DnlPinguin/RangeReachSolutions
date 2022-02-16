@@ -1354,22 +1354,67 @@ void Graph::createSCCsUsingTarjans()
     }
 }
 
-void Graph::createBflFileForQuerying(string filepath){
-    
+
+void Graph::readBflForNodeIdentifer(string filePath){
+    cout << "Read bfl Identifier" << endl;
+    ifstream file;
+    file.open(filePath);
+    int source, target;
+    if (file.is_open()){
+        while (file >> source >> target) {
+            this->nodeToBflIdentifier[source] = target;
+            this->bflIdentifierToNode[target] = source;
+        }
+    }
+    else
+    {
+        cout << "Bfl Id file not found." << endl;
+    }
+    file.close();
+}
+
+void Graph::createBflFileForQuerying(string filename){
     ofstream file;
+    string filepath = "./data/bfl/" + filename + "_graph.sample";
+    string filepathForBflId = "./data/bfl/" + filename + "_bfl_id";
+
+    int counter = 0;
+    for (auto adjacency_list : GraphScheme)
+    {
+        int u = adjacency_list.first;
+        if (this->nodeToBflIdentifier.count(u) == 0){
+            this->nodeToBflIdentifier[u] = counter;
+            this->bflIdentifierToNode[counter] = u;
+            counter++;
+        }
+        for (int v: adjacency_list.second){
+            if (this->nodeToBflIdentifier.count(v) == 0){
+                this->nodeToBflIdentifier[v] = counter;
+                this->bflIdentifierToNode[counter] = v;
+                counter++;
+            }
+        }
+    }
+
+    file.open(filepathForBflId);
+    for (auto node_bfl : this->nodeToBflIdentifier)
+    {
+        file << node_bfl.first << "\t" << node_bfl.second << "\n";
+    }
+    file.close();
+
     file.open(filepath);
     file << "graph_for_greach \n";
-    if (this->V.size() > this->maxNode + 1){
-        file << this->V.size()  << "\n";
-    } else {
-        file << this->maxNode + 1  << "\n";
-    }
+    file << this->V.size()  << "\n";
 
     unordered_map<int,vector<int>>::iterator graphIterator;
     for (graphIterator = this->GraphScheme.begin(); graphIterator != this->GraphScheme.end(); graphIterator++){
-        string line = to_string(graphIterator->first) + ":"; 
-        for (int targetNode : graphIterator->second){
-            line += " " + to_string(targetNode);
+        int u = nodeToBflIdentifier[graphIterator->first];
+        string line = to_string(u) + ":"; 
+
+        for (int v : graphIterator->second){
+            v = nodeToBflIdentifier[v];
+            line += " " + to_string(v);
         }
         line += "#\n";
         file << line;

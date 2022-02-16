@@ -21,7 +21,7 @@ int main(int argc, char **argv){
 
     SocialGeoGraph.readReducedGraph("data/processed/" + filename + "_reduced_scheme");
 
-    SocialGeoGraph.createBflFileForQuerying("./data/bfl/" + filename + "_graph.sample");
+    SocialGeoGraph.createBflFileForQuerying(filename);
     return 0;
 
     // Create R-Tree

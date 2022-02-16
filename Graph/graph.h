@@ -63,7 +63,9 @@ public:
     unordered_map <int, boost::dynamic_bitset<>> NodeIntervalBitsetMap;
     map <int, vector<IntervalScheme>> IntervalSchemeGraphMapReverse;
 
-    
+    unordered_map<int,int> nodeToBflIdentifier;
+    unordered_map<int,int> bflIdentifierToNode;
+
 
     //Basic Graph Constructor
     Graph();
@@ -157,6 +159,7 @@ public:
     void writeSuperConnectedComponents(string fileName);
     void readSuperConnectedComponents(string fileName);
     void createBflFileForQuerying(string filenName);
+    void readBflForNodeIdentifer(string filePath);
 };
 
 #endif

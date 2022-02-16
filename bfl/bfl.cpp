@@ -217,6 +217,12 @@ bool reach(node &u, node &v) {
 }
 
 bool run_single_bfl_query(int source, int target){
+  cout << " im no " << endl;
+  read_graph_for_bfl("./data/bfl/dummy_graph.sample");
+  cout << "im here" << endl;
+  index_construction();
+  cout << "dir " << source <<  " -> " << target << " "<<reach(nodes[source], nodes[target]) << endl;
+  cout << "rev " <<target <<  " -> " << source << " " <<reach(nodes[target], nodes[source]) << endl;
   return reach(nodes[source], nodes[target]);
 }
 
@@ -239,12 +245,13 @@ int runBfl(const char* filename, const char* queryFilename)
   // printf(queryFilename, "\n");
   
 
-  read_graph_for_bfl(filename);
+
 
   printf("index_construction \n");
-  index_construction();
 
 return 0;
 }
+
+
 
 
