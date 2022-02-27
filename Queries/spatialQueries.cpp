@@ -1,6 +1,5 @@
 #include "spatialQueries.h"
 #include "helper.h"
-#include "../bfl/bfl.h"
 
 bool spatialFirstQuery(Graph* SocialGraph, bgi::rtree<SpatialNode, bgi::linear<16>>* rTree, vector<queryParameter>::iterator queryParam, spatialFirstResult* statistics)
 {
@@ -31,7 +30,6 @@ bool spatialFirstQueryWithMbr(LocationMap* spatialGraph, Graph* socialGraph, bgi
         int isMbr = it->second.first;
         pair<int, int> currnodePair = it->second;
         if (!isMbr) {
-            cout << currnode << " is point " << endl;
             if (socialGraph->reachNode(node, currnode)) {
                return true;
             }

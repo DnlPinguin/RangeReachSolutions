@@ -46,5 +46,6 @@ int runBfl(const char* filename, const char* queryFilename);
 void read_graph_for_bfl(const char *filename);
 bool run_all_bfl_queries(vector<pair<int,int>> queries);
 bool run_single_bfl_query(int source, int target);
+void bfl_index_construction();
 
 #endif 

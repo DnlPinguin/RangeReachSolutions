@@ -10,6 +10,12 @@ void runSocialFirstQuery(Graph* SocialGeoGraph, LocationMap* LocationGraph, stri
 	vector<double> results;
 	bool result; 
 
+	#ifdef STATISTICS
+		out << "time\tresult\tarea\tdegree\tcardinality\ttime_social\ttime_spatial\treachable_nodes\tspatial_tests\n";
+	#else
+		out << "time\tresult\tarea\tdegree\tcardinality\n";
+	#endif
+
 	for (vector<queryParameter>::iterator qIter = queries->begin(); qIter != queries->end(); qIter++)
 	{
 		for (int i = 0; i < amount_of_queries_used_for_averaging; i++)
@@ -37,6 +43,11 @@ void runSocialFirstMbrQuery(Graph* SocialGeoGraph, LocationMap* LocationGraph, s
 	vector<double> results;
 	bool result; 
 
+	#ifdef STATISTICS
+		out << "time\tresult\tarea\tdegree\tcardinality\ttime_social\ttime_spatial\treachable_nodes\tspatial_tests\n";
+	#else
+		out << "time\tresult\tarea\tdegree\tcardinality\n";
+	#endif
 	for (vector<queryParameter>::iterator qIter = queries->begin(); qIter != queries->end(); qIter++)
 	{
 		for (int i = 0; i < amount_of_queries_used_for_averaging; i++)
@@ -59,6 +70,12 @@ void runStrictSocialFirstQuery(Graph* SocialGeoGraph, LocationMap* LocationGraph
 	ofstream out(outputFile + "_social_first_strict_points");
 	Timer clock;
 	socialFirstResult statistics;
+
+	#ifdef STATISTICS
+		out << "time\tresult\tarea\tdegree\tcardinality\ttime_social\ttime_spatial\treachable_nodes\tspatial_tests\n";
+	#else
+		out << "time\tresult\tarea\tdegree\tcardinality\n";
+	#endif
 
 	vector<double> results;
 	bool result;
@@ -88,6 +105,12 @@ void runStrictSocialFirstMbrQuery(Graph* SocialGeoGraph, LocationMap* LocationGr
 
 	vector<double> results;
 	bool result; 
+
+	#ifdef STATISTICS
+		out << "time\tresult\tarea\tdegree\tcardinality\ttime_social\ttime_spatial\treachable_nodes\tspatial_tests\n";
+	#else
+		out << "time\tresult\tarea\tdegree\tcardinality\n";
+	#endif
 
 	for (vector<queryParameter>::iterator qIter = queries->begin(); qIter != queries->end(); qIter++)
 	{

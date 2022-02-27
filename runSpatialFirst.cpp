@@ -9,8 +9,17 @@ void runStrictSpatialFirstQueryUsingBfl(Graph* SocialGeoGraph, LocationMap* Loca
 	Timer clock;
 	spatialFirstResult statistics;
 	double time;
+	ofstream out(outputFile + "_first_strict_points_bfl");
+	
+	#ifdef STATISTICS
+		out << "time\tresult\tarea\tdegree\tcardinality\ttime_spatial\ttime_social\tnodes_inside_query_range\treachability_tests\n";
+	#else
+		out << "time\tresult\tarea\tdegree\tcardinality\n";
+	#endif
 
-	ofstream file(outputFile + "_first_strict_points_bfl");
+	bfl_index_construction();
+	read_graph_for_bfl("./data/bfl/dummy_graph.sample");
+	
 	for (vector<queryParameter>::iterator it = queries->begin(); it != queries->end(); it++)
 	{
 		vector<double> results;
@@ -23,9 +32,9 @@ void runStrictSpatialFirstQueryUsingBfl(Graph* SocialGeoGraph, LocationMap* Loca
 		double timer = accumulate( results.begin(), results.end(), 0.0)/results.size(); 
 
 		#ifdef STATISTICS
-			file << fixed << timer <<"\t" << result << "\t" << it->spaceUsed << "\t" << it->nodeDegree << "\t" << it->cardinality << "\t" << statistics.time_spatial << "\t" << statistics.time_social << "\t" << statistics.nodes_inside_query_range << "\t" << statistics.number_of_reachability_tests << endl;
+			out << fixed << timer <<"\t" << result << "\t" << it->spaceUsed << "\t" << it->nodeDegree << "\t" << it->cardinality << "\t" << statistics.time_spatial << "\t" << statistics.time_social << "\t" << statistics.nodes_inside_query_range << "\t" << statistics.number_of_reachability_tests << endl;
 		#else 
-			file << fixed << timer << "\t" << result << "\t" << it->spaceUsed << "\t" << it->nodeDegree << "\t" << it->cardinality << endl;
+			out << fixed << timer << "\t" << result << "\t" << it->spaceUsed << "\t" << it->nodeDegree << "\t" << it->cardinality << endl;
 		#endif
 	}
  	runBfl("./data/bfl/graph.sample", "./data/bfl/queries.sample");
@@ -39,8 +48,18 @@ void runStrictSpatialFirstQueryUsingBflWithMbr(Graph* SocialGeoGraph, LocationMa
 	Timer clock;
 	rTreeSccPlanes* rTreeWithScc = buildTwoDimensionalRtreeWithMbr(LocationGraph);
 	
-	ofstream file(outputFile + "_first_strict_mbr_bfl");
+	ofstream out(outputFile + "_first_strict_mbr_bfl");
+		
+	#ifdef STATISTICS
+		out << "time\tresult\tarea\tdegree\tcardinality\ttime_spatial\ttime_social\tnodes_inside_query_range\treachability_tests\n";
+	#else
+		out << "time\tresult\tarea\tdegree\tcardinality\n";
+	#endif
+
 	spatialFirstResult statistics;
+	
+	bfl_index_construction();
+	read_graph_for_bfl("./data/bfl/dummy_graph.sample");
 
 	for (vector<queryParameter>::iterator it = queries->begin(); it != queries->end(); it++)
 	{
@@ -54,9 +73,9 @@ void runStrictSpatialFirstQueryUsingBflWithMbr(Graph* SocialGeoGraph, LocationMa
 		double timer = accumulate( results.begin(), results.end(), 0.0)/results.size(); 
 
 		#ifdef STATISTICS
-			file << fixed << timer <<"\t" << result << "\t" << it->spaceUsed << "\t" << it->nodeDegree << "\t" << it->cardinality << "\t" << statistics.time_spatial << "\t" << statistics.time_social << "\t" << statistics.nodes_inside_query_range << "\t" << statistics.number_of_reachability_tests << endl;
+			out << fixed << timer <<"\t" << result << "\t" << it->spaceUsed << "\t" << it->nodeDegree << "\t" << it->cardinality << "\t" << statistics.time_spatial << "\t" << statistics.time_social << "\t" << statistics.nodes_inside_query_range << "\t" << statistics.number_of_reachability_tests << endl;
 		#else 
-			file << fixed << timer << "\t" << result << "\t" << it->spaceUsed << "\t" << it->nodeDegree << "\t" << it->cardinality << endl;
+			out << fixed << timer << "\t" << result << "\t" << it->spaceUsed << "\t" << it->nodeDegree << "\t" << it->cardinality << endl;
 		#endif
 	}
 }
@@ -69,6 +88,17 @@ void runSpatialFirstQueryUsingBfl(Graph* SocialGeoGraph, LocationMap* LocationGr
 	spatialFirstResult statistics;
 	rTreePlanes* rTreeWithScc = buildTwoDimensionalRtree(LocationGraph);
 	ofstream out(outputFile + "_first_sequential_points_bfl");
+
+		
+	#ifdef STATISTICS
+		out << "time\tresult\tarea\tdegree\tcardinality\ttime_spatial\ttime_social\tnodes_inside_query_range\treachability_tests\n";
+	#else
+		out << "time\tresult\tarea\tdegree\tcardinality\n";
+	#endif
+
+	bfl_index_construction();
+	read_graph_for_bfl("./data/bfl/dummy_graph.sample");
+
 
 	for (vector<queryParameter>::iterator it = queries->begin(); it != queries->end(); it++)
 	{
@@ -98,8 +128,18 @@ void runSpatialFirstMbrQueryUsingBfl(Graph* SocialGeoGraph, LocationMap* Locatio
 	rTreeSccPlanes* rTreeWithScc = buildTwoDimensionalRtreeWithMbr(LocationGraph);
 	
 	ofstream out(outputFile + "_first_sequential_mbr_bfl");
+		
+	#ifdef STATISTICS
+		out << "time\tresult\tarea\tdegree\tcardinality\ttime_spatial\ttime_social\tnodes_inside_query_range\treachability_tests\n";
+	#else
+		out << "time\tresult\tarea\tdegree\tcardinality\n";
+	#endif
 
 	spatialFirstResult statistics;
+	
+	bfl_index_construction();
+	read_graph_for_bfl("./data/bfl/dummy_graph.sample");
+
 
 	for (vector<queryParameter>::iterator it = queries->begin(); it != queries->end(); it++)
 	{
@@ -128,6 +168,12 @@ void runSpatialFirstQuery(Graph* SocialGeoGraph, LocationMap* LocationGraph, str
 	spatialFirstResult statistics;
 	rTreePlanes* rTreeWithScc = buildTwoDimensionalRtree(LocationGraph);
 	ofstream out(outputFile + "_first_sequential_points_interval");
+		
+	#ifdef STATISTICS
+		out << "time\tresult\tarea\tdegree\tcardinality\ttime_spatial\ttime_social\tnodes_inside_query_range\treachability_tests\n";
+	#else
+		out << "time\tresult\tarea\tdegree\tcardinality\n";
+	#endif
 
 	for (vector<queryParameter>::iterator it = queries->begin(); it != queries->end(); it++)
 	{
@@ -155,6 +201,13 @@ void runSpatialFirstMbrQuery(Graph* SocialGeoGraph, LocationMap* LocationGraph, 
 	rTreeSccPlanes* rTreeWithScc = buildTwoDimensionalRtreeWithMbr(LocationGraph);
 	ofstream out(outputFile + "_first_sequential_mbr_interval");
 
+	
+	#ifdef STATISTICS
+		out << "time\tresult\tarea\tdegree\tcardinality\ttime_spatial\ttime_social\tnodes_inside_query_range\treachability_tests\n";
+	#else
+		out << "time\tresult\tarea\tdegree\tcardinality\n";
+	#endif
+
 	spatialFirstResult statistics;
 
 	for (vector<queryParameter>::iterator it = queries->begin(); it != queries->end(); it++)
@@ -180,9 +233,15 @@ void runStrictSpatialFirstQuery(Graph* SocialGeoGraph, LocationMap* LocationGrap
 {
 	rTreePlanes* rTree = buildTwoDimensionalRtree(LocationGraph);
 	Timer clock;
-	ofstream file(outputFile + "_first_strict_points_interval");
+	ofstream out(outputFile + "_first_strict_points_interval");
 	spatialFirstResult statistics;
 
+	
+	#ifdef STATISTICS
+		out << "time\tresult\tarea\tdegree\tcardinality\ttime_spatial\ttime_social\tnodes_inside_query_range\treachability_tests\n";
+	#else
+		out << "time\tresult\tarea\tdegree\tcardinality\n";
+	#endif
 
 	for (vector<queryParameter>::iterator it = queries->begin(); it != queries->end(); it++)
 	{
@@ -196,9 +255,9 @@ void runStrictSpatialFirstQuery(Graph* SocialGeoGraph, LocationMap* LocationGrap
 		double timer = accumulate( results.begin(), results.end(), 0.0)/results.size(); 
 
 		#ifdef STATISTICS
-			file << fixed << timer <<"\t" << result << "\t" << it->spaceUsed << "\t" << it->nodeDegree << "\t" << it->cardinality << "\t" << statistics.time_spatial << "\t" << statistics.time_social << "\t" << statistics.nodes_inside_query_range << "\t" << statistics.number_of_reachability_tests << endl;
+			out << fixed << timer <<"\t" << result << "\t" << it->spaceUsed << "\t" << it->nodeDegree << "\t" << it->cardinality << "\t" << statistics.time_spatial << "\t" << statistics.time_social << "\t" << statistics.nodes_inside_query_range << "\t" << statistics.number_of_reachability_tests << endl;
 		#else 
-			file << fixed << timer << "\t" << result << "\t" << it->spaceUsed << "\t" << it->nodeDegree << "\t" << it->cardinality << endl;
+			out << fixed << timer << "\t" << result << "\t" << it->spaceUsed << "\t" << it->nodeDegree << "\t" << it->cardinality << endl;
 		#endif
 	}
 }
@@ -207,8 +266,15 @@ void runStrictSpatialFirstMbrQuery(Graph* SocialGeoGraph, LocationMap* LocationG
 {
 	Timer clock;
 	rTreeSccPlanes* rTreeWithScc = buildTwoDimensionalRtreeWithMbr(LocationGraph);
-	ofstream file(outputFile + "_first_strict_mbr_interval");
+	ofstream out(outputFile + "_first_strict_mbr_interval");
 	spatialFirstResult statistics;
+
+	
+	#ifdef STATISTICS
+		out << "time\tresult\tarea\tdegree\tcardinality\ttime_spatial\ttime_social\tnodes_inside_query_range\treachability_tests\n";
+	#else
+		out << "time\tresult\tarea\tdegree\tcardinality\n";
+	#endif
 
 	for (vector<queryParameter>::iterator it = queries->begin(); it != queries->end(); it++)
 	{
@@ -222,9 +288,9 @@ void runStrictSpatialFirstMbrQuery(Graph* SocialGeoGraph, LocationMap* LocationG
 		double timer = accumulate( results.begin(), results.end(), 0.0)/results.size(); 
 
 		#ifdef STATISTICS
-			file << fixed << timer <<"\t" << result << "\t" << it->spaceUsed << "\t" << it->nodeDegree << "\t" << it->cardinality << "\t" << statistics.time_spatial << "\t" << statistics.time_social << "\t" << statistics.nodes_inside_query_range << "\t" << statistics.number_of_reachability_tests << endl;
+			out << fixed << timer <<"\t" << result << "\t" << it->spaceUsed << "\t" << it->nodeDegree << "\t" << it->cardinality << "\t" << statistics.time_spatial << "\t" << statistics.time_social << "\t" << statistics.nodes_inside_query_range << "\t" << statistics.number_of_reachability_tests << endl;
 		#else 
-			file << fixed << timer << "\t" << result << "\t" << it->spaceUsed << "\t" << it->nodeDegree << "\t" << it->cardinality << endl;
+			out << fixed << timer << "\t" << result << "\t" << it->spaceUsed << "\t" << it->nodeDegree << "\t" << it->cardinality << endl;
 		#endif
 	}
 }

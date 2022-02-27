@@ -135,7 +135,7 @@ void dfs_out(node &u) {
   u.L_interval.second = cur;
 }
 
-void index_construction() {
+void bfl_index_construction() {
   timeval start_at, end_at;
   gettimeofday(&start_at, 0);
 
@@ -217,12 +217,8 @@ bool reach(node &u, node &v) {
 }
 
 bool run_single_bfl_query(int source, int target){
-  cout << " im no " << endl;
-  read_graph_for_bfl("./data/bfl/dummy_graph.sample");
-  cout << "im here" << endl;
-  index_construction();
-  cout << "dir " << source <<  " -> " << target << " "<<reach(nodes[source], nodes[target]) << endl;
-  cout << "rev " <<target <<  " -> " << source << " " <<reach(nodes[target], nodes[source]) << endl;
+  // read_graph_for_bfl("./data/bfl/dummy_graph.sample");
+  // bfl_index_construction();
   return reach(nodes[source], nodes[target]);
 }
 
@@ -247,7 +243,7 @@ int runBfl(const char* filename, const char* queryFilename)
 
 
 
-  printf("index_construction \n");
+  printf("bfl_index_construction \n");
 
 return 0;
 }

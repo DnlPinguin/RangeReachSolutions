@@ -8,31 +8,29 @@ vector<float> readSpatialData(string fileName, rTreePlanes* rTree) {
     coordinates xMin = INT_MAX, xMax = INT_MIN, yMin = INT_MAX, yMax = INT_MIN;
     coordinates xPos, yPos;
     string line;
-    int counter;
+    int counter = 0;
+    int totalCounter = 0;
     if (file.is_open()) {
-        while (getline(file, line, ',')){
-            if (counter % 3 == 0)
-            {
-                node = stoi(line);
-            }
-            if (counter % 3 == 1)
-            {
-                xPos = stof(line);
-            }
-            if (counter % 3 == 2)
-            {
-                yPos = stof(line);
-                rTree->insert(make_pair(point(xPos,yPos), node));
-                // cout << "x " << xPos << " y " << yPos << endl;
-                if (xPos < xMin) { xMin = xPos; }
-                if (yPos < yMin) { yMin = yPos; }
-                if (xPos > xMax) { xMax = xPos; }
-                if (yPos > yMax) { yMax = yPos; }
-            }
-            counter++;
+        while (getline(file, line)){
+            stringstream ss(line);
+            string _node, _xpos, _ypos;
+            getline(ss,_node,',');    
+            getline(ss,_xpos,','); 
+            getline(ss,_ypos,','); 
+            node = stoi(_node);
+            xPos = stof(_xpos);
+            yPos = stof(_ypos);
+            rTree->insert(make_pair(point(xPos,yPos), node));
+            if (xPos < xMin) { xMin = xPos; }
+            if (yPos < yMin) { yMin = yPos; }
+            if (xPos > xMax) { xMax = xPos; }
+            if (yPos > yMax) { yMax = yPos; }
+            totalCounter++;
         }
     }else{
+
     }
+    cout << totalCounter << " points read. \n";
     file.close();
     vector<float> minMaxCorner = {xMin, yMin, xMax, yMax};
     return minMaxCorner;

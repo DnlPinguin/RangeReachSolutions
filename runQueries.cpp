@@ -2,10 +2,10 @@
 
 int main(int argc, char **argv){
     string filename = argv[1];
-    bool runHybrid = false;
+    bool runHybrid = true;
     bool runSpatial = true;
-    bool runSocial = false;
-    bool runRangeReach = false;
+    bool runSocial = true;
+    bool runRangeReach = true;
 
     system(("Executables/runBreadthFirstQuery " + filename).c_str());
 
@@ -24,10 +24,10 @@ int main(int argc, char **argv){
     if (runSpatial)
     {
         cout << "Run spatial first" << endl;
-        // system(("Executables/runSpatialFirst " + filename + " strict points noBfl").c_str());
-        // system(("Executables/runSpatialFirst " + filename + " strict mbr noBfl").c_str());
-        // system(("Executables/runSpatialFirst " + filename + " sequential mbr noBfl").c_str());
-        // system(("Executables/runSpatialFirst " + filename + " sequential points noBfl").c_str());
+        system(("Executables/runSpatialFirst " + filename + " strict points noBfl").c_str());
+        system(("Executables/runSpatialFirst " + filename + " strict mbr noBfl").c_str());
+        system(("Executables/runSpatialFirst " + filename + " sequential mbr noBfl").c_str());
+        system(("Executables/runSpatialFirst " + filename + " sequential points noBfl").c_str());
         system(("Executables/runSpatialFirst " + filename + " strict points bfl").c_str());
         system(("Executables/runSpatialFirst " + filename + " strict mbr bfl").c_str());
         system(("Executables/runSpatialFirst " + filename + " sequential mbr bfl").c_str());
@@ -46,7 +46,7 @@ int main(int argc, char **argv){
     if (runRangeReach)
     {
         cout << "Run RangeReach" << endl;
-        system(("Executables/runRangeReach " + filename + " reverse mbr").c_str());
+        system(("Executables/runRangeReach " + filename).c_str());
     }
 
    

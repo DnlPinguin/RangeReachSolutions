@@ -3,6 +3,7 @@
 
 #include "../Structures/boostTypes.h"
 #include "../Graph/graph.h"
+#include "../bfl/bfl.h"
 
 bool isContained(box rectangleOne, box rectangleTwo);
 

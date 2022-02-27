@@ -10,7 +10,6 @@ bool runBfsQuery(Graph* SocialGeoGraph, LocationMap* LocationGraph, int queryNod
             node = SocialGeoGraph->NodeBelongsToSCC[queryNode];
     }
     Q.push(node);
-    cout << "QueryNode " << queryNode << endl;
 
     while (!Q.empty()){
         int curr_node = Q.front();
@@ -30,7 +29,6 @@ bool runBfsQuery(Graph* SocialGeoGraph, LocationMap* LocationGraph, int queryNod
                 } 
                 else 
                 {
-                    cout << queryNode << " reaches " << curr_node << endl;
                     if (queryWindow.containsPoint(LocationGraph->LocationScheme[curr_node])){
                         return true;
                     }
@@ -75,8 +73,13 @@ int main(int argc, char **argv) {
     LocationGraph.printMap();
 	int amount_of_queries_used_for_averging = 1;
     ofstream out(outputFile);
+    out << "time\tresult\tarea\tdegree\tcardinality\n";
+
+    Timer clock;
+
     for(auto query : queries)
     {
+
         box spatialWindow = query.spatialRegion;
         MBR queryWindowToMBR(
             query.spatialRegion.min_corner().get<0>(),
@@ -84,8 +87,9 @@ int main(int argc, char **argv) {
             query.spatialRegion.max_corner().get<0>(),
             query.spatialRegion.max_corner().get<1>()
         );
+        clock.start();
         bool result = runBfsQuery(&SocialGeoGraph, &LocationGraph, query.queryNode, queryWindowToMBR);
-        out << fixed << "0.00001" << " " << result << " " << query.spaceUsed << " " << query.nodeDegree << " " << query.cardinality << " " << endl;
+        out << fixed << clock.stop() << " " << result << " " << query.spaceUsed << " " << query.nodeDegree << " " << query.cardinality << " " << endl;
 
     }
 

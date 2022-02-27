@@ -15,7 +15,6 @@ rTreeLines buildThreeDimensionalRtree(Graph* HybridGraph, LocationMap* LocationG
         }
         for (IntervalScheme it : HybridGraph->IntervalSchemeGraphMap[node])
         {
-            cout << iter->second.x << " " << iter->second.y << " " << it.pre << endl;
             threeDimLine line(
                 threeDimPoint(iter->second.x, iter->second.y, float(it.pre)),
                 threeDimPoint(iter->second.x, iter->second.y, float(it.post))
@@ -68,7 +67,6 @@ rTreePoints buildThreeDimensionalRtreeWithPoints(Graph* HybridGraph, LocationMap
 
         for (IntervalScheme it : HybridGraph->IntervalSchemeGraphMap[spatialNode])
         {
-            cout << "Insert Point: " << pos.x << " " << pos.y << " " << it.post << " " << spatialNode << endl;
             lineCounter++;
             rtree.insert(threeDimPoint(pos.x, pos.y, it.post));
         }
@@ -91,8 +89,6 @@ rTreeCubes buildThreeDimesionalRTreeWithPlanes(Graph* HybridGraph, LocationMap* 
         coordinates x_2 = Locations.spatialData[2];
         coordinates y_2 = Locations.spatialData[3];
 
-        // Locations.print();
-        // cout << "postorder" << postOrder << endl;
         plane cuboid(threeDimPoint(x_1, y_1, postOrder), threeDimPoint(x_2, y_2, postOrder));
         rtree.insert(make_pair(cuboid, iter->first));
         cube_counter++;
@@ -110,14 +106,12 @@ rTreePlanes* buildTwoDimensionalRtree(LocationMap* LocationGraph) {
 
         if (!Locations.isMbr )
         {
-            cout << "INsert RTree " << iter->first << "  " << Locations.spatialData[0] << " " <<  Locations.spatialData[1] << endl;
             rtree->insert(make_pair(point(Locations.spatialData[0], Locations.spatialData[1]), iter->first));
         }
         else 
         {
             for (int i = 4; i < Locations.spatialData.size(); i = i + 2)
             {
-                cout << "INsert RTree " << iter->first << "  " << Locations.spatialData[i] << " " <<  Locations.spatialData[i+1] << endl;
                 rtree->insert(make_pair(point(Locations.spatialData[i], Locations.spatialData[i+1]), iter->first));
             }
         }
@@ -131,8 +125,6 @@ rTreeSccPlanes* buildTwoDimensionalRtreeWithMbr(LocationMap* spatialGraph) {
     unordered_map<int, spatialMbrRelation> SpatialData = spatialGraph->returnMap();
     for (unordered_map<int, spatialMbrRelation>::iterator iter = SpatialData.begin(); iter != SpatialData.end(); iter++)
     {   
-        cout << "R-Tree insert:" << iter->second.spatialData[0] << " " << iter->second.spatialData[1] << "  " << iter->second.spatialData[2]
-         << " " << iter->second.spatialData[3] << endl;
         box Mbr(point(iter->second.spatialData[0],iter->second.spatialData[1]), point(iter->second.spatialData[2], iter->second.spatialData[3]));
         rtree->insert(make_pair(Mbr, make_pair(iter->second.isMbr, iter->first)));
     }

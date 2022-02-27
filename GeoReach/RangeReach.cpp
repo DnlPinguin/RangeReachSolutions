@@ -5,19 +5,16 @@
 Checks whether the sspatial grid is intersecting with the spatial region. If not we can say the node is not reaching any nodes lying the the spatial target region
 */
 bool intersects(MBR spatialGrid, box queryWindow) {
-	cout << "Check intersection: " << endl;
 	coordinates queryWindowMinX = queryWindow.min_corner().get<0>();
 	coordinates queryWindowMinY = queryWindow.min_corner().get<1>();
 	coordinates queryWindowMaxX = queryWindow.max_corner().get<0>();
 	coordinates queryWindowMaxY = queryWindow.max_corner().get<1>();
 
  	if (spatialGrid.xMax < queryWindowMinX || spatialGrid.xMin > queryWindowMaxX) {
-		cout << "spatialgrid lies left or right" << endl;
 		return false;
 	}
 	// If one rectangle is above other 
 	if (spatialGrid.yMax < queryWindowMinY || spatialGrid.yMin > queryWindowMaxY) {
-		cout << "spatialgrid lies top or bottom" << endl;
 		return false;
 	}
 
@@ -29,26 +26,14 @@ bool intersects(MBR spatialGrid, box queryWindow) {
 in this region too. 
 */
 bool overlaps(MBR spatialGrid, box queryWindow) {
-	if (true) 
-	{
-		cout << "Spatialgrid: {(" << spatialGrid.xMin << ", " << spatialGrid.yMin << "),(" << spatialGrid.xMax <<", " << spatialGrid.yMax << ")}" << endl;
-		cout << "Querywindow: {(" <<
-			queryWindow.min_corner().get<0>() << ", " <<
-			queryWindow.min_corner().get<1>() << "),(" <<
-			queryWindow.max_corner().get<0>() << ", " <<
-			queryWindow.max_corner().get<1>()
-			<< ")} \n";
-	}
 	if (spatialGrid.xMin >= queryWindow.min_corner().get<0>()
 		&& spatialGrid.yMin >= queryWindow.min_corner().get<1>()
 		&& spatialGrid.xMax <= queryWindow.max_corner().get<0>()
 		&& spatialGrid.yMax <= queryWindow.max_corner().get<1>()
 	)
 	{
-		cout << "Spatialgrid is overlapping queryWindow \n \n";;
 		return true;
 	}
-	cout << "Spatialgrid is not overlapping queryWindow \n \n" ;
 	return false;
 }
 
@@ -118,14 +103,12 @@ void RangeReachVertex::createGVertex(Graph* socialGraph, LocationMap* locationGr
 	
 	socialGraph->topologicalSort(&topologicalOrderedVertices);
 
-	cout << "Size of topological order: " << topologicalOrderedVertices.size() << endl;
 	vector<coordinates> maxMBR = locationGraph->getMinMaxCorners();
 
 	this->maximumMBR = MBR(maxMBR[0], maxMBR[1], maxMBR[2], maxMBR[3]);
 	this->maximumMBR = MBR(0, 0, 1, 1);
 
-
-	for (int iter = topologicalOrderedVertices.size(); iter >= 0; iter--){
+	for (int iter = topologicalOrderedVertices.size() - 1; iter >= 0; iter--){
 		int currentNode = topologicalOrderedVertices[iter];	
 		bool currentNodeReachesSpatial = false;
 		for (int reachableNode : socialGraph->GraphScheme[currentNode]){
@@ -155,7 +138,9 @@ void RangeReachVertex::createGVertex(Graph* socialGraph, LocationMap* locationGr
 				}
 			}
 		}
-		if (!currentNodeReachesSpatial) B_Vertex[currentNode] = false;
+		if (!currentNodeReachesSpatial){
+			B_Vertex[currentNode] = false;
+		} 
 	}
 
 	return;
@@ -179,14 +164,9 @@ vector<int> RangeReachVertex::getLowerLevelsGridsInside(int currentLayer, MBR hi
 
 	vector<int> gridIds; 
 
-	// cout << "lowerlayer " << lowerLayer << endl;
-	// cout << "HighGrid " << higherLevelGrid.stringify() << endl;
-
 	for (gridIterator; gridIterator != this->gridLayers[lowerLayer].end(); gridIterator++){
 		int gridId = gridIterator->first;
 		MBR grid = gridIterator->second;
-		// cout << "LowerGrid " << gridId << " : " << grid.stringify() << endl;
-	
 		if (higherLevelGrid.overlaps(grid)){
 			gridIds.push_back(gridId);
 		}
@@ -202,13 +182,11 @@ void RangeReachVertex::MergeGVertex(int MERGE_COUNT){
 
 	for (layerIterator; layerIterator != this->gridLayers.end(); layerIterator++){
 		int currentLayer = layerIterator->first;
-		// cout << "Layer: " << currentLayer  << ", Size" << this->gridLayers[currentLayer].size() << endl;	
 		map<int, MBR>::iterator gridIterator;
 		for (gridIterator = this->gridLayers[currentLayer].begin(); gridIterator != this->gridLayers[currentLayer].end(); gridIterator++){
 			int gridId = gridIterator->first;
 			MBR grid = gridIterator->second;
 			vector<int> lowerLevelGrids = this->getLowerLevelsGridsInside(currentLayer, grid);
-			// for (int i : lowerLevelGrids) cout << i << " "
 			for (unordered_map<int,unordered_set<int>>::iterator iter = G_Vertex.begin(); iter != G_Vertex.end(); iter++) {
 				int sameGrids = 0;
 				vector<int> sameGridIds;
@@ -308,7 +286,7 @@ void RangeReachVertex::checkVertexCorrectnes(){
 	cout << NodesInSet.size() << "  " << totalNodesInVertices << endl;;
 }
 
-bool RangeReachVertex::SpaReachQuery(int node, box queryWindow, Graph* socialGraph, LocationMap* spatialGraph, int layers) {
+bool RangeReachVertex::SpaReachQuery(int sourceNode, box queryWindow, Graph* socialGraph, LocationMap* spatialGraph, int layers) {
 	
 	MBR queryWindowToMBR(
 		queryWindow.min_corner().get<0>(),
@@ -316,16 +294,19 @@ bool RangeReachVertex::SpaReachQuery(int node, box queryWindow, Graph* socialGra
 		queryWindow.max_corner().get<0>(),
 		queryWindow.max_corner().get<1>()
 	);
-	
+
+	int node = sourceNode;
+	if (socialGraph->NodeBelongsToSCC.count(node) != 0){
+		node = socialGraph->NodeBelongsToSCC[node];
+	}
 	queue<int> Q;
 	Q.push(node);
 	while(!Q.empty()){
+
 		int curr_node = Q.front();
-        Q.pop();
-		if (curr_node != node){
-			
+		Q.pop();
+		if (curr_node != node || socialGraph->SuperConnectedComponents.count(curr_node) != 0){
 			if(spatialGraph->existLocation(curr_node)){
-				cout << "Location exists" << endl;
 				vector<coordinates> pointsInsideScc = spatialGraph->getLocation(curr_node).spatialData;
 				if (socialGraph->SuperConnectedComponents.count(curr_node)){
 					for (int i = 4; i < pointsInsideScc.size() - 1; i += 2){
@@ -345,11 +326,9 @@ bool RangeReachVertex::SpaReachQuery(int node, box queryWindow, Graph* socialGra
 		}
 
 		if (B_Vertex.count(curr_node) == 1 && B_Vertex[curr_node] == false){
-			cout << "Node reaches no spatial vertices" << endl;
 			return false;
 		}
 		if (R_Vertex.count(curr_node) != 0){
-			cout << "Check  R_Vertex" << endl;
 			if (overlaps(R_Vertex[curr_node], queryWindow)){
 				return true;
 			}
@@ -360,9 +339,7 @@ bool RangeReachVertex::SpaReachQuery(int node, box queryWindow, Graph* socialGra
 			} 
 		}
 		if (G_Vertex.count(curr_node) != 0){
-			cout << "check G_Vertex"<< endl;
 			for (int gVertex : G_Vertex[curr_node]){
-				cout << gVertex << " ";
 				MBR grid = this->getGridFieldById(gVertex);
 				if (overlaps(grid, queryWindow)){
 					return true;
@@ -396,8 +373,6 @@ int RangeReachVertex::getSpatialGridField(Location nodeLocation, int layers) {
 		for (int chunkIteratorY = 0; chunkIteratorY < layers; chunkIteratorY++) {
 			if (nodeLocation.x >= maximumMBR.xMin + (chunkIteratorX)*chunkStepX && nodeLocation.x <= maximumMBR.xMin + (chunkIteratorX + 1) * chunkStepX) {
 				if (nodeLocation.y >= maximumMBR.yMin + (chunkIteratorY)*chunkStepY && nodeLocation.y <= maximumMBR.yMin + (chunkIteratorY + 1) * chunkStepY) {
-					// cout << chunkIteratorY + chunkIteratorX * layers << ": "; 
-					// this->gridLayers[0][chunkIteratorY + chunkIteratorX * layers].print();
 					return (chunkIteratorX + chunkIteratorY  * layers);
 				}
 			}
@@ -436,8 +411,6 @@ void RangeReachVertex::getAllSpatialGridsInArea(MBR queryArea, int LAYERS, vecto
 				maximumMBR.yMin + (chunkIteratorY + 1) * chunkStepY
 			);
 
-			// cout << "MBR: " << queryArea.stringify() << endl;
-			// cout << "Grid: " << grid.stringify() << endl;
 
 			if (doesRectanglesIntersect(queryArea, grid))
 			{

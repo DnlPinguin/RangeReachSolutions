@@ -50,10 +50,6 @@ bool hybridQueryReverse(vector<IntervalScheme>* intervals, rTreePoints* rTree, v
 
     for (interval = intervals->begin(); interval != intervals->end(); interval++)
     {
-        // cout << "Run For Interval: " << interval->pre << "  " << interval->post << endl;
-        // cout << "point_one: " << spatialRegion.min_corner().get<0>() << " " << spatialRegion.min_corner().get<1>() << " " << interval->pre << endl;
-        // cout << "point_one: " << spatialRegion.max_corner().get<0>() << " " << spatialRegion.max_corner().get<1>() << " " << interval->post << endl;
-
         plane planeForQuerying(
             threeDimPoint(spatialRegion.min_corner().get<0>(), spatialRegion.min_corner().get<1>(), interval->pre),
             threeDimPoint(spatialRegion.max_corner().get<0>(), spatialRegion.max_corner().get<1>(), interval->post)
@@ -62,7 +58,6 @@ bool hybridQueryReverse(vector<IntervalScheme>* intervals, rTreePoints* rTree, v
 
         for (auto it = rTree->qbegin(bgi::intersects(planeForQuerying)); it != rTree->qend(); ++it)
         {
-            cout << " Hit" << endl;
             return true;
         }
     }

@@ -937,7 +937,8 @@ void Graph::readReducedGraph(string filePath)
     file.open(filePath);
     string line;
     bool isRootNode = true;
-    int rootNode, node, counter;
+    int counter = 0;
+    int rootNode, node;
     if (file.is_open())
     {
         while (getline(file, line))
