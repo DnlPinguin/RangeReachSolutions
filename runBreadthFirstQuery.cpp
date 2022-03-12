@@ -69,8 +69,6 @@ int main(int argc, char **argv) {
 	SocialGeoGraph.readSuperConnectedComponents("./data/processed/" + superFile + "_strongly_connected_components");
 	SocialGeoGraph.readPostorder("./data/processed/" + superFile + "_postorder");
 	LocationGraph.readFileForMap("./data/processed/" + superFile + "_reduced_spatial_data");
-	LocationGraph.printLocations();
-    LocationGraph.printMap();
 	int amount_of_queries_used_for_averging = 1;
     ofstream out(outputFile);
     out << "time\tresult\tarea\tdegree\tcardinality\n";

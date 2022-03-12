@@ -9,7 +9,7 @@ void runStrictSpatialFirstQueryUsingBfl(Graph* SocialGeoGraph, LocationMap* Loca
 	Timer clock;
 	spatialFirstResult statistics;
 	double time;
-	ofstream out(outputFile + "_first_strict_points_bfl");
+	ofstream out(outputFile + "_first_bfl_strict_points");
 	
 	#ifdef STATISTICS
 		out << "time\tresult\tarea\tdegree\tcardinality\ttime_spatial\ttime_social\tnodes_inside_query_range\treachability_tests\n";
@@ -48,7 +48,7 @@ void runStrictSpatialFirstQueryUsingBflWithMbr(Graph* SocialGeoGraph, LocationMa
 	Timer clock;
 	rTreeSccPlanes* rTreeWithScc = buildTwoDimensionalRtreeWithMbr(LocationGraph);
 	
-	ofstream out(outputFile + "_first_strict_mbr_bfl");
+	ofstream out(outputFile + "_first_bfl_strict_mbr");
 		
 	#ifdef STATISTICS
 		out << "time\tresult\tarea\tdegree\tcardinality\ttime_spatial\ttime_social\tnodes_inside_query_range\treachability_tests\n";
@@ -87,7 +87,7 @@ void runSpatialFirstQueryUsingBfl(Graph* SocialGeoGraph, LocationMap* LocationGr
 	Timer clock;
 	spatialFirstResult statistics;
 	rTreePlanes* rTreeWithScc = buildTwoDimensionalRtree(LocationGraph);
-	ofstream out(outputFile + "_first_sequential_points_bfl");
+	ofstream out(outputFile + "_first_bfl_sequential_points");
 
 		
 	#ifdef STATISTICS
@@ -127,7 +127,7 @@ void runSpatialFirstMbrQueryUsingBfl(Graph* SocialGeoGraph, LocationMap* Locatio
 	Timer clock;
 	rTreeSccPlanes* rTreeWithScc = buildTwoDimensionalRtreeWithMbr(LocationGraph);
 	
-	ofstream out(outputFile + "_first_sequential_mbr_bfl");
+	ofstream out(outputFile + "_first_bfl_sequential_mbr");
 		
 	#ifdef STATISTICS
 		out << "time\tresult\tarea\tdegree\tcardinality\ttime_spatial\ttime_social\tnodes_inside_query_range\treachability_tests\n";

@@ -61,6 +61,8 @@ rTreePoints buildThreeDimensionalRtreeWithPoints(Graph* HybridGraph, LocationMap
     {
         Location pos = iter->second;
         int spatialNode = iter->first;
+        
+
         if (SocialGraph->NodeBelongsToSCC.count(spatialNode) != 0){
             spatialNode = SocialGraph->NodeBelongsToSCC[iter->first];
         }
@@ -68,7 +70,8 @@ rTreePoints buildThreeDimensionalRtreeWithPoints(Graph* HybridGraph, LocationMap
         for (IntervalScheme it : HybridGraph->IntervalSchemeGraphMap[spatialNode])
         {
             lineCounter++;
-            rtree.insert(threeDimPoint(pos.x, pos.y, it.post));
+            int postOrder  = HybridGraph->getPostOrderOfNode(spatialNode);
+            rtree.insert(make_pair(threeDimPoint(pos.x, pos.y, postOrder), iter->first));
         }
     }
 

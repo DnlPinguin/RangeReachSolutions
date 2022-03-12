@@ -97,7 +97,6 @@ void RangeReachVertex::createGridField(int LAYERS)
 };
 
 void RangeReachVertex::createGVertex(Graph* socialGraph, LocationMap* locationGraph, float MAX_RMBR = 1, float MAX_REACH_GRIDS = 3, int LAYERS=4) {
-	cout << "create SPA-Graph structure  \n";
 
 	vector<int> topologicalOrderedVertices;
 	
@@ -105,8 +104,9 @@ void RangeReachVertex::createGVertex(Graph* socialGraph, LocationMap* locationGr
 
 	vector<coordinates> maxMBR = locationGraph->getMinMaxCorners();
 
+	cout << maxMBR[0] << " " << maxMBR[1] << " " << maxMBR[2] << " " << maxMBR[3];
 	this->maximumMBR = MBR(maxMBR[0], maxMBR[1], maxMBR[2], maxMBR[3]);
-	this->maximumMBR = MBR(0, 0, 1, 1);
+	// this->maximumMBR = MBR(0, 0, 1, 1);
 
 	for (int iter = topologicalOrderedVertices.size() - 1; iter >= 0; iter--){
 		int currentNode = topologicalOrderedVertices[iter];	
@@ -304,6 +304,7 @@ bool RangeReachVertex::SpaReachQuery(int sourceNode, box queryWindow, Graph* soc
 	while(!Q.empty()){
 
 		int curr_node = Q.front();
+		cout << sourceNode << " " << curr_node << endl;
 		Q.pop();
 		if (curr_node != node || socialGraph->SuperConnectedComponents.count(curr_node) != 0){
 			if(spatialGraph->existLocation(curr_node)){
@@ -361,24 +362,25 @@ Returns the spatial gridfield this for the location given in the parameters
 int RangeReachVertex::getSpatialGridField(Location nodeLocation, int layers) {
 	bool spatialGridFound = false;
 	int chunkIteratorX, chunkIteratorY;
-	// nodeLocation.print();
+
 	for(map<int, MBR>::iterator iter = this->gridLayers[0].begin(); iter != this->gridLayers[0].end(); iter++){
-		if (iter->second.containsPoint(nodeLocation)){
+		if (iter->second.containsPoint(nodeLocation))
 			return iter->first;
-		}
 	}
+	 
+	nodeLocation.print();
 	return -1;
 
-	for (int chunkIteratorX = 0; chunkIteratorX < layers; chunkIteratorX++) {
-		for (int chunkIteratorY = 0; chunkIteratorY < layers; chunkIteratorY++) {
-			if (nodeLocation.x >= maximumMBR.xMin + (chunkIteratorX)*chunkStepX && nodeLocation.x <= maximumMBR.xMin + (chunkIteratorX + 1) * chunkStepX) {
-				if (nodeLocation.y >= maximumMBR.yMin + (chunkIteratorY)*chunkStepY && nodeLocation.y <= maximumMBR.yMin + (chunkIteratorY + 1) * chunkStepY) {
-					return (chunkIteratorX + chunkIteratorY  * layers);
-				}
-			}
-		}
-	}
-	return -1;
+	// for (int chunkIteratorX = 0; chunkIteratorX < layers; chunkIteratorX++) {
+	// 	for (int chunkIteratorY = 0; chunkIteratorY < layers; chunkIteratorY++) {
+	// 		if (nodeLocation.x >= maximumMBR.xMin + (chunkIteratorX)*chunkStepX && nodeLocation.x <= maximumMBR.xMin + (chunkIteratorX + 1) * chunkStepX) {
+	// 			if (nodeLocation.y >= maximumMBR.yMin + (chunkIteratorY)*chunkStepY && nodeLocation.y <= maximumMBR.yMin + (chunkIteratorY + 1) * chunkStepY) {
+	// 				return (chunkIteratorX + chunkIteratorY  * layers);
+	// 			}
+	// 		}
+	// 	}
+	// }
+	// return -1;
 }
 
 

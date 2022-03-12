@@ -53,16 +53,19 @@ void loadVanillaGeoFileData(string fileName, LocationMap* locs) {
             getline(ss,_xpos,','); 
             getline(ss,_ypos,','); 
 
-            node = stoi(_node);
-            xPos = stof(_xpos);
-            yPos = stof(_ypos);
+            if (_xpos != "" && _ypos != "")
+            {
+                node = stoi(_node);
+                xPos = stof(_xpos);
+                yPos = stof(_ypos);
+                locs->addSpatial(node, Location(xPos, yPos));
+                if (xPos < xMin) { xMin = xPos; }
+                if (yPos < yMin) { yMin = yPos; }
+                if (xPos > xMax) { xMax = xPos; }
+                if (yPos > yMax) { yMax = yPos; }
+            } 
             
-            cout << " add data " << node << " " << xPos << " " << yPos << endl;
-            locs->addSpatial(node, Location(xPos, yPos));
-            if (xPos < xMin) { xMin = xPos; }
-            if (yPos < yMin) { yMin = yPos; }
-            if (xPos > xMax) { xMax = xPos; }
-            if (yPos > yMax) { yMax = yPos; }
+
         }
     }else{
         cout << "No file found" << endl;

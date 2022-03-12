@@ -17,9 +17,12 @@ vector<float> readSpatialData(string fileName, rTreePlanes* rTree) {
             getline(ss,_node,',');    
             getline(ss,_xpos,','); 
             getline(ss,_ypos,','); 
-            node = stoi(_node);
-            xPos = stof(_xpos);
-            yPos = stof(_ypos);
+            if (_xpos != "" && _ypos != "")
+            {
+                node = stoi(_node);
+                xPos = stof(_xpos);
+                yPos = stof(_ypos);
+            } 
             rTree->insert(make_pair(point(xPos,yPos), node));
             if (xPos < xMin) { xMin = xPos; }
             if (yPos < yMin) { yMin = yPos; }
@@ -56,7 +59,7 @@ vector<vector<float>> createQueryBoxes(vector<float> areaSizeVector, vector<floa
                 vector<float> box {
                     xLinspace[i], 
                     yLinspace[i],
-                    xLinspace[i] + yLength, 
+                    xLinspace[i] + stepX, 
                     yLinspace[i] + stepY,
                     areaSize
                 };
@@ -72,8 +75,14 @@ map<int,int> getQueryNodes(Graph* SocialGeoGraph, int amountOfQueryNodes){
     map<int,int> node_degree_map;
     map<int,int > queryNodes;
 
+    int queryCounter = 0;
     for (unordered_map<int, vector<int>>::iterator node = SocialGeoGraph->GraphScheme.begin(); node != SocialGeoGraph->GraphScheme.end(); node++) {
+        // if (queryCounter > amountOfQueryNodes)
+        //     break;
+        
         node_degree_map[node->first] = node->second.size();
+        queryCounter++;
+
     }
 
     if (node_degree_map.size() < amountOfQueryNodes){
@@ -119,7 +128,7 @@ int main(int argc, char **argv){
     SocialGeoGraph.readReducedGraph("./data/processed/" + filename + "_reduced_scheme");
     
     rTreePlanes rtree ;
-    vector<float> areaSize {1, 0.5, 0.1, 0.05, 0.01};
+    vector<float> areaSize { 0.3, 0.1, 0.05, 0.01, 0.005};
     vector<float> minMaxCorner = readSpatialData(filename, &rtree);
     vector<vector<float>> areaBoxes = createQueryBoxes(areaSize, minMaxCorner, 100);
     map<int,int> queryNodes = getQueryNodes(&SocialGeoGraph, numberOfQueries);
@@ -129,7 +138,7 @@ int main(int argc, char **argv){
     
     file.open("./data/queries/" + filename +"_queries");
 
-    file << "node\tdegree\txLow\tyLow\txTop\tyLow\tarea\tarea" << endl;
+    file << "node\tdegree\txLow\tyLow\txTop\tyLow\tarea\tcardinality" << endl;
     for (vector<float> i : areaBoxes){
         nodesInRegion = computeCardinality(&rtree, box(point(i[0], i[1]), point(i[2], i[3])));
 

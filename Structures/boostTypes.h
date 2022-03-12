@@ -35,8 +35,10 @@ typedef pair<plane, int> cuboidStructure;
 typedef bgi::rtree<cuboidStructure, bgi::linear<16>> rTreeCubes;
 
 typedef pair<threeDimLine,int> lineStructureForrTree;
+typedef pair<threeDimPoint,int> pointStructureForrTree;
+
 typedef bgi::rtree<lineStructureForrTree, bgi::linear<16>> rTreeLines;
-typedef bgi::rtree<threeDimPoint, bgi::linear<16>> rTreePoints;
+typedef bgi::rtree<pointStructureForrTree, bgi::linear<16>> rTreePoints;
 typedef bgi::rtree<SccWithMbr, bgi::linear<16>> rTreeSccPlanes;
 typedef bgi::rtree<SpatialNode, bgi::linear<16>> rTreePlanes;
 

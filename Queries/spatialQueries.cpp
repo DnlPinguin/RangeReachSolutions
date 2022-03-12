@@ -169,8 +169,6 @@ bool spatialFirstQueryUsingBfl(Graph* SocialGraph, bgi::rtree<SpatialNode, bgi::
         v = it->second;
         u = SocialGraph->nodeToBflIdentifier[u];
         v = SocialGraph->nodeToBflIdentifier[v]; 
-        // cout << "bfl for " << node << " -> " << it->second <<  " =  " <<run_single_bfl_query(u,v) << endl;
-        // cout << "bfl for " << u << " -> " << v <<  " =  " <<run_single_bfl_query(u,v) << endl;
         if (run_single_bfl_query(u,v)) 
         {
             return true;
@@ -222,7 +220,7 @@ int node = queryParam->queryNode;
 
 bool strictSpatialFirstQueryUsingBfl(Graph* SocialGraph, bgi::rtree<SpatialNode, bgi::linear<16>>* rTree, vector<queryParameter>::iterator queryParam, spatialFirstResult* statistics)
 {
-int node = queryParam->queryNode;
+    int node = queryParam->queryNode;
     box spatialRegion = queryParam->spatialRegion;
     vector<SpatialNode> possibleHits;
     

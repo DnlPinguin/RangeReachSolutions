@@ -22,7 +22,7 @@ int getMAX_REACH_GRIDS(){
 }
 
 int getLayer(){
-    cout << "Enter amount of layers: (e.g: 1 equals 1 | equals 4-1 | 3 equals 16-4-1 ) \n";
+    cout << "Enter amount of layers: (e.g: \n1 equals 1 \n2 equals 2x2=4-1 \n3 equals 4x4=16-4-1 \n8 equals 128x128=16384 \n";
 	string input;
 	cin >> input;
 	return stoi(input);
@@ -63,13 +63,13 @@ int main(int argc, char **argv){
     SocialGeoGraph.readSuperConnectedComponents("./data/processed/" + filename + "_strongly_connected_components");
     LocationGraph.readFileForMap("./data/processed/" + filename + "_reduced_spatial_data");
     
-	//RangeReach.maximumMBR = MBR(LocationGraph.MinMaxCorners[0],LocationGraph.MinMaxCorners[1],LocationGraph.MinMaxCorners[2],LocationGraph.MinMaxCorners[3]);
-	RangeReach.maximumMBR = MBR(0,0,1,1);
+	RangeReach.maximumMBR = MBR(LocationGraph.MinMaxCorners[0],LocationGraph.MinMaxCorners[1],LocationGraph.MinMaxCorners[2],LocationGraph.MinMaxCorners[3]);
+	RangeReach.maximumMBR.print();
     
     RangeReach.createGridField(LAYER);
 
-    
-	RangeReach.createGVertex(&SocialGeoGraph, &LocationGraph, MAX_RMBR, MAX_REACH_GRIDS, LAYER);
+    cout << "create SPA-Graph structure  \n";
+    RangeReach.createGVertex(&SocialGeoGraph, &LocationGraph, MAX_RMBR, MAX_REACH_GRIDS, LAYER);
     
     if (MERGE_COUNT > 1 ){
         RangeReach.MergeGVertex(MERGE_COUNT);

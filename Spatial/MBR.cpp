@@ -37,10 +37,10 @@ void MBR::insertLoc(Location loc) {
 }
 
 bool MBR::containsPoint(Location loc){
-	if (loc.x <= xMin || loc.x >= xMax){
+	if (loc.x < xMin || loc.x > xMax){
 		return false;
 	}
-	if (loc.y <= yMin || loc.y >= yMax){
+	if (loc.y < yMin || loc.y > yMax){
 		return false;
 	}
 	return true;

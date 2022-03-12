@@ -11,8 +11,6 @@ bool hybridQuery(int nodeDimension, rTreeLines* rTree, vector<queryParameter>::i
     );
     for (auto it = rTree->qbegin(bgi::intersects(planeForQuerying)); it != rTree->qend(); ++it)
     {  
-        cout << queryParam->queryNode << " cut " <<  it->second << endl;
-
         if (queryParam->queryNode != it->second){
             return true;
         }
@@ -20,7 +18,7 @@ bool hybridQuery(int nodeDimension, rTreeLines* rTree, vector<queryParameter>::i
     return false;
 }
 
-bool hybridQueryWithCubes(bgi::rtree<cuboidStructure, bgi::linear<16>>* rTree, box spatialRegion, LocationMap* spatialGraph, int nodeDimension, int* counter) 
+bool hybridQueryWithCubes(bgi::rtree<cuboidStructure, bgi::linear<16>>* rTree, box spatialRegion, LocationMap* spatialGraph, int nodeDimension,int queryNode,  int* counter) 
 {
     plane planeForQuerying(
         threeDimPoint(spatialRegion.min_corner().get<0>(), spatialRegion.min_corner().get<1>(), nodeDimension),
@@ -35,7 +33,8 @@ bool hybridQueryWithCubes(bgi::rtree<cuboidStructure, bgi::linear<16>>* rTree, b
 
         if (get<0>(res))
         {
-            return true;
+            if (queryNode != it->second) 
+                return true;
         }
     }
     return false;
@@ -58,14 +57,19 @@ bool hybridQueryReverse(vector<IntervalScheme>* intervals, rTreePoints* rTree, v
 
         for (auto it = rTree->qbegin(bgi::intersects(planeForQuerying)); it != rTree->qend(); ++it)
         {
-            return true;
+
+
+            if (queryParam->queryNode != it->second){
+                return true;
+            }
+
         }
     }
     
     return false;
 }
 
-bool hybridQueryWithCubesReverse(vector<IntervalScheme>* intervals, rTreeCubes* rTree, box spatialRegion, LocationMap* spatialGraph, int* counter){
+bool hybridQueryWithCubesReverse(vector<IntervalScheme>* intervals, rTreeCubes* rTree, box spatialRegion, LocationMap* spatialGraph, int queryNode, int* counter){
     
     vector<IntervalScheme>::iterator interval;  
     for (interval = intervals->begin(); interval != intervals->end(); interval++)
@@ -82,7 +86,8 @@ bool hybridQueryWithCubesReverse(vector<IntervalScheme>* intervals, rTreeCubes* 
             tuple<bool,int> res = checkIfNodeIsInSpatialRegion(LocationNode.isMbr, LocationNode.spatialData, spatialRegion);
             if (get<0>(res))
             {
-                return true;
+                if (queryNode != it->second) 
+                    return true;
             }
         }
     }

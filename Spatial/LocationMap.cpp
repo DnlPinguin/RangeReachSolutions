@@ -102,12 +102,7 @@ void LocationMap::readFileForMap(string filePath)
 {
     cout << "Read reduced spatial data" << endl;
     
-    vector<coordinates> _minMaxCorners;
-    _minMaxCorners.push_back(INT_MAX);
-    _minMaxCorners.push_back(INT_MAX);
-    _minMaxCorners.push_back(INT_MIN);
-    _minMaxCorners.push_back(INT_MIN);
-
+    vector<coordinates> _minMaxCorners {float(INT_MAX), float(INT_MAX), float(INT_MIN), float(INT_MIN)};
 
     ifstream file;
     file.open(filePath);
@@ -138,11 +133,14 @@ void LocationMap::readFileForMap(string filePath)
             this->Map[node] = spatialMbrRelation(isMbr, SpatialData);
 
             
-            if (SpatialData[1] < _minMaxCorners[0]) _minMaxCorners[0] = SpatialData[1];
-            if (SpatialData[2] < _minMaxCorners[1]) _minMaxCorners[1] = SpatialData[2];
-            if (SpatialData[3] > _minMaxCorners[2]) _minMaxCorners[2] = SpatialData[3];
-            if (SpatialData[4] > _minMaxCorners[3]) _minMaxCorners[3] = SpatialData[4];        
+            if (SpatialData[0] < _minMaxCorners[0]) _minMaxCorners[0] = SpatialData[0];
+            if (SpatialData[1] < _minMaxCorners[1]) _minMaxCorners[1] = SpatialData[1];
+            if (SpatialData[2] > _minMaxCorners[2]) _minMaxCorners[2] = SpatialData[2];
+            if (SpatialData[3] > _minMaxCorners[3]) _minMaxCorners[3] = SpatialData[3];        
             SpatialData.clear();
+
+            // cout << _minMaxCorners[0] << " " << _minMaxCorners[1] << " " << _minMaxCorners[2] << " " << _minMaxCorners[3] << endl;
+            // if (j > 10) break;
         }
     }
     this->MinMaxCorners = _minMaxCorners;
