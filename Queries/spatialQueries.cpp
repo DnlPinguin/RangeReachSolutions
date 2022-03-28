@@ -20,14 +20,18 @@ bool spatialFirstQuery(Graph* SocialGraph, bgi::rtree<SpatialNode, bgi::linear<1
 
 bool spatialFirstQueryWithMbr(LocationMap* spatialGraph, Graph* socialGraph, bgi::rtree<SccWithMbr, bgi::linear<16>>* rTree, vector<queryParameter>::iterator queryParam, spatialFirstResult* statistics)
 {
+    cout << "run Query: " << queryParam->queryNode << endl;;
     int node = queryParam->queryNode;
     box spatialRegion = queryParam->spatialRegion;
 
     for (auto it = rTree->qbegin(bgi::intersects(spatialRegion)); it != rTree->qend(); ++it)
     {
+
         box spatialRegionOfNode = it->first;
         int currnode = it->second.second;
         int isMbr = it->second.first;
+
+        cout << queryParam->queryNode << " " << currnode << endl;
         pair<int, int> currnodePair = it->second;
         if (!isMbr) {
             if (socialGraph->reachNode(node, currnode)) {
@@ -252,20 +256,25 @@ bool strictSpatialFirstQueryUsingBfl(Graph* SocialGraph, bgi::rtree<SpatialNode,
         {
             u = SocialGraph->NodeBelongsToSCC[node]; 
         }
+        
+
         v = iter->second;
         u = SocialGraph->nodeToBflIdentifier[u];
-        v = SocialGraph->nodeToBflIdentifier[v]; 
-        if (run_single_bfl_query(u, v))
-        {
-            #ifdef STATISTICS
-                statistics->time_spatial = spatial_time;
-                statistics->time_social = clock.stop();
-                statistics->nodes_inside_query_range = possibleHits.size();
-                statistics->number_of_reachability_tests = reachability_test_counter;
-            #endif
+        v = SocialGraph->nodeToBflIdentifier[v];
+        if (node != v){
+            if (run_single_bfl_query(u, v))
+                {
+                    #ifdef STATISTICS
+                        statistics->time_spatial = spatial_time;
+                        statistics->time_social = clock.stop();
+                        statistics->nodes_inside_query_range = possibleHits.size();
+                        statistics->number_of_reachability_tests = reachability_test_counter;
+                    #endif
 
-            return true;
-        }
+                    return true;
+                }
+        } 
+        
     }
     #ifdef STATISTICS
         statistics->time_spatial = spatial_time;

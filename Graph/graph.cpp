@@ -227,6 +227,8 @@ Checks with the Interval Scheme node One is able to reach node Two
 */
 bool Graph::reachNode(int nodeOne, int nodeTwo) {
 
+    // cout << nodeOne << " " << nodeTwo << endl;
+
     if (nodeOne == nodeTwo) {
         return false;
     }
@@ -237,8 +239,12 @@ bool Graph::reachNode(int nodeOne, int nodeTwo) {
 
     for (auto it : IntervalSchemeGraphMap[nodeTwo]) 
     {
+        if (nodeOne == 32 || nodeOne == 5138){
+            cout << nodeOne << " " << nodeTwo << " " << postOrderWithIndex[nodeOne] << " " << it.pre << " " << it.post << endl;
+        }
         if (postOrderWithIndex[nodeOne] >= it.pre && postOrderWithIndex[nodeOne] <= it.post)
         {
+            cout << "return true" << endl;
             return true;
         }
     }
@@ -353,20 +359,21 @@ void Graph::getAllParents(int root, unordered_set<int>* ancestors)
 
 
     Q.push(root);
-    ancestors->insert(root);
 
     while (!Q.empty())
     {
         int currnode = Q.front();
-        if (currnode != root)
-        {
-            ancestors->insert(currnode);
-        }
+        ancestors->insert(currnode);
         Q.pop();
         if (this->AllEdgesGoingIntoKeyNode.count(currnode) != 0)
         {
-            ancestors->insert(AllEdgesGoingIntoKeyNode[currnode]->begin(), AllEdgesGoingIntoKeyNode[currnode]->end());
             alreadyVisited[currnode] = true;
+            ancestors->insert(AllEdgesGoingIntoKeyNode[currnode]->begin(), AllEdgesGoingIntoKeyNode[currnode]->end());
+            for (unordered_set<int>::iterator t = AllEdgesGoingIntoKeyNode[currnode]->begin(); t != AllEdgesGoingIntoKeyNode[currnode]->end(); t++)
+            {
+                ancestors->insert(*t);
+                alreadyVisited[*t] = true;
+            }
         }
         else
         {
@@ -696,7 +703,7 @@ double Graph::graphPropagation(string filepath,bool createReverseScheme, Locatio
 {
     Timer clock;
     this->IntervalSchemeGraphMap.clear();
-
+    this->AllEdgesGoingIntoKeyNode.clear();
     ofstream file;
     filepath = filepath + "_test";
     if (writeAfterEveryIteration){

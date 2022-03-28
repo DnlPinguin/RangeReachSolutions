@@ -12,9 +12,11 @@ def construct_postorder_on_nodes(file_name):
             G.add_edge(i[0], i[j])
     
     post_order = list(networkx.dfs_postorder_nodes(G))
-    post_order_file = open("./data/processed/{}_postorder".format(file_name), "w")
+    post_order_file = open("./data/processed/{}_postorder_map".format(file_name), "w")
 
     for i in range(0,len(post_order)): 
+        print(i + 1, post_order[i])
+        post_order[i]
         post_order_file.write(str(post_order[i]) + "\n")
     
 

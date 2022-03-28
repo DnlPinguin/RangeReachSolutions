@@ -22,6 +22,7 @@ bool runBfsQuery(Graph* SocialGeoGraph, LocationMap* LocationGraph, int queryNod
                     {
                         if (LocationGraph->LocationScheme.count(component_node) != 0){
                             if (queryWindow.containsPoint(LocationGraph->LocationScheme[component_node])){
+                                cout << "bfs mbr " << queryNode << " " << component_node << endl;
                                 return true;
                             }
                         }
@@ -30,6 +31,7 @@ bool runBfsQuery(Graph* SocialGeoGraph, LocationMap* LocationGraph, int queryNod
                 else 
                 {
                     if (queryWindow.containsPoint(LocationGraph->LocationScheme[curr_node])){
+                        cout << "bfs "  << queryNode << " " << curr_node << endl;
                         return true;
                     }
                 }

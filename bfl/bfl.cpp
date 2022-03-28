@@ -219,8 +219,8 @@ bool reach(node &u, node &v) {
 bool run_single_bfl_query(int source, int target){
   // read_graph_for_bfl("./data/bfl/dummy_graph.sample");
   // bfl_index_construction();
-  if (source == target) 
-    return false;
+  // if (source == target) 
+  //   return false;
   return reach(nodes[source], nodes[target]);
 }
 
