@@ -144,7 +144,7 @@ int main(int argc, char **argv){
 
         for (map<int,int>::iterator iter = queryNodes.begin(); iter != queryNodes.end(); iter++){
         
-            file << iter->first << "\t" << iter->second <<  "\t"<<  i[0] << "\t" << i[1] << "\t" << i[2] << "\t" << i[3] << "\t" << i[4] << "\t" << nodesInRegion << endl;
+            file << iter->first << "\t" << iter->second <<  "\t"<<  to_string(i[0]) << "\t" << to_string(i[1]) << "\t" << to_string(i[2]) << "\t" << to_string(i[3]) << "\t" << i[4] << "\t" << nodesInRegion << endl;
         }
     }
     file.close();

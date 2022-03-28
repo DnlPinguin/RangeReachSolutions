@@ -498,8 +498,8 @@ void writeLabelingSchemeToFile(string filepath, map<int,vector<IntervalScheme>>*
         file << endl;
     }
     file.close();
-    
 }
+
 
 /**
  * @brief Create a labeling scheme using only one priority queue
@@ -692,10 +692,16 @@ double Graph::traditionalGraphPropagation(string filepath, bool createReverseSch
  * @param SpatialGraph 
  * @return double 
  */
-double Graph::graphPropagation(string filepath,bool createReverseScheme, LocationMap* SpatialGraph)
+double Graph::graphPropagation(string filepath,bool createReverseScheme, LocationMap* SpatialGraph, bool writeAfterEveryIteration)
 {
     Timer clock;
     this->IntervalSchemeGraphMap.clear();
+
+    ofstream file;
+    filepath = filepath + "_test";
+    if (writeAfterEveryIteration){
+        file.open(filepath);
+    }
     vector<ofstream*> txtFiles;
     // Get Maximum number of threads defined in main
     int num_of_threads =  omp_get_max_threads();
@@ -704,11 +710,17 @@ double Graph::graphPropagation(string filepath,bool createReverseScheme, Locatio
 
     clock.start();
 
-    #pragma omp parallel for //schedule(static, chunk_size)
-    for(int i = 0; i < postOrder.size(); i++)
+    int t = 0;
+    #pragma omp parallel for schedule(static)
+    for(int i = postOrder.size() - 1; i >= 0; i--)
     {   
+        t++;
+        if (t % 15000 == 0){
+            cout << t <<  " / " << postOrder.size() <<  "    " << (((float)t / (float)postOrder.size()) * 100)  << "%" << endl;
+        }
         unordered_set<int> Ancestors;
         createReverseScheme ? getAllChildren(postOrder[i], &Ancestors) : getAllParents(postOrder[i], &Ancestors);
+        this->AllEdgesGoingIntoKeyNode[postOrder[i]] = &Ancestors;
         vector<IntervalScheme> newCompressedIntervalScheme;
         boost::dynamic_bitset<> IntervalBitsetArray(postOrder.size() + 2);
         for (unordered_set<int>::iterator node = Ancestors.begin(); node != Ancestors.end(); node++)
@@ -727,13 +739,26 @@ double Graph::graphPropagation(string filepath,bool createReverseScheme, Locatio
             }
         }
     
-        this->IntervalSchemeGraphMap[postOrder[i]] = newCompressedIntervalScheme;
+        // this->IntervalSchemeGraphMap[postOrder[i]] = newCompressedIntervalScheme;
+        if (writeAfterEveryIteration){
+            string entry;
+            entry = to_string(postOrder[i]);
+            for (vector<IntervalScheme>::iterator interval = newCompressedIntervalScheme.begin(); interval != newCompressedIntervalScheme.end(); interval++){
+                entry = entry + "\t" + to_string(interval->pre) + "\t" + to_string(interval->post);
+            }
+            entry = entry + "\n";
+            #pragma omp critical
+                file << entry;
+        }
+
     }
 
     double creationTime = clock.stop();
     // Write the labeling scheme to the file
     // writeLabelingSchemeToFile(filepath + "_parallel_" + to_string(num_of_threads), &(this->IntervalSchemeGraphMap));
-    writeLabelingSchemeToFile(filepath, &(this->IntervalSchemeGraphMap));
+    if (!writeAfterEveryIteration){
+        writeLabelingSchemeToFile(filepath, &(this->IntervalSchemeGraphMap));
+    }
 
     return creationTime;
 }
@@ -750,6 +775,7 @@ void Graph::topologicalSortUtil(int v, bool visited[], stack<int>& Stack)
 
 void Graph::topologicalSort(vector<int>* topologicalSortedVertices)
 {
+    cout << "Sort Nodes topological ";
     set<int> VReduced;
     for (unordered_map<int, vector<int>>::iterator node = GraphScheme.begin(); node != GraphScheme.end(); node++) {
         VReduced.insert(node->first);
@@ -757,7 +783,7 @@ void Graph::topologicalSort(vector<int>* topologicalSortedVertices)
             VReduced.insert(entry);
     }
 
-    cout << VReduced.size() << endl;
+    cout << ".";
 
     stack<int> Stack;
     int size = VReduced.size();
@@ -769,6 +795,7 @@ void Graph::topologicalSort(vector<int>* topologicalSortedVertices)
         visited[i] = false;
     }
 
+    cout << ".";
 
     for (int i : VReduced) 
     {
@@ -777,12 +804,14 @@ void Graph::topologicalSort(vector<int>* topologicalSortedVertices)
             topologicalSortUtil(i, visited, Stack);
         }
     }
+    cout << ".";
 
     while (Stack.empty() == false) 
     {
         topologicalSortedVertices->push_back(Stack.top());
         Stack.pop();
     }
+    cout << ". sorted \n";
 
 }
        

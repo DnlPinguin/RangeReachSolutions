@@ -1,3 +1,5 @@
+import re 
+
 def sortQueries(file_name):
     file = open("data/queries/" +
                 file_name + "_queries", "r")
@@ -53,32 +55,57 @@ def findQueriesWithDegreAndArea(file_name, degree=False, area=False, cardinality
                 continue
 
         data.append(line)
-
-    data.sort(key=lambda row: (row[7]), reverse=True)
-
+    if degree:
+        data.sort(key=lambda row: (row[1]), reverse=True)
+    if area: 
+        data.sort(key=lambda row: (row[6]), reverse=True)
+    if cardinality: 
+        data.sort(key=lambda row: (row[7]), reverse=True)
     print(len(data))
-    if (len(data) > 1000): 
-        take_every_n_entry = int(len(data)/ 1000)
+
+    amount_of_queries = 10000
+    if (len(data) > amount_of_queries): 
+        take_every_n_entry = int(len(data)/ amount_of_queries)
         print(take_every_n_entry)
         counter = 0
         for line in data:
             if counter % take_every_n_entry == 0:
                 new_file.write(
-                    str(int(line[0])) + "\t" +  str(int(line[1])) + "\t" + str(line[2]) + "\t" + str(line[3]) + "\t" + str(line[4])  + "\t" + str(line[5])  + "\t" + str(line[6]) + "\t" + str(int(line[7])) + "\n"
+                    str(int(line[0])) + "\t" +  str(int(line[1])) + "\t" + str(f'{line[2]:f}') + "\t" + str(f'{line[3]:f}') + "\t" + str(f'{line[4]:f}')  + "\t" + str(f'{line[5]:f}')  + "\t" + str(line[6]) + "\t" + str(int(line[7])) + "\n"
                 )
             counter = counter + 1 
 
     else: 
         for line in data:
             new_file.write(
-                str(int(line[0])) + "\t" +  str(int(line[1])) + "\t" + str(line[2]) + "\t" + str(line[3]) + "\t" + str(line[4])  + "\t" + str(line[5])  + "\t" + str(line[6]) + "\t" + str(int(line[7])) + "\n"
+                str(int(line[0])) + "\t" +  str(int(line[1])) + "\t" + str(f'{line[2]:f}') + "\t" + str(f'{line[3]:f}') + "\t" + str(f'{line[4]:f}')  + "\t" + str(f'{line[5]:f}')  + "\t" + str(line[6]) + "\t" + str(int(line[7])) + "\n"
             )
 
-    
-    
+def getAllTrueQueries(query_file, result_file):
 
-findQueriesWithDegreAndArea("foursquare_all", degree=10, area=0.1)
-findQueriesWithDegreAndArea("foursquare_all", cardinality=1000,  area=0.1)
-findQueriesWithDegreAndArea("foursquare_all", cardinality=1000, degree=10)
+    result_file = open("data/results/"  + result_file)
+    next(result_file)
+    counter_true = 0
+    counter_false = 0
+    for line in result_file:
+        line = line.split(" ")
+
+        if line[1] == "1":
+            counter_true = counter_true + 1
+        else: 
+            counter_false = counter_false + 1
+    print(counter_true, " " , counter_false)
+
+
+print("Enter filename:")
+file = input()
+
+
+# findQueriesWithDegreAndArea(file, cardinality=1000,  area=0.1)
+# findQueriesWithDegreAndArea(file, cardinality=1000, degree=10)
+findQueriesWithDegreAndArea(file, area=0.1)
+findQueriesWithDegreAndArea(file, degree=10)
+
+# getAllTrueQueries("", "foursquare_bfs")
 
 # sortQueries("foursquare")

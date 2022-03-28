@@ -159,14 +159,14 @@ string getFileName(){
 
 int main(int argc, char **argv) {
 	vector<queryParameter> queries;
-    string superFile;
+    string superFile, queryFile;
 	bool useMbr, useReverse;
 		
-	if (argc == 4){
+	if (argc == 5){
         superFile = argv[1];
         useReverse = strcmp(argv[2], "reverse") == 0 ? true  : false;
         useMbr = strcmp(argv[3], "mbr") == 0 ? true  : false;
-
+		queryFile = argv[4];
 	} else {
 		superFile = getFileName();
 		useReverse = requestReverseApproach();
@@ -175,7 +175,7 @@ int main(int argc, char **argv) {
 
 	string outputFile = "./data/results/" + superFile;
 
-	queries = readQueries("./data/queries/" + superFile + "_queries");
+	queries = readQueries("./data/queries/" + queryFile);
 
 	Graph SocialGeoGraph;
 	LocationMap LocationGraph;

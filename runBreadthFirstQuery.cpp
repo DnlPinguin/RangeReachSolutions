@@ -50,16 +50,16 @@ string getFileName(){
 }
 
 int main(int argc, char **argv) {
-    string superFile;
-	if (argc == 2){
+    string superFile, queryFile;
+	if (argc == 3){
         superFile = argv[1];
-
+        queryFile = argv[2];
 	} else {
 		superFile = getFileName();
 	}
 
 	string outputFile = "./data/results/" + superFile + "_bfs";
-	vector<queryParameter> queries = readQueries("./data/queries/" + superFile + "_queries");
+	vector<queryParameter> queries = readQueries("./data/queries/" + queryFile);
 
 	Graph SocialGeoGraph;
 	LocationMap LocationGraph;

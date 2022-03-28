@@ -155,13 +155,14 @@ string getFileName(){
 
 int main(int argc, char **argv) {
 
-	string superFile;
+	string superFile, queryFile;
 	bool useStrict, useMbr;
 
-	if (argc == 4){
+	if (argc == 5){
         superFile = argv[1];
 		useStrict = strcmp(argv[2], "strict") == 0 ? true  : false;
         useMbr = strcmp(argv[3], "mbr") == 0 ? true  : false;
+		queryFile = argv[4];
 	} else {
 		superFile = getFileName();
 		useStrict = requestStrictApproach();
@@ -170,7 +171,7 @@ int main(int argc, char **argv) {
 
 
 	string outputFile = "./data/results/" + superFile;
-	vector<queryParameter> queries = readQueries("./data/queries/" + superFile + "_queries");
+	vector<queryParameter> queries = readQueries("./data/queries/" + queryFile);
 
 
 

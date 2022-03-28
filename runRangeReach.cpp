@@ -28,10 +28,11 @@ int getLayer(){
 }
 
 int main(int argc, char **argv) {
-	string filename;
+	string filename, queryFile;
 	int layers;
-	if (argc == 2){
+	if (argc == 3){
 		filename = argv[1];
+		queryFile = argv[2];
 	}else{
 		filename = getFileName();
 	}
@@ -46,7 +47,7 @@ int main(int argc, char **argv) {
     SocialGeoGraph.readSuperConnectedComponents("./data/processed/" + filename + "_strongly_connected_components");
     LocationGraph.readFileForMap("./data/processed/" + filename + "_reduced_spatial_data");
 	
-	vector<queryParameter> queries = readQueries("./data/queries/" + filename + "_queries");
+	vector<queryParameter> queries = readQueries("./data/queries/" + queryFile);
 	int amount_of_queries_used_for_averaging = 1; 
 	ofstream out("./data/results/" + filename + "_spareach");
     Timer clock;

@@ -29,6 +29,8 @@ public:
 	unordered_map<int, vector<int>> StronglyConnectedComponent;
 
 	unordered_map<int, vector<Location>> Locations_Inside_G_Vertex;
+	unordered_map<int, MBR> MBRInsideGVertex;
+
 
 
 	// Boolean map to Check wether a node is able to reach a node with spatial information

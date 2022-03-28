@@ -97,43 +97,122 @@ void RangeReachVertex::createGridField(int LAYERS)
 };
 
 void RangeReachVertex::createGVertex(Graph* socialGraph, LocationMap* locationGraph, float MAX_RMBR = 1, float MAX_REACH_GRIDS = 3, int LAYERS=4) {
-
+	cout << "Create G Vertex" << endl;
 	vector<int> topologicalOrderedVertices;
 	
 	socialGraph->topologicalSort(&topologicalOrderedVertices);
 
 	vector<coordinates> maxMBR = locationGraph->getMinMaxCorners();
 
-	cout << maxMBR[0] << " " << maxMBR[1] << " " << maxMBR[2] << " " << maxMBR[3];
 	this->maximumMBR = MBR(maxMBR[0], maxMBR[1], maxMBR[2], maxMBR[3]);
 	// this->maximumMBR = MBR(0, 0, 1, 1);
 
-	for (int iter = topologicalOrderedVertices.size() - 1; iter >= 0; iter--){
+
+	unordered_map<int, vector<int>> spatialGridMap;
+	
+	cout << "Create Grid Ids" << endl;
+	for (unordered_map<int, spatialMbrRelation>::iterator iter = locationGraph->Map.begin();iter != locationGraph->Map.end(); iter++){
+		if (iter->second.isMbr){
+			spatialGridMap[iter->first] = {};
+			for (int i = 4; i < iter->second.spatialData.size() - 1; i += 2){
+				Location pos = Location(iter->second.spatialData[i], iter->second.spatialData[i+1]);
+				spatialGridMap[iter->first].push_back(getSpatialGridField(pos, LAYERS));
+
+			}
+		}
+		else{
+			Location pos = Location(iter->second.spatialData[0], iter->second.spatialData[1]);
+			spatialGridMap[iter->first] =  {getSpatialGridField(pos, LAYERS)};
+		}
+	}
+	int size = topologicalOrderedVertices.size();
+	int counter = 0;
+
+	for (int iter = size; iter >= 0; iter--){
 		int currentNode = topologicalOrderedVertices[iter];	
 		bool currentNodeReachesSpatial = false;
+        counter++;
+        if (counter % 15000 == 0){
+            cout << counter <<  " / " << size <<  "    " << (((float)counter / (float)size) * 100)  << "%" << endl;
+        }
 		for (int reachableNode : socialGraph->GraphScheme[currentNode]){
+
 			if (locationGraph->existLocation(reachableNode)){
 				currentNodeReachesSpatial = true;
-				vector<coordinates> pointsInsideScc = locationGraph->getLocation(reachableNode).spatialData;
-				if (socialGraph->SuperConnectedComponents.count(reachableNode)){
+				spatialMbrRelation spatialStructure = locationGraph->getLocation(reachableNode);
+				vector<coordinates> pointsInsideScc = spatialStructure.spatialData;
 
+
+				for (int i : spatialGridMap[reachableNode]){
+					if (G_Vertex[currentNode].size() <= MAX_REACH_GRIDS){
+						G_Vertex[currentNode].insert(i);
+					} else{
+						break;
+					}
+				}
+
+				if (spatialStructure.isMbr)
+				{
 					for (int i = 4; i < pointsInsideScc.size() - 1; i += 2){
 						Location pos = Location(pointsInsideScc[i], pointsInsideScc[i+1]);
-						G_Vertex[currentNode].insert(getSpatialGridField(pos, LAYERS));
-						Locations_Inside_G_Vertex[currentNode].push_back(pos);
+						if (MBRInsideGVertex.count(currentNode) != 0){
+							MBRInsideGVertex[currentNode].insertLoc(pos);
+						} else {
+							MBRInsideGVertex[currentNode] = MBR(pos);
+						}
 					}
-
-				} else {
+				}else{
 					Location pos = Location(pointsInsideScc[0], pointsInsideScc[1]);
-					G_Vertex[currentNode].insert(getSpatialGridField(pos, LAYERS));
-					Locations_Inside_G_Vertex[currentNode].push_back(pos);
+					if (MBRInsideGVertex.count(currentNode) != 0){
+							MBRInsideGVertex[currentNode].insertLoc(pos);
+						} else {
+							MBRInsideGVertex[currentNode] = MBR(pos);
+						}
 				}
+
+				// if (socialGraph->SuperConnectedComponents.count(reachableNode)){
+
+				// 	// for (int i = 4; i < pointsInsideScc.size() - 1; i += 2){
+				// 	// 	Location pos = Location(pointsInsideScc[i], pointsInsideScc[i+1]);
+				// 	// 	// G_Vertex[currentNode].insert(getSpatialGridField(pos, LAYERS));
+
+				// 	// 	G_Vertex[currentNode].insert(spatialGridMap[reachableNode].begin(), spatialGridMap[reachableNode].end());
+
+				// 	// 	// Locations_Inside_G_Vertex[currentNode].push_back(pos);
+				// 	// 	if (MBRInsideGVertex.count(currentNode) != 0){
+				// 	// 		MBRInsideGVertex[currentNode].insertLoc(pos);
+				// 	// 	} else {
+				// 	// 		MBRInsideGVertex[currentNode] = MBR(pos);
+				// 	// 	}
+				// 	// }
+
+				// } else {
+				// 	Location pos = Location(pointsInsideScc[0], pointsInsideScc[1]);
+				// 	// G_Vertex[currentNode].insert(getSpatialGridField(pos, LAYERS));
+				// 	G_Vertex[currentNode].insert(spatialGridMap[reachableNode].begin(), spatialGridMap[reachableNode].end());
+
+				// 	// Locations_Inside_G_Vertex[currentNode].push_back(pos);
+
+				// 	if (MBRInsideGVertex.count(currentNode) != 0){
+				// 			MBRInsideGVertex[currentNode].insertLoc(pos);
+				// 	} else {
+				// 		MBRInsideGVertex[currentNode] = MBR(pos);
+				// 	}
+				// }
 				if (this->G_Vertex.count(reachableNode) > 0){
 					currentNodeReachesSpatial = true;
 					for (int vertex : G_Vertex[reachableNode]){
-						G_Vertex[currentNode].insert(vertex);
-						for (Location  pos : Locations_Inside_G_Vertex[reachableNode])
-							Locations_Inside_G_Vertex[currentNode].push_back(pos);
+						if (G_Vertex[currentNode].size() <= MAX_REACH_GRIDS){
+							G_Vertex[currentNode].insert(vertex);
+						}else{
+							break;
+						}
+					}
+
+					if (MBRInsideGVertex.count(currentNode) != 0){
+						MBRInsideGVertex[currentNode].insertMBR(MBRInsideGVertex[reachableNode]);
+					} else {
+						MBRInsideGVertex[currentNode] = MBRInsideGVertex[reachableNode];
 					}
 				}
 			}
@@ -226,14 +305,16 @@ void RangeReachVertex::MergeGVertex(int MERGE_COUNT){
 }
 
 void RangeReachVertex::createRVertex(int MAX_REACH_GRIDS, LocationMap* spatialGraph){
+	cout << "Create R Vertex" << endl;
 	vector<int> GVerticesToErase;
 	for (unordered_map<int,unordered_set<int>>::iterator iter = G_Vertex.begin(); iter != G_Vertex.end(); iter++) {
 		int node = iter->first;
 		if (iter->second.size() > MAX_REACH_GRIDS){
 			R_Vertex[node] = MBR();
-			for (Location pos : this->Locations_Inside_G_Vertex[node]) {
-				R_Vertex[node].insertLoc(pos);
-			}
+			R_Vertex[node] = MBRInsideGVertex[node];
+			// for (Location pos : this->Locations_Inside_G_Vertex[node]) {
+			// 	R_Vertex[node].insertLoc(pos);
+			// }
 			GVerticesToErase.push_back(node);
 		}
 	}
@@ -242,6 +323,8 @@ void RangeReachVertex::createRVertex(int MAX_REACH_GRIDS, LocationMap* spatialGr
 }
 
 void RangeReachVertex::createBVertex(float MAX_RMBR, float totalSize){
+	cout << "Create B Vertex" << endl;
+
 	vector<int> RVerticesToDelete;
 
 	for (unordered_map<int, MBR>::iterator it = R_Vertex.begin(); it != R_Vertex.end(); it++) 
@@ -304,7 +387,6 @@ bool RangeReachVertex::SpaReachQuery(int sourceNode, box queryWindow, Graph* soc
 	while(!Q.empty()){
 
 		int curr_node = Q.front();
-		cout << sourceNode << " " << curr_node << endl;
 		Q.pop();
 		if (curr_node != node || socialGraph->SuperConnectedComponents.count(curr_node) != 0){
 			if(spatialGraph->existLocation(curr_node)){

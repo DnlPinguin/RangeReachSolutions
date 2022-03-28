@@ -40,7 +40,7 @@ int main(int argc, char **argv){
     SocialGeoGraph.createSpanningTree();
 	SocialGeoGraph.createPostorderTraversal(filename);
     string filepath=  "./data/interval_scheme/" + filename + "_interval_scheme_";
-    SocialGeoGraph.graphPropagation(filepath, false, &LocationGraph);
+    SocialGeoGraph.graphPropagation(filepath, false, &LocationGraph, false);
 	intervalConstructionTime = clock.stop();
 
 
