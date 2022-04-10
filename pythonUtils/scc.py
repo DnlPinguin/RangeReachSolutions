@@ -30,21 +30,27 @@ def construct_super_nodes_on_graph(file_name):
     node_belongs_to_scc = {}
     scc_file = open(
         "./data/processed/{}_strongly_connected_components".format(file_name), "w")
-        
+    counter = 0
+
     for super_connected_component in scc:
+        counter = counter + 1 
+        if counter % 500 == 0:
+            print(counter)
+
         super_connected_component = list(super_connected_component)
         if (len(super_connected_component) > 1):
             max_node = max_node + 1
             scc_dict[max_node] = super_connected_component
-            line = str(max_node)
+            scc_file.write(str(max_node))
             for i in super_connected_component:
-                line += "\t" + str(i)
+                scc_file.write("\t" + str(i))
                 node_belongs_to_scc[i] = max_node
-            line += "\n"
-            scc_file.write(line)
+            scc_file.write("\n")
+        del(super_connected_component)
+
 
     scc_file.close()
-    del(super_connected_component)
+    del(scc)
     print("scc dicts created")
 
     #reduce graph to reduced scheme

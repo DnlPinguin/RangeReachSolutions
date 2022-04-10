@@ -111,7 +111,13 @@ void RangeReachVertex::createGVertex(Graph* socialGraph, LocationMap* locationGr
 	unordered_map<int, vector<int>> spatialGridMap;
 	
 	cout << "Create Grid Ids" << endl;
+	int counter = 0;
 	for (unordered_map<int, spatialMbrRelation>::iterator iter = locationGraph->Map.begin();iter != locationGraph->Map.end(); iter++){
+		counter++;
+		if (counter % 15000 == 0){
+            cout << counter <<  " / " << locationGraph->Map.size() <<  "    " << (((float)counter / (float)locationGraph->Map.size()) * 100)  << "%" << endl;
+        }
+
 		if (iter->second.isMbr){
 			spatialGridMap[iter->first] = {};
 			for (int i = 4; i < iter->second.spatialData.size() - 1; i += 2){
@@ -125,13 +131,13 @@ void RangeReachVertex::createGVertex(Graph* socialGraph, LocationMap* locationGr
 			spatialGridMap[iter->first] =  {getSpatialGridField(pos, LAYERS)};
 		}
 	}
-	int size = topologicalOrderedVertices.size();
-	int counter = 0;
 
+	int size = topologicalOrderedVertices.size();
+	counter = 0;
+	cout << "Calculate G_Vertex" << endl;
 	for (int iter = size; iter >= 0; iter--){
 		int currentNode = topologicalOrderedVertices[iter];	
 		bool currentNodeReachesSpatial = false;
-        counter++;
         if (counter % 15000 == 0){
             cout << counter <<  " / " << size <<  "    " << (((float)counter / (float)size) * 100)  << "%" << endl;
         }

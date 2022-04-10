@@ -5,9 +5,9 @@ int main(int argc, char **argv){
     string queryFile = argv[2];
 
     bool runHybrid = false;
-    bool runSpatial = true;
-    bool runSocial = false;
-    bool runRangeReach = false;
+    bool runSpatial = false;
+    bool runSocial = true;
+    bool runRangeReach = true;
 
     system(("Executables/runBreadthFirstQuery " + filename + " " + queryFile).c_str());
 
@@ -25,14 +25,14 @@ int main(int argc, char **argv){
     if (runSpatial)
     {
         cout << "Run spatial first" << endl;
-        // system(("Executables/runSpatialFirst " + filename + " strict points noBfl " + queryFile).c_str());
-        // system(("Executables/runSpatialFirst " + filename + " strict mbr noBfl " + queryFile).c_str());
+        system(("Executables/runSpatialFirst " + filename + " strict points noBfl " + queryFile).c_str());
+        system(("Executables/runSpatialFirst " + filename + " strict mbr noBfl " + queryFile).c_str());
         system(("Executables/runSpatialFirst " + filename + " sequential mbr noBfl " + queryFile).c_str());
         system(("Executables/runSpatialFirst " + filename + " sequential points noBfl " + queryFile).c_str());
-        // system(("Executables/runSpatialFirst " + filename + " strict points bfl " + queryFile).c_str());
-        // system(("Executables/runSpatialFirst " + filename + " strict mbr bfl " + queryFile).c_str());
-        // system(("Executables/runSpatialFirst " + filename + " sequential mbr bfl " + queryFile).c_str());
-        // system(("Executables/runSpatialFirst " + filename + " sequential points bfl " + queryFile).c_str());
+        system(("Executables/runSpatialFirst " + filename + " strict points bfl " + queryFile).c_str());
+        system(("Executables/runSpatialFirst " + filename + " strict mbr bfl " + queryFile).c_str());
+        system(("Executables/runSpatialFirst " + filename + " sequential mbr bfl " + queryFile).c_str());
+        system(("Executables/runSpatialFirst " + filename + " sequential points bfl " + queryFile).c_str());
     }
 
     if (runSocial)

@@ -239,12 +239,12 @@ bool Graph::reachNode(int nodeOne, int nodeTwo) {
 
     for (auto it : IntervalSchemeGraphMap[nodeTwo]) 
     {
-        if (nodeOne == 32 || nodeOne == 5138){
-            cout << nodeOne << " " << nodeTwo << " " << postOrderWithIndex[nodeOne] << " " << it.pre << " " << it.post << endl;
-        }
+        // if (nodeOne == 32 || nodeOne == 5138){
+        //     cout << nodeOne << " " << nodeTwo << " " << postOrderWithIndex[nodeOne] << " " << it.pre << " " << it.post << endl;
+        // }
         if (postOrderWithIndex[nodeOne] >= it.pre && postOrderWithIndex[nodeOne] <= it.post)
         {
-            cout << "return true" << endl;
+            // cout << "return true" << endl;
             return true;
         }
     }
@@ -367,6 +367,7 @@ void Graph::getAllParents(int root, unordered_set<int>* ancestors)
         Q.pop();
         if (this->AllEdgesGoingIntoKeyNode.count(currnode) != 0)
         {
+            
             alreadyVisited[currnode] = true;
             ancestors->insert(AllEdgesGoingIntoKeyNode[currnode]->begin(), AllEdgesGoingIntoKeyNode[currnode]->end());
             for (unordered_set<int>::iterator t = AllEdgesGoingIntoKeyNode[currnode]->begin(); t != AllEdgesGoingIntoKeyNode[currnode]->end(); t++)
@@ -718,46 +719,89 @@ double Graph::graphPropagation(string filepath,bool createReverseScheme, Locatio
     clock.start();
 
     int t = 0;
-    #pragma omp parallel for schedule(static)
-    for(int i = postOrder.size() - 1; i >= 0; i--)
-    {   
-        t++;
-        if (t % 15000 == 0){
-            cout << t <<  " / " << postOrder.size() <<  "    " << (((float)t / (float)postOrder.size()) * 100)  << "%" << endl;
-        }
-        unordered_set<int> Ancestors;
-        createReverseScheme ? getAllChildren(postOrder[i], &Ancestors) : getAllParents(postOrder[i], &Ancestors);
-        this->AllEdgesGoingIntoKeyNode[postOrder[i]] = &Ancestors;
-        vector<IntervalScheme> newCompressedIntervalScheme;
-        boost::dynamic_bitset<> IntervalBitsetArray(postOrder.size() + 2);
-        for (unordered_set<int>::iterator node = Ancestors.begin(); node != Ancestors.end(); node++)
-        {
-            IntervalBitsetArray[postOrderWithIndex[*node]] = 1;
-        }
-        int pre = 0;
-        int post = 0;
-        for (boost::dynamic_bitset<>::size_type bit = 1; bit < IntervalBitsetArray.size() - 1; bit++) {
-            if (IntervalBitsetArray[bit] == 1 && IntervalBitsetArray[(bit - 1)] == 0) {
-                pre = bit;
+
+
+    if (createReverseScheme){
+        #pragma omp parallel for schedule(static)
+        for(int i = postOrder.size()- 1; i >= 0 ; i--){
+            t++;
+            if (t % 15000 == 0)
+                cout << t <<  " / " << postOrder.size() <<  "    " << (((float)t / (float)postOrder.size()) * 100)  << "%" << endl;
+
+            unordered_set<int> Ancestors;
+            getAllChildren(postOrder[i], &Ancestors);
+            this->AllEdgesGoingIntoKeyNode[postOrder[i]] = &Ancestors;
+            vector<IntervalScheme> newCompressedIntervalScheme;
+            boost::dynamic_bitset<> IntervalBitsetArray(postOrder.size() + 2);
+            for (unordered_set<int>::iterator node = Ancestors.begin(); node != Ancestors.end(); node++)
+            {
+                IntervalBitsetArray[postOrderWithIndex[*node]] = 1;
             }
-            if (IntervalBitsetArray[bit] == 1 && IntervalBitsetArray[(bit + 1)] == 0) {
-                post = bit;
-                newCompressedIntervalScheme.push_back(IntervalScheme(pre, post));
+            int pre = 0;
+            int post = 0;
+            for (boost::dynamic_bitset<>::size_type bit = 1; bit < IntervalBitsetArray.size() - 1; bit++) {
+                if (IntervalBitsetArray[bit] == 1 && IntervalBitsetArray[(bit - 1)] == 0) {
+                    pre = bit;
+                }
+                if (IntervalBitsetArray[bit] == 1 && IntervalBitsetArray[(bit + 1)] == 0) {
+                    post = bit;
+                    newCompressedIntervalScheme.push_back(IntervalScheme(pre, post));
+                }
             }
-        }
-    
-        // this->IntervalSchemeGraphMap[postOrder[i]] = newCompressedIntervalScheme;
-        if (writeAfterEveryIteration){
-            string entry;
-            entry = to_string(postOrder[i]);
-            for (vector<IntervalScheme>::iterator interval = newCompressedIntervalScheme.begin(); interval != newCompressedIntervalScheme.end(); interval++){
-                entry = entry + "\t" + to_string(interval->pre) + "\t" + to_string(interval->post);
+        
+            // this->IntervalSchemeGraphMap[postOrder[i]] = newCompressedIntervalScheme;
+            if (writeAfterEveryIteration){
+                string entry;
+                entry = to_string(postOrder[i]);
+                for (vector<IntervalScheme>::iterator interval = newCompressedIntervalScheme.begin(); interval != newCompressedIntervalScheme.end(); interval++){
+                    entry = entry + "\t" + to_string(interval->pre) + "\t" + to_string(interval->post);
+                }
+                entry = entry + "\n";
+                #pragma omp critical
+                    file << entry;
             }
-            entry = entry + "\n";
-            #pragma omp critical
-                file << entry;
         }
 
+    }else{
+        #pragma omp parallel for schedule(static)
+        for(int i = 0; i < postOrder.size(); i++){
+            t++;
+            if (t % 15000 == 0)
+                cout << t <<  " / " << postOrder.size() <<  "    " << (((float)t / (float)postOrder.size()) * 100)  << "%" << endl;
+            unordered_set<int> Ancestors;
+            getAllParents(postOrder[i], &Ancestors);
+            this->AllEdgesGoingIntoKeyNode[postOrder[i]] = &Ancestors;
+            vector<IntervalScheme> newCompressedIntervalScheme;
+            boost::dynamic_bitset<> IntervalBitsetArray(postOrder.size() + 2);
+            for (unordered_set<int>::iterator node = Ancestors.begin(); node != Ancestors.end(); node++)
+            {
+                IntervalBitsetArray[postOrderWithIndex[*node]] = 1;
+            }
+            int pre = 0;
+            int post = 0;
+            for (boost::dynamic_bitset<>::size_type bit = 1; bit < IntervalBitsetArray.size() - 1; bit++) {
+                if (IntervalBitsetArray[bit] == 1 && IntervalBitsetArray[(bit - 1)] == 0) {
+                    pre = bit;
+                }
+                if (IntervalBitsetArray[bit] == 1 && IntervalBitsetArray[(bit + 1)] == 0) {
+                    post = bit;
+                    newCompressedIntervalScheme.push_back(IntervalScheme(pre, post));
+                }
+            }
+        
+            // this->IntervalSchemeGraphMap[postOrder[i]] = newCompressedIntervalScheme;
+            if (writeAfterEveryIteration){
+                string entry;
+                entry = to_string(postOrder[i]);
+                for (vector<IntervalScheme>::iterator interval = newCompressedIntervalScheme.begin(); interval != newCompressedIntervalScheme.end(); interval++){
+                    entry = entry + "\t" + to_string(interval->pre) + "\t" + to_string(interval->post);
+                }
+                entry = entry + "\n";
+                #pragma omp critical
+                    file << entry;
+            }
+
+        }
     }
 
     double creationTime = clock.stop();

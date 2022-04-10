@@ -20,7 +20,7 @@ bool spatialFirstQuery(Graph* SocialGraph, bgi::rtree<SpatialNode, bgi::linear<1
 
 bool spatialFirstQueryWithMbr(LocationMap* spatialGraph, Graph* socialGraph, bgi::rtree<SccWithMbr, bgi::linear<16>>* rTree, vector<queryParameter>::iterator queryParam, spatialFirstResult* statistics)
 {
-    cout << "run Query: " << queryParam->queryNode << endl;;
+    // cout << "run Query: " << queryParam->queryNode << endl;;
     int node = queryParam->queryNode;
     box spatialRegion = queryParam->spatialRegion;
 
@@ -31,7 +31,7 @@ bool spatialFirstQueryWithMbr(LocationMap* spatialGraph, Graph* socialGraph, bgi
         int currnode = it->second.second;
         int isMbr = it->second.first;
 
-        cout << queryParam->queryNode << " " << currnode << endl;
+        // cout << queryParam->queryNode << " " << currnode << endl;
         pair<int, int> currnodePair = it->second;
         if (!isMbr) {
             if (socialGraph->reachNode(node, currnode)) {

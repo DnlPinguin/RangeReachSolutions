@@ -75,7 +75,7 @@ def plot_hist2d(file_name):
     plt.show()
 
 
-# plot_hist2d("foursquare")
+plot_hist2d("foursquare_na")
 
 #plot_histogramm_degree("foursquare")
-plot_histogramm_cardinality("foursquare")
+# plot_histogramm_cardinality("foursquare")
