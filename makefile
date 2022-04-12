@@ -15,7 +15,7 @@ endif
 SOURCES = Structures/IntervalScheme.cpp Spatial/Location.cpp Spatial/LocationMap.cpp Spatial/MBR.cpp Queries/helper.cpp Queries/hybridQueries.cpp Queries/socialQueries.cpp Queries/spatialQueries.cpp GeoReach/RangeReach.cpp FileOperations/fileLoading.cpp Graph/graph.cpp Spatial/rTree.cpp Helper/clock.cpp Helper/utility.cpp Structures/boostTypes.cpp bfl/bfl.cpp 
 OBJECTS = $(SOURCES:.cpp=.o)
 
-all:  createIntervalScheme #createHybrid createQueries createRangeReach createSocialFirst createSpatialFirst runBreadthFirstQuery runHybrid runQueries runRangeReach runSocialFirst runSpatialFirst
+all:  createIntervalScheme createHybrid createQueries createRangeReach createSocialFirst createSpatialFirst runBreadthFirstQuery runHybrid runQueries runRangeReach runSocialFirst runSpatialFirst
 
 createIntervalScheme: $(OBJECTS)
 	$(CC) $(CFLAGS) $(LDFLAGS) $(OBJECTS) createIntervalScheme.cpp -o Executables/createIntervalScheme $(LDADD)
