@@ -1460,6 +1460,8 @@ void Graph::createBflFileForQuerying(string filename){
     string filepathForBflId = "./data/bfl/" + filename + "_bfl_id";
 
     int counter = 0;
+   
+
     for (auto adjacency_list : GraphScheme)
     {
         int u = adjacency_list.first;
@@ -1488,16 +1490,48 @@ void Graph::createBflFileForQuerying(string filename){
     file << "graph_for_greach \n";
     file << this->V.size()  << "\n";
 
-    unordered_map<int,vector<int>>::iterator graphIterator;
-    for (graphIterator = this->GraphScheme.begin(); graphIterator != this->GraphScheme.end(); graphIterator++){
-        int u = nodeToBflIdentifier[graphIterator->first];
-        string line = to_string(u) + ":"; 
 
+     map<int,set<int>> sortedGraphScheme;
+
+    
+    for (unordered_map<int,vector<int>>::iterator graphIterator = this->GraphScheme.begin(); graphIterator != this->GraphScheme.end(); graphIterator++){
+        int u = nodeToBflIdentifier[graphIterator->first];
         for (int v : graphIterator->second){
-            v = nodeToBflIdentifier[v];
-            line += " " + to_string(v);
+            sortedGraphScheme[u].insert(nodeToBflIdentifier[v]);
         }
+    }
+
+    for (unordered_map<int,vector<int>>::iterator graphIterator = this->GraphScheme.begin(); graphIterator != this->GraphScheme.end(); graphIterator++){
+        int u = nodeToBflIdentifier[graphIterator->first];
+        queue<int> Q;
+        Q.push(graphIterator->first);
+        set<int> orderedBFlVertices;
+        while (!Q.empty()){
+            int curr = Q.front();
+            Q.pop();
+            for (int v : this->GraphScheme[curr]){
+                Q.push(v);
+                // sortedGraphScheme[u].insert(nodeToBflIdentifier[v]);
+                orderedBFlVertices.insert(nodeToBflIdentifier[v]);
+            }
+        }
+        string line = to_string(u) + ":"; 
+        for (int v : orderedBFlVertices)
+            line += " " + to_string(v);
         line += "#\n";
         file << line;
     }
+
+    // for (map<int,set<int>>::iterator graphIterator = sortedGraphScheme.begin(); graphIterator != sortedGraphScheme.end(); graphIterator++){
+    //     // int u = nodeToBflIdentifier[graphIterator->first];
+    //     // string line = to_string(u) + ":"; 
+    //     string line = to_string(graphIterator->first) + ":"; 
+
+    //     for (int v : graphIterator->second){
+    //         // v = nodeToBflIdentifier[v];
+    //         line += " " + to_string(v);
+    //     }
+    //     line += "#\n";
+    //     file << line;
+    // }
 }

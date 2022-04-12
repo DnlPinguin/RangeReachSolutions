@@ -3,7 +3,7 @@ ifeq ($(OS),Darwin)
         #CC      = /usr/local/opt/llvm/bin/clang++
         #CFLAGS  = -O3 -mavx -std=c++14 -w -march=native -I/usr/local/opt/llvm/include -fopenmp
         #LDFLAGS = -L/usr/local/opt/llvm/lib
-	CC	= /usr/local/bin/g++-7
+	CC	= /usr/local/bin/g++-ls
         CFLAGS  = -O3 -mavx -std=c++17 -w -march=native -fopenmp
         LDFLAGS =
 else
@@ -15,7 +15,7 @@ endif
 SOURCES = Structures/IntervalScheme.cpp Spatial/Location.cpp Spatial/LocationMap.cpp Spatial/MBR.cpp Queries/helper.cpp Queries/hybridQueries.cpp Queries/socialQueries.cpp Queries/spatialQueries.cpp GeoReach/RangeReach.cpp FileOperations/fileLoading.cpp Graph/graph.cpp Spatial/rTree.cpp Helper/clock.cpp Helper/utility.cpp Structures/boostTypes.cpp bfl/bfl.cpp 
 OBJECTS = $(SOURCES:.cpp=.o)
 
-all:  createHybrid createIntervalScheme createQueries createRangeReach createSocialFirst createSpatialFirst runBreadthFirstQuery runHybrid runQueries runRangeReach runSocialFirst runSpatialFirst
+all:  createIntervalScheme #createHybrid createQueries createRangeReach createSocialFirst createSpatialFirst runBreadthFirstQuery runHybrid runQueries runRangeReach runSocialFirst runSpatialFirst
 
 createIntervalScheme: $(OBJECTS)
 	$(CC) $(CFLAGS) $(LDFLAGS) $(OBJECTS) createIntervalScheme.cpp -o Executables/createIntervalScheme $(LDADD)

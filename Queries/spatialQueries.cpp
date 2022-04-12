@@ -165,6 +165,7 @@ bool spatialFirstQueryUsingBfl(Graph* SocialGraph, bgi::rtree<SpatialNode, bgi::
     box spatialRegion = queryParam->spatialRegion;
     for (auto it = rTree->qbegin(bgi::intersects(spatialRegion)); it != rTree->qend(); ++it)
     {
+        cout << node << " => " << it->second << endl;
         int u,v;
         u = node;
         if (SocialGraph->NodeBelongsToSCC.count(node) != 0)

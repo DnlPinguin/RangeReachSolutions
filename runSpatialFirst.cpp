@@ -18,7 +18,6 @@ void runStrictSpatialFirstQueryUsingBfl(Graph* SocialGeoGraph, LocationMap* Loca
 	#endif
 
 	bfl_index_construction();
-	read_graph_for_bfl("./data/bfl/dummy_graph.sample");
 	
 	for (vector<queryParameter>::iterator it = queries->begin(); it != queries->end(); it++)
 	{
@@ -59,8 +58,7 @@ void runStrictSpatialFirstQueryUsingBflWithMbr(Graph* SocialGeoGraph, LocationMa
 	spatialFirstResult statistics;
 	
 	bfl_index_construction();
-	read_graph_for_bfl("./data/bfl/dummy_graph.sample");
-
+ 
 	for (vector<queryParameter>::iterator it = queries->begin(); it != queries->end(); it++)
 	{
 		vector<double> results;
@@ -97,7 +95,6 @@ void runSpatialFirstQueryUsingBfl(Graph* SocialGeoGraph, LocationMap* LocationGr
 	#endif
 
 	bfl_index_construction();
-	read_graph_for_bfl("./data/bfl/dummy_graph.sample");
 
 
 	for (vector<queryParameter>::iterator it = queries->begin(); it != queries->end(); it++)
@@ -138,7 +135,6 @@ void runSpatialFirstMbrQueryUsingBfl(Graph* SocialGeoGraph, LocationMap* Locatio
 	spatialFirstResult statistics;
 	
 	bfl_index_construction();
-	read_graph_for_bfl("./data/bfl/dummy_graph.sample");
 
 
 	for (vector<queryParameter>::iterator it = queries->begin(); it != queries->end(); it++)

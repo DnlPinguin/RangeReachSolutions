@@ -32,7 +32,7 @@ int main(int argc, char **argv){
         // system(("Executables/runSpatialFirst " + filename + " strict points bfl " + queryFile).c_str());
         // system(("Executables/runSpatialFirst " + filename + " strict mbr bfl " + queryFile).c_str());
         // system(("Executables/runSpatialFirst " + filename + " sequential mbr bfl " + queryFile).c_str());
-        // system(("Executables/runSpatialFirst " + filename + " sequential points bfl " + queryFile).c_str());
+        system(("Executables/runSpatialFirst " + filename + " sequential points bfl " + queryFile).c_str());
     }
 
     if (runSocial)

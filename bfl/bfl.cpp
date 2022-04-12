@@ -1,7 +1,7 @@
 #include "bfl.h"
 #include <iostream>
 #include <fstream>
-
+#include <set>
 
 
 using namespace std;
@@ -21,7 +21,7 @@ void read_graph_for_bfl(const char *filename) {
 
   nodes.resize(n);
   vector<vector<int>> N_O(n), N_I(n);
-
+  set<int> counter;
   for (;;) {
     int u, v;
     if (feof(file) || fscanf(file, "%d", &u) != 1) {
@@ -31,12 +31,14 @@ void read_graph_for_bfl(const char *filename) {
     while (!feof(file) && fscanf(file, "%d", &v) == 1) {
       N_O[u].push_back(v);
       N_I[v].push_back(u);
+      counter.insert(u);
+      counter.insert(v);
     }
     fgetc(file);
   }
   fclose(file);
   
-
+  cout << counter.size();
   for (int u = 0; u < n; u++) {
     nodes[u].N_O_SZ = N_O[u].size();
     nodes[u].N_O = new int[N_O[u].size()];
@@ -218,9 +220,9 @@ bool reach(node &u, node &v) {
 
 bool run_single_bfl_query(int source, int target){
   // read_graph_for_bfl("./data/bfl/dummy_graph.sample");
-  // bfl_index_construction();
-  // if (source == target) 
-  //   return false;
+  bfl_index_construction();
+
+  cout << source << " " << target << endl;
   return reach(nodes[source], nodes[target]);
 }
 

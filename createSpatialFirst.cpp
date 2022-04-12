@@ -5,16 +5,11 @@ int main(int argc, char **argv){
     string filename, approach, social_method,minimum_bounding_rectangles;
     int numberOfThreads;
     cout << "Enter filename: \n";
-    cin >> filename;
-    
-
- 
-
+    cin >> filename; 
 
     Timer clock, rTreeClock, stronglyConnectedComponentsClock;
 	Graph SocialGeoGraph;
 	LocationMap LocationGraph;
-
 
 
     double completeConstructionTime, rTreeConstructionTime, sccConstructiontime, intervalConstructionTime;
