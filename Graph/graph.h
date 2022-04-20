@@ -160,6 +160,7 @@ public:
     void readSuperConnectedComponents(string fileName);
     void createBflFileForQuerying(string filenName);
     void readBflForNodeIdentifer(string filePath);
+    void readTransitiveClosure(string filepath);
 };
 
 #endif
