@@ -1,6 +1,7 @@
 import networkx
 import numpy 
 import MinimumBoundingRectangle
+import time
 
 # Build Super Connected Components on existing graph.
 def construct_super_nodes_on_graph(file_name):
@@ -11,6 +12,7 @@ def construct_super_nodes_on_graph(file_name):
     graph_file = open(
         "./data/raw/{}_social".format(file_name), "r")
 
+    start = int(time.time())
     # read graph file
     max_node = -1
     counter = 0
@@ -19,24 +21,24 @@ def construct_super_nodes_on_graph(file_name):
         max_node = max(max_node, int(edge[0]), int(edge[1]))
         G.add_edge(int(edge[0]), int(edge[1]))
         counter = counter + 1
-        if (counter % 1000000 == 0):
+        if (counter % 3000000 == 0):
             print(counter, "edges read")
-    print("graph read")
     graph_file.close()
+    print("Graph copied into memory: ", int(time.time()) - start, " sec")
 
+    start = int(time.time())
     scc = networkx.strongly_connected_components(G)
-    print("scc constructed")
+    print("Scc construction: ", int(time.time()) - start, " sec")
+
     scc_dict = {}
     node_belongs_to_scc = {}
+
     scc_file = open(
         "./data/processed/{}_strongly_connected_components".format(file_name), "w")
     counter = 0
 
+    start = int(time.time())
     for super_connected_component in scc:
-        counter = counter + 1 
-        if counter % 500 == 0:
-            print(counter)
-
         super_connected_component = list(super_connected_component)
         if (len(super_connected_component) > 1):
             max_node = max_node + 1
@@ -48,11 +50,11 @@ def construct_super_nodes_on_graph(file_name):
             scc_file.write("\n")
         del(super_connected_component)
 
+    print("Copy scc to file: ", int(time.time()) - start, " sec")
 
     scc_file.close()
     del(scc)
-    print("scc dicts created")
-
+    start = int(time.time())
     #reduce graph to reduced scheme
     counter = 0    
     reduced_graph = {}
@@ -70,11 +72,13 @@ def construct_super_nodes_on_graph(file_name):
         counter = counter + 1
     del G
     
-    print("reduced_created")
+    print("Reduced scheme construction: " , int(time.time()) - start, " sec")
+   
     #write reduced scheme
     reduced_scheme_file = open(
         "./data/processed/{}_reduced_scheme".format(file_name), "w")
 
+    start = int(time.time())
     for key in reduced_graph:
         unique_list = numpy.unique(numpy.array(reduced_graph[key]))
         line = str(key)
@@ -83,10 +87,11 @@ def construct_super_nodes_on_graph(file_name):
         line += "\n"
         reduced_scheme_file.write(line)
         
-    print("reduced written")
+    print("Copy reduced scheme to file: ", int(time.time()) - start, " sec" )
     del reduced_graph
 
      # read spatial file
+    
     spatial_file = open(
         "./data/raw/{}_spatial".format(file_name), "r")
     spatial_dict = {}
@@ -99,6 +104,7 @@ def construct_super_nodes_on_graph(file_name):
     compressed_spatial_file = open(
         "./data/processed/{}_reduced_spatial_data".format(file_name), "w"
     )
+    start = int(time.time())
     compressed_spatial_dict = {}
     for spatial_node in spatial_dict:
         
@@ -113,7 +119,7 @@ def construct_super_nodes_on_graph(file_name):
     for i in compressed_spatial_dict:
         compressed_spatial_file.write(compressed_spatial_dict[i].createLineFormat(i))
 
-    print("compressed spatial created")
+    print("Compressed Spatial file created: ", int(time.time()) - start, " sec")
     return 
 
     
