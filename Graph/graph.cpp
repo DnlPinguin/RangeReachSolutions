@@ -706,7 +706,7 @@ double Graph::graphPropagation(string filepath,bool createReverseScheme, Locatio
     this->IntervalSchemeGraphMap.clear();
     this->AllEdgesGoingIntoKeyNode.clear();
     ofstream file;
-    filepath = filepath + "_test";
+    filepath = filepath;
     if (writeAfterEveryIteration){
         file.open(filepath);
     }

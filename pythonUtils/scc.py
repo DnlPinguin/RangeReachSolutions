@@ -3,6 +3,24 @@ import numpy
 import MinimumBoundingRectangle
 import time
 
+def check_dag(file_name):
+    G_G = networkx.DiGraph()
+    G_DAG = networkx.DiGraph()
+
+    graph_file_one = open(
+        "./data/raw/{}_social".format(file_name), "r")
+
+
+    for edge in graph_file_one:
+        edge = edge.replace("\n", "").split(",")
+        G_G.add_edge(int(edge[0]), int(edge[1]))
+
+    print("Graph read")
+
+
+    print("Is Graph Dag", networkx.is_directed_acyclic_graph(G_G))
+    print("Is Reduced Graph Dag", networkx.is_directed_acyclic_graph(G_DAG))
+
 # Build Super Connected Components on existing graph.
 def construct_super_nodes_on_graph(file_name):
 
