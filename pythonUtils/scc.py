@@ -43,11 +43,11 @@ def construct_super_nodes_on_graph(file_name):
     print("Graph copied into memory: ", int(time.time()) - start, " sec")
 
     start = int(time.time())
-    scc = networkx.strongly_connected_components(G)
-    print("Number of nodes: ", len(G))
-    print("Number of Sccs: ", networkx.number_strongly_connected_components(G))
+    scc = networkx.kosaraju_strongly_connected_components(G)
     print("Scc construction: ", int(time.time()) - start, " sec")
 
+    print("Number of nodes: ", len(G))
+    print("Number of Sccs: ", networkx.number_strongly_connected_components(G))
     scc_dict = {}
     node_belongs_to_scc = {}
 
