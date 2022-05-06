@@ -139,12 +139,18 @@ int main(int argc, char **argv){
     file.open("./data/queries/" + filename +"_queries");
 
     file << "node\tdegree\txLow\tyLow\txTop\tyLow\tarea\tcardinality" << endl;
+
+    int counter = 0;
     for (vector<float> i : areaBoxes){
         nodesInRegion = computeCardinality(&rtree, box(point(i[0], i[1]), point(i[2], i[3])));
 
         for (map<int,int>::iterator iter = queryNodes.begin(); iter != queryNodes.end(); iter++){
-        
             file << iter->first << "\t" << iter->second <<  "\t"<<  to_string(i[0]) << "\t" << to_string(i[1]) << "\t" << to_string(i[2]) << "\t" << to_string(i[3]) << "\t" << i[4] << "\t" << nodesInRegion << endl;
+            counter++;
+        }
+
+        if (counter > 10000){
+            break;
         }
     }
     file.close();

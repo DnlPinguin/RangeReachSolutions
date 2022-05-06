@@ -5,7 +5,6 @@ import time
 
 def check_dag(file_name):
     G_G = networkx.DiGraph()
-    G_DAG = networkx.DiGraph()
 
     graph_file_one = open(
         "./data/raw/{}_social".format(file_name), "r")
@@ -19,7 +18,6 @@ def check_dag(file_name):
 
 
     print("Is Graph Dag", networkx.is_directed_acyclic_graph(G_G))
-    print("Is Reduced Graph Dag", networkx.is_directed_acyclic_graph(G_DAG))
 
 # Build Super Connected Components on existing graph.
 def construct_super_nodes_on_graph(file_name):
@@ -46,6 +44,8 @@ def construct_super_nodes_on_graph(file_name):
 
     start = int(time.time())
     scc = networkx.strongly_connected_components(G)
+    print("Number of nodes: ", len(G))
+    print("Number of Sccs: ", networkx.number_strongly_connected_components(G))
     print("Scc construction: ", int(time.time()) - start, " sec")
 
     scc_dict = {}
