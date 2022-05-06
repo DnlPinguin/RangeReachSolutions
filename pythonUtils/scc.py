@@ -9,14 +9,17 @@ def check_dag(file_name):
     graph_file_one = open(
         "./data/raw/{}_social".format(file_name), "r")
 
-
+    counter = 0
     for edge in graph_file_one:
         edge = edge.replace("\n", "").split(",")
         G_G.add_edge(int(edge[0]), int(edge[1]))
+        counter = counter + 1
+        if (counter % 3000000 == 0):
+            print(counter, "edges read")
 
     print("Graph read")
 
-
+    print("Is Graph Connected", networkx.is_strongly_connected(G))
     print("Is Graph Dag", networkx.is_directed_acyclic_graph(G_G))
 
 # Build Super Connected Components on existing graph.
