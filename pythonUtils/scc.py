@@ -19,8 +19,12 @@ def check_dag(file_name):
 
     print("Graph read")
 
-    print("Is Graph Connected", networkx.is_strongly_connected(G))
-    print("Is Graph Dag", networkx.is_directed_acyclic_graph(G_G))
+    print("Is Graph strongly connected ", networkx.is_strongly_connected(G_G))
+    print("Is Graph weakly connected ", networkx.is_weakly_connected(G_G))
+    print("Number of weakly connected components ", networkx.number_weakly_connected_components(G_G))
+    print("Number of strongly connected components: ", networkx.number_strongly_connected_components(G_G))
+    print("Number of nodes: ", len(G_G))
+    print("Is Graph Dag ", networkx.is_directed_acyclic_graph(G_G))
 
 # Build Super Connected Components on existing graph.
 def construct_super_nodes_on_graph(file_name):
