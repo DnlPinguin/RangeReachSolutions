@@ -24,7 +24,8 @@ def check_dag(file_name):
     wcc = networkx.weakly_connected_components(G_G)
     for super_connected_component in wcc:
         super_connected_component = list(super_connected_component)
-        print(len(super_connected_component))
+        print(len(super_connected_component), end=" ")
+
         # max_node = max_node + 1
         # scc_dict[max_node] = super_connected_component
         # scc_file.write(str(max_node))
@@ -33,6 +34,7 @@ def check_dag(file_name):
         #         node_belongs_to_scc[i] = max_node
         #     scc_file.write("\n")
         # del(super_connected_component)
+    print()
     print("Number of weakly connected components ", networkx.number_weakly_connected_components(G_G))
     print("Number of strongly connected components: ", networkx.number_strongly_connected_components(G_G))
     print("Number of nodes: ", len(G_G))
