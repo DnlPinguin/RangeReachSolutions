@@ -73,8 +73,8 @@ def check_dag(file_name):
 
     print("Graph read")
 
-    # print("Is Graph strongly connected ", networkx.is_strongly_connected(G_G))
-    # print("Is Graph weakly connected ", networkx.is_weakly_connected(G_G))
+    print("Is Graph strongly connected ", networkx.is_strongly_connected(G_G))
+    print("Is Graph weakly connected ", networkx.is_weakly_connected(G_G))
     wcc = networkx.weakly_connected_components(G_G)
     for super_connected_component in wcc:
         super_connected_component = list(super_connected_component)
