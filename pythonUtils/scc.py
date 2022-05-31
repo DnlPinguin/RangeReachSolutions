@@ -30,7 +30,7 @@ def create_greateast_weakyl_connected_component(file_name):
     print("biggest wcc found")
     biggest_wcc = set(biggest_wcc)
     graph_file_wcc = open(
-        "./data/raw/{}_social_wcc".format(file_name), "w")
+        "./data/raw/{}_wcc_social".format(file_name), "w")
     
     for edge in G.edges:
         if (edge[0] in biggest_wcc and edge[1] in biggest_wcc):
@@ -41,7 +41,7 @@ def create_greateast_weakyl_connected_component(file_name):
     print("wcc graph file written")
 
     spatial_file_wcc = open(
-        "./data/raw/{}_spatial_wcc".format(file_name), "w")
+        "./data/raw/{}_wcc_spatial".format(file_name), "w")
     
     spatial_file = open(
         "./data/raw/{}_spatial".format(file_name), "r")
