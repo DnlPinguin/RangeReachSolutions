@@ -12,7 +12,7 @@ else
         LDFLAGS =
 endif
 
-SOURCES = Structures/IntervalScheme.cpp Spatial/Location.cpp Spatial/LocationMap.cpp Spatial/MBR.cpp Queries/helper.cpp Queries/hybridQueries.cpp Queries/socialQueries.cpp Queries/spatialQueries.cpp GeoReach/RangeReach.cpp FileOperations/fileLoading.cpp Graph/graph.cpp Spatial/rTree.cpp Helper/clock.cpp Helper/utility.cpp Structures/boostTypes.cpp bfl/bfl.cpp 
+SOURCES = Queries/hybridQueries.cpp Structures/IntervalScheme.cpp Spatial/Location.cpp Spatial/LocationMap.cpp Spatial/MBR.cpp Queries/helper.cpp  Queries/socialQueries.cpp Queries/spatialQueries.cpp GeoReach/RangeReach.cpp FileOperations/fileLoading.cpp Graph/graph.cpp Spatial/rTree.cpp Helper/clock.cpp Helper/utility.cpp Structures/boostTypes.cpp bfl/bfl.cpp 
 OBJECTS = $(SOURCES:.cpp=.o)
 
 all:  createIntervalScheme createHybrid createQueries createRangeReach createSocialFirst createSpatialFirst createTransitiveClosure createBflStructure runBreadthFirstQuery runHybrid runQueries runRangeReach runSocialFirst runSpatialFirst
