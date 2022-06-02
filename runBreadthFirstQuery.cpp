@@ -22,7 +22,7 @@ bool runBfsQuery(Graph* SocialGeoGraph, LocationMap* LocationGraph, int queryNod
                     {
                         if (LocationGraph->LocationScheme.count(component_node) != 0){
                             if (queryWindow.containsPoint(LocationGraph->LocationScheme[component_node])){
-                                cout << "bfs mbr " << queryNode << " " << component_node << endl;
+                                // cout << "bfs mbr " << queryNode << " " << component_node << endl;
                                 return true;
                             }
                         }
@@ -31,7 +31,7 @@ bool runBfsQuery(Graph* SocialGeoGraph, LocationMap* LocationGraph, int queryNod
                 else 
                 {
                     if (queryWindow.containsPoint(LocationGraph->LocationScheme[curr_node])){
-                        cout << "bfs "  << queryNode << " " << curr_node << endl;
+                        // cout << "bfs "  << queryNode << " " << curr_node << endl;
                         return true;
                     }
                 }
@@ -51,6 +51,14 @@ string getFileName(){
 	return input;
 }
 
+string getQueryFileName(){
+	cout << "Enter query filename:";
+	string input;
+	cin >> input;
+	return input;
+}
+
+
 int main(int argc, char **argv) {
     string superFile, queryFile;
 	if (argc == 3){
@@ -58,8 +66,10 @@ int main(int argc, char **argv) {
         queryFile = argv[2];
 	} else {
 		superFile = getFileName();
-	}
+		queryFile = getQueryFileName();
 
+	}
+    cout << superFile << " " << queryFile << endl; 
 	string outputFile = "./data/results/" + superFile + "_bfs";
 	vector<queryParameter> queries = readQueries("./data/queries/" + queryFile);
 

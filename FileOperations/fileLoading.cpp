@@ -200,6 +200,8 @@ vector<queryParameter> readQueries(string filePath)
     queryFile.open(filePath);
     if (queryFile.is_open()) {
         cout << "file is open \n";
+        string str;
+        getline(queryFile, str);
         while (queryFile >> node >> degree >> xMin >> yMin >> xMax >> yMax >> area >> cardinality) {
             box spatial = box(point(xMin, yMin), point(xMax, yMax));
             queries.push_back(

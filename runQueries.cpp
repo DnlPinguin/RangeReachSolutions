@@ -5,7 +5,7 @@ int main(int argc, char **argv){
     string queryFile = argv[2];
 
     bool runHybrid = false;
-    bool runSpatial = true;
+    bool runSpatial = false;
     bool runSocial = false;
     bool runRangeReach = false;
 

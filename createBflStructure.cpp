@@ -41,7 +41,7 @@ int main(int argc, char **argv){
             counter++;
         }
         fileGraph << SocialGeoGraph.nodeToBflIdentifier[source] << ":";
-
+        
         for (int target : SocialGeoGraph.GraphScheme[source]){
             if (SocialGeoGraph.nodeToBflIdentifier.count(target) == 0){
                 SocialGeoGraph.nodeToBflIdentifier[target] = counter;

@@ -147,11 +147,13 @@ int main(int argc, char **argv){
         for (map<int,int>::iterator iter = queryNodes.begin(); iter != queryNodes.end(); iter++){
             file << iter->first << "\t" << iter->second <<  "\t"<<  to_string(i[0]) << "\t" << to_string(i[1]) << "\t" << to_string(i[2]) << "\t" << to_string(i[3]) << "\t" << i[4] << "\t" << nodesInRegion << endl;
             counter++;
+            if (counter > 100){
+                counter = 0;
+                break;
+            }
         }
 
-        if (counter > 10000){
-            break;
-        }
+
     }
     file.close();
     return 0;
