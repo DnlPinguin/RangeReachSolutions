@@ -23,7 +23,11 @@ int main(int argc, char** argv)
 
 	method = getApproachMethod();
 
-		
+	if (method == "parallel"){
+		cout << "Specifiy number of threads \n";
+		cin >> num_of_threads_input;
+		omp_set_num_threads(stoi(num_of_threads_input));		
+	}
 
 	string contrustructionTime; 
 
@@ -56,9 +60,7 @@ int main(int argc, char** argv)
 
 	if (method == "parallel")
 	{
-		cout << "Specifiy number of threads \n";
-		cin >> num_of_threads_input;
-        omp_set_num_threads(stoi(num_of_threads_input));
+
 		double timeParallel = SocialGeoGraph.graphPropagation("./data/interval_scheme/" + filename + "_interval_scheme", false, &LocationGraph, true);
 		double timeParallelReverse = SocialGeoGraph.graphPropagation("./data/interval_scheme/" + filename + "_interval_scheme_reverse", true, &LocationGraph, true);
 	}
