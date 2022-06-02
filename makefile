@@ -67,6 +67,6 @@ createBflStructure: $(OBJECTS)
 
 
 clean:
-	rm -rf *.o
+	rm -rf */*.o
 	rm -rf run
 	#rm -rf create
