@@ -1,0 +1,605 @@
+make all --print-data-base --no-builtin-variables --no-builtin-rules --question
+# GNU Make 4.2.1
+# Built for x86_64-pc-linux-gnu
+# Copyright (C) 1988-2016 Free Software Foundation, Inc.
+# License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+# This is free software: you are free to change and redistribute it.
+# There is NO WARRANTY, to the extent permitted by law.
+
+# Make data base, printed on Fri Jun 24 21:16:01 2022
+
+# Variables
+
+# 'override' directive
+GNUMAKEFLAGS := 
+# automatic
+<D = $(patsubst %/,%,$(dir $<))
+# automatic
+?F = $(notdir $?)
+# environment
+DESKTOP_SESSION = ubuntu
+# default
+.SHELLFLAGS := -c
+# environment
+XDG_SESSION_CLASS = user
+# environment
+SNAP_COMMON = /var/snap/code/common
+# environment
+XDG_SESSION_TYPE = x11
+# environment
+VSCODE_LOG_NATIVE = false
+# automatic
+?D = $(patsubst %/,%,$(dir $?))
+# automatic
+@D = $(patsubst %/,%,$(dir $@))
+# environment
+XAUTHORITY = /run/user/1000/gdm/Xauthority
+# environment
+GDMSESSION = ubuntu
+# environment
+XMODIFIERS = @im=ibus
+# makefile
+CURDIR := /home/danielkowalski/RangeReachCode
+# makefile
+SHELL = /bin/sh
+# environment
+SNAP_DATA = /var/snap/code/95
+# environment
+VTE_VERSION = 6003
+# environment
+VSCODE_NLS_CONFIG = {"locale":"en-us","availableLanguages":{},"_languagePackSupport":true}
+# environment
+JOURNAL_STREAM = 8:29415
+# makefile (from 'makefile', line 11)
+CFLAGS = -O3 -mavx -std=c++17 -w -march=native -fopenmp
+# environment
+XDG_CONFIG_DIRS = /etc/xdg/xdg-ubuntu:/etc/xdg
+# environment
+SNAP_INSTANCE_NAME = code
+# environment
+SNAP_ARCH = amd64
+# makefile (from 'makefile', line 1)
+MAKEFILE_LIST :=  makefile
+# automatic
+@F = $(notdir $@)
+# environment
+IM_CONFIG_PHASE = 1
+# environment
+USERNAME = danielkowalski
+# makefile (from 'makefile', line 15)
+SOURCES = Queries/hybridQueries.cpp Structures/IntervalScheme.cpp Spatial/Location.cpp Spatial/LocationMap.cpp Spatial/MBR.cpp Queries/helper.cpp  Queries/socialQueries.cpp Queries/spatialQueries.cpp GeoReach/RangeReach.cpp FileOperations/fileLoading.cpp Graph/graph.cpp Spatial/rTree.cpp Helper/clock.cpp Helper/utility.cpp Structures/boostTypes.cpp bfl/bfl.cpp 
+# environment
+MAKELEVEL := 0
+# environment
+XDG_DATA_DIRS = /usr/share/ubuntu:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop
+# environment
+DBUS_SESSION_BUS_ADDRESS = unix:path=/run/user/1000/bus,guid=77bb04f66541b1f4e1345fb76298594f
+# environment
+VSCODE_VERBOSE_LOGGING = true
+# environment
+MANAGERPID = 1081
+# environment
+LESSOPEN = | /usr/bin/lesspipe %s
+# environment
+LC_NAME = de_DE.UTF-8
+# environment
+VSCODE_CWD = /home/danielkowalski/RangeReachCode
+# environment
+GSETTINGS_SCHEMA_DIR = /snap/code/95/usr/share/glib-2.0/schemas
+# default
+MAKE_HOST := x86_64-pc-linux-gnu
+# environment
+PATH = /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+# environment
+GPG_AGENT_INFO = /run/user/1000/gnupg/S.gpg-agent:0:1
+# environment
+SESSION_MANAGER = local/danielkowalski-VirtualBox:@/tmp/.ICE-unix/1365,unix/danielkowalski-VirtualBox:/tmp/.ICE-unix/1365
+# environment
+XDG_RUNTIME_DIR = /run/user/1000
+# environment
+GDK_PIXBUF_MODULE_FILE = /home/danielkowalski/snap/code/common/.cache/gdk-pixbuf-loaders.cache
+# environment
+SNAP = /snap/code/95
+# environment
+SNAP_VERSION = 57fd6d01
+# environment
+XDG_MENU_PREFIX = gnome-
+# environment
+VSCODE_LOG_STACK = false
+# environment
+DISABLE_WAYLAND = 1
+# environment
+ELECTRON_RUN_AS_NODE = 1
+# environment
+INVOCATION_ID = 8ada4f5541e147fabb4c3daa58caf3f9
+# makefile (from 'makefile', line 12)
+LDFLAGS = 
+# environment
+GDK_PIXBUF_MODULEDIR = /snap/code/95/usr/lib/x86_64-linux-gnu/gdk-pixbuf-2.0/2.10.0/loaders
+# default
+.FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell archives jobserver output-sync check-symlink load
+# environment
+LS_COLORS = rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:
+# environment
+XDG_SESSION_DESKTOP = ubuntu
+# environment
+SSH_AUTH_SOCK = /run/user/1000/keyring/ssh
+# automatic
+%F = $(notdir $%)
+# environment
+DISPLAY = :0
+# environment
+VSCODE_PIPE_LOGGING = true
+# environment
+SNAP_INSTANCE_KEY = 
+# environment
+PWD = /home/danielkowalski/RangeReachCode
+# default
+.LOADED := 
+# environment
+SSH_AGENT_PID = 1300
+# environment
+ORIGINAL_XDG_CURRENT_DESKTOP = ubuntu:GNOME
+# environment
+GTK_MODULES = gail:atk-bridge
+# environment
+VSCODE_AMD_ENTRYPOINT = vs/workbench/api/node/extensionHostProcess
+# environment
+HOME = /home/danielkowalski
+# environment
+LESSCLOSE = /usr/bin/lesspipe %s %s
+# environment
+VSCODE_CLI = 1
+# environment
+VSCODE_CODE_CACHE_PATH = /home/danielkowalski/.config/Code/CachedData/57fd6d0195bb9b9d1b49f6da5db789060795de47
+# environment
+LOGNAME = danielkowalski
+# environment
+APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = true
+# environment
+SNAP_LIBRARY_PATH = /var/lib/snapd/lib/gl:/var/lib/snapd/lib/gl32:/var/lib/snapd/void
+# environment
+SNAP_CONTEXT = nEzCx7j6VVHgLnzajUpBnMvbxIdTaF-j8RCw6IG8kLBH2eQIl7ZU
+# automatic
++F = $(notdir $+)
+# environment
+ELECTRON_NO_ATTACH_CONSOLE = 1
+# environment
+SNAP_USER_COMMON = /home/danielkowalski/snap/code/common
+# environment
+VSCODE_HANDLES_UNCAUGHT_ERRORS = true
+# environment
+GNOME_DESKTOP_SESSION_ID = this-is-deprecated
+# automatic
+^D = $(patsubst %/,%,$(dir $^))
+# environment
+LC_TIME = de_DE.UTF-8
+# environment
+SNAP_REAL_HOME = /home/danielkowalski
+# environment
+COLORTERM = truecolor
+# default
+MAKE = $(MAKE_COMMAND)
+# default
+MAKECMDGOALS := all
+# environment
+QT_IM_MODULE = ibus
+# environment
+SNAP_USER_DATA = /home/danielkowalski/snap/code/95
+# environment
+SHLVL = 1
+# makefile (from 'makefile', line 10)
+CC = g++
+# environment
+GNOME_SHELL_SESSION_MODE = ubuntu
+# environment
+VSCODE_IPC_HOOK_EXTHOST = /run/user/1000/vscode-ipc-bdc4561a-81ad-406b-81e8-75b3be64c1ef.sock
+# default
+MAKE_VERSION := 4.2.1
+# environment
+USER = danielkowalski
+# environment
+SNAP_REVISION = 95
+# environment
+LC_MONETARY = de_DE.UTF-8
+# makefile
+.DEFAULT_GOAL := all
+# environment
+XDG_CURRENT_DESKTOP = Unity
+# automatic
+%D = $(patsubst %/,%,$(dir $%))
+# environment
+LC_TELEPHONE = de_DE.UTF-8
+# default
+MAKE_COMMAND := make
+# default
+.VARIABLES := 
+# automatic
+*F = $(notdir $*)
+# makefile (from 'makefile', line 1)
+OS := Linux
+# environment
+VSCODE_IPC_HOOK = /run/user/1000/vscode-b951797c-1.67.0-main.sock
+# makefile
+MAKEFLAGS = pqrR
+# environment
+MFLAGS = -pqrR
+# automatic
+*D = $(patsubst %/,%,$(dir $*))
+# automatic
++D = $(patsubst %/,%,$(dir $+))
+# environment
+GDK_BACKEND = x11
+# environment
+LC_PAPER = de_DE.UTF-8
+# environment
+QT_ACCESSIBILITY = 1
+# 'override' directive
+.SHELLSTATUS := 0
+# default
+MAKEFILES := 
+# environment
+SNAP_COOKIE = nEzCx7j6VVHgLnzajUpBnMvbxIdTaF-j8RCw6IG8kLBH2eQIl7ZU
+# environment
+LC_NUMERIC = de_DE.UTF-8
+# automatic
+<F = $(notdir $<)
+# environment
+LC_MEASUREMENT = de_DE.UTF-8
+# environment
+SNAP_NAME = code
+# environment
+LC_ALL = C
+# environment
+DBUS_STARTER_BUS_TYPE = session
+# environment
+GNOME_TERMINAL_SCREEN = /org/gnome/Terminal/screen/e90fac78_a828_4bad_9e41_459bcea7d413
+# automatic
+^F = $(notdir $^)
+# environment
+GNOME_TERMINAL_SERVICE = :1.331
+# default
+SUFFIXES := 
+# environment
+SNAP_REEXEC = 
+# environment
+CHROME_DESKTOP = code-url-handler.desktop
+# environment
+WINDOWPATH = 2
+# default
+.INCLUDE_DIRS = /usr/include /usr/local/include /usr/include
+# environment
+LC_IDENTIFICATION = de_DE.UTF-8
+# default
+.RECIPEPREFIX := 
+# makefile (from 'makefile', line 16)
+OBJECTS = $(SOURCES:.cpp=.o)
+# environment
+ 
+LC_ADDRESS = de_DE.UTF-8
+# environment
+LANG = C
+# environment
+TERM = xterm-256color
+# environment
+VSCODE_PID = 24776
+# environment
+DBUS_STARTER_ADDRESS = unix:path=/run/user/1000/bus,guid=77bb04f66541b1f4e1345fb76298594f
+# variable set hash-table stats:
+# Load=137/1024=13%, Rehash=0, Collisions=19/203=9%
+
+# Pattern-specific Variable Values
+
+# No pattern-specific variable values.
+
+# Directories
+
+# . (device 2053, inode 409601): 33 files, no impossibilities.
+
+# 33 files, no impossibilities in 1 directories.
+
+# Implicit Rules
+
+# No implicit rules.
+
+# Files
+
+# Not a target:
+GeoReach/RangeReach.o:
+#  Implicit rule search has been done.
+#  Last modified 2022-06-02 10:48:00.060536841
+#  File has been updated.
+#  Successfully updated.
+
+createTransitiveClosure: Queries/hybridQueries.o Structures/IntervalScheme.o Spatial/Location.o Spatial/LocationMap.o Spatial/MBR.o Queries/helper.o Queries/socialQueries.o Queries/spatialQueries.o GeoReach/RangeReach.o FileOperations/fileLoading.o Graph/graph.o Spatial/rTree.o Helper/clock.o Helper/utility.o Structures/boostTypes.o bfl/bfl.o
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'makefile', line 57):
+	$(CC) $(CFLAGS) $(LDFLAGS) $(OBJECTS) createTransitiveClosure.cpp -o Executables/createTransitiveClosure $(LDADD)
+
+# Not a target:
+Queries/spatialQueries.o:
+#  Implicit rule search has been done.
+#  Last modified 2022-06-02 10:47:59.952537166
+#  File has been updated.
+#  Successfully updated.
+
+createSpatialFirst: Queries/hybridQueries.o Structures/IntervalScheme.o Spatial/Location.o Spatial/LocationMap.o Spatial/MBR.o Queries/helper.o Queries/socialQueries.o Queries/spatialQueries.o GeoReach/RangeReach.o FileOperations/fileLoading.o Graph/graph.o Spatial/rTree.o Helper/clock.o Helper/utility.o Structures/boostTypes.o bfl/bfl.o
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'makefile', line 54):
+	$(CC) $(CFLAGS) $(LDFLAGS) $(OBJECTS) createSpatialFirst.cpp -o Executables/createSpatialFirst $(LDADD)
+
+all: createIntervalScheme createHybrid createQueries createRangeReach createSocialFirst createSpatialFirst createTransitiveClosure createBflStructure runBreadthFirstQuery runHybrid runQueries runRangeReach runSocialFirst runSpatialFirst
+#  Command line target.
+#  Implicit rule search has been done.
+#  File does not exist.
+#  File has been updated.
+#  Needs to be updated (-q is set).
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/9=0%
+
+createHybrid: Queries/hybridQueries.o Structures/IntervalScheme.o Spatial/Location.o Spatial/LocationMap.o Spatial/MBR.o Queries/helper.o Queries/socialQueries.o Queries/spatialQueries.o GeoReach/RangeReach.o FileOperations/fileLoading.o Graph/graph.o Spatial/rTree.o Helper/clock.o Helper/utility.o Structures/boostTypes.o bfl/bfl.o
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'makefile', line 45):
+	$(CC) $(CFLAGS) $(LDFLAGS) $(OBJECTS) createHybrid.cpp -o Executables/createHybrid $(LDADD)
+
+# Not a target:
+Spatial/rTree.o:
+#  Implicit rule search has been done.
+#  Last modified 2022-06-02 10:48:01.900531286
+#  File has been updated.
+#  Successfully updated.
+
+createBflStructure: Queries/hybridQueries.o Structures/IntervalScheme.o Spatial/Location.o Spatial/LocationMap.o Spatial/MBR.o Queries/helper.o Queries/socialQueries.o Queries/spatialQueries.o GeoReach/RangeReach.o FileOperations/fileLoading.o Graph/graph.o Spatial/rTree.o Helper/clock.o Helper/utility.o Structures/boostTypes.o bfl/bfl.o
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'makefile', line 60):
+	$(CC) $(CFLAGS) $(LDFLAGS) $(OBJECTS) createBflStructure.cpp -o Executables/createBflStructure $(LDADD)
+
+.cc.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'makefile', line 66):
+	$(CC) $(CFLAGS) -c $< -o $@
+
+createQueries: Queries/hybridQueries.o Structures/IntervalScheme.o Spatial/Location.o Spatial/LocationMap.o Spatial/MBR.o Queries/helper.o Queries/socialQueries.o Queries/spatialQueries.o GeoReach/RangeReach.o FileOperations/fileLoading.o Graph/graph.o Spatial/rTree.o Helper/clock.o Helper/utility.o Structures/boostTypes.o bfl/bfl.o
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'makefile', line 42):
+	$(CC) $(CFLAGS) $(LDFLAGS) $(OBJECTS) createQueries.cpp -o Executables/createQueries $(LDADD)
+
+# Not a target:
+.SUFFIXES:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+bfl/bfl.o:
+#  Implicit rule search has been done.
+#  Last modified 2022-06-02 10:47:35.22460844
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+Helper/utility.o:
+#  Implicit rule search has been done.
+#  Last modified 2022-06-02 10:47:33.648612766
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+Graph/graph.o:
+#  Implicit rule search has been done.
+#  Last modified 2022-06-02 10:48:01.708531866
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+makefile:
+#  Implicit rule search has been done.
+#  Last modified 2022-06-02 10:47:17.7606549
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+Structures/boostTypes.o:
+#  Implicit rule search has been done.
+#  Last modified 2022-06-02 10:47:56.952546146
+#  File has been updated.
+#  Successfully updated.
+
+runSpatialFirst: Queries/hybridQueries.o Structures/IntervalScheme.o Spatial/Location.o Spatial/LocationMap.o Spatial/MBR.o Queries/helper.o Queries/socialQueries.o Queries/spatialQueries.o GeoReach/RangeReach.o FileOperations/fileLoading.o Graph/graph.o Spatial/rTree.o Helper/clock.o Helper/utility.o Structures/boostTypes.o bfl/bfl.o
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'makefile', line 27):
+	$(CC) $(CFLAGS) $(LDFLAGS) $(OBJECTS) runSpatialFirst.cpp -o Executables/runSpatialFirst $(LDADD)
+
+runQueries: Queries/hybridQueries.o Structures/IntervalScheme.o Spatial/Location.o Spatial/LocationMap.o Spatial/MBR.o Queries/helper.o Queries/socialQueries.o Queries/spatialQueries.o GeoReach/RangeReach.o FileOperations/fileLoading.o Graph/graph.o Spatial/rTree.o Helper/clock.o Helper/utility.o Structures/boostTypes.o bfl/bfl.o
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'makefile', line 24):
+	$(CC) $(CFLAGS) $(LDFLAGS) $(OBJECTS) runQueries.cpp -o Executables/runQueries $(LDADD)
+
+# Not a target:
+Queries/socialQueries.o:
+#  Implicit rule search has been done.
+#  Last modified 2022-06-02 10:47:55.408550733
+#  File has been updated.
+#  Successfully updated.
+
+createRangeReach: Queries/hybridQueries.o Structures/IntervalScheme.o Spatial/Location.o Spatial/LocationMap.o Spatial/MBR.o Queries/helper.o Queries/socialQueries.o Queries/spatialQueries.o GeoReach/RangeReach.o FileOperations/fileLoading.o Graph/graph.o Spatial/rTree.o Helper/clock.o Helper/utility.o Structures/boostTypes.o bfl/bfl.o
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'makefile', line 48):
+	$(CC) $(CFLAGS) $(LDFLAGS) $(OBJECTS) createRangeReach.cpp -o Executables/createRangeReach $(LDADD)
+
+# Not a target:
+Helper/clock.o:
+#  Implicit rule search has been done.
+#  Last modified 2022-06-02 10:47:31.360619001
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+.DEFAULT:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+createSocialFirst: Queries/hybridQueries.o Structures/IntervalScheme.o Spatial/Location.o Spatial/LocationMap.o Spatial/MBR.o Queries/helper.o Queries/socialQueries.o Queries/spatialQueries.o GeoReach/RangeReach.o FileOperations/fileLoading.o Graph/graph.o Spatial/rTree.o Helper/clock.o Helper/utility.o Structures/boostTypes.o bfl/bfl.o
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'makefile', line 51):
+	$(CC) $(CFLAGS) $(LDFLAGS) $(OBJECTS) createSocialFirst.cpp -o Executables/createSocialFirst $(LDADD)
+
+runBreadthFirstQuery: Queries/hybridQueries.o Structures/IntervalScheme.o Spatial/Location.o Spatial/LocationMap.o Spatial/MBR.o Queries/helper.o Queries/socialQueries.o Queries/spatialQueries.o GeoReach/RangeReach.o FileOperations/fileLoading.o Graph/graph.o Spatial/rTree.o Helper/clock.o Helper/utility.o Structures/boostTypes.o bfl/bfl.o
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'makefile', line 33):
+	$(CC) $(CFLAGS) $(LDFLAGS) $(OBJECTS) runBreadthFirstQuery.cpp -o Executables/runBreadthFirstQuery $(LDADD)
+
+runHybrid: Queries/hybridQueries.o Structures/IntervalScheme.o Spatial/Location.o Spatial/LocationMap.o Spatial/MBR.o Queries/helper.o Queries/socialQueries.o Queries/spatialQueries.o GeoReach/RangeReach.o FileOperations/fileLoading.o Graph/graph.o Spatial/rTree.o Helper/clock.o Helper/utility.o Structures/boostTypes.o bfl/bfl.o
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'makefile', line 36):
+	$(CC) $(CFLAGS) $(LDFLAGS) $(OBJECTS) runHybrid.cpp -o Executables/runHybrid $(LDADD)
+
+.cpp.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'makefile', line 63):
+	$(CC) $(CFLAGS) -c $< -o $@
+
+clean:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'makefile', line 70):
+	rm -rf */*.o
+	rm -rf run
+	#rm -rf create
+
+# Not a target:
+Spatial/MBR.o:
+#  Implicit rule search has been done.
+#  Last modified 2022-06-02 10:47:57.284545156
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+Spatial/Location.o:
+#  Implicit rule search has been done.
+#  Last modified 2022-06-02 10:47:55.508550435
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+Queries/helper.o:
+#  Implicit rule search has been done.
+#  Last modified 2022-06-02 10:47:56.776546669
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+Structures/IntervalScheme.o:
+#  Implicit rule search has been done.
+#  Last modified 2022-06-02 10:47:32.348616316
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+FileOperations/fileLoading.o:
+#  Implicit rule search has been done.
+#  Last modified 2022-06-02 10:47:56.260548204
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+Queries/hybridQueries.o:
+#  Implicit rule search has been done.
+#  Last modified 2022-06-02 10:47:58.460541643
+#  File has been updated.
+#  Successfully updated.
+
+createIntervalScheme: Queries/hybridQueries.o Structures/IntervalScheme.o Spatial/Location.o Spatial/LocationMap.o Spatial/MBR.o Queries/helper.o Queries/socialQueries.o Queries/spatialQueries.o GeoReach/RangeReach.o FileOperations/fileLoading.o Graph/graph.o Spatial/rTree.o Helper/clock.o Helper/utility.o Structures/boostTypes.o bfl/bfl.o
+#  Implicit rule search has not been done.
+#  Implicit/static pattern stem: ''
+ 
+#  File does not exist.
+#  File has been updated.
+#  Needs to be updated (-q is set).
+# automatic
+# @ := createIntervalScheme
+# automatic
+# % := 
+# automatic
+# * := 
+# automatic
+# + := Queries/hybridQueries.o Structures/IntervalScheme.o Spatial/Location.o Spatial/LocationMap.o Spatial/MBR.o Queries/helper.o Queries/socialQueries.o Queries/spatialQueries.o GeoReach/RangeReach.o FileOperations/fileLoading.o Graph/graph.o Spatial/rTree.o Helper/clock.o Helper/utility.o Structures/boostTypes.o bfl/bfl.o
+# automatic
+# | := 
+# automatic
+# < := Queries/hybridQueries.o
+# automatic
+# ^ := Queries/hybridQueries.o Structures/IntervalScheme.o Spatial/Location.o Spatial/LocationMap.o Spatial/MBR.o Queries/helper.o Queries/socialQueries.o Queries/spatialQueries.o GeoReach/RangeReach.o FileOperations/fileLoading.o Graph/graph.o Spatial/rTree.o Helper/clock.o Helper/utility.o Structures/boostTypes.o bfl/bfl.o
+# automatic
+# ? := Queries/hybridQueries.o Structures/IntervalScheme.o Spatial/Location.o Spatial/LocationMap.o Spatial/MBR.o Queries/helper.o Queries/socialQueries.o Queries/spatialQueries.o GeoReach/RangeReach.o FileOperations/fileLoading.o Graph/graph.o Spatial/rTree.o Helper/clock.o Helper/utility.o Structures/boostTypes.o bfl/bfl.o
+# variable set hash-table stats:
+# Load=8/32=25%, Rehash=0, Collisions=5/17=29%
+#  recipe to execute (from 'makefile', line 21):
+	$(CC) $(CFLAGS) $(LDFLAGS) $(OBJECTS) createIntervalScheme.cpp -o Executables/createIntervalScheme $(LDADD)
+
+runRangeReach: Queries/hybridQueries.o Structures/IntervalScheme.o Spatial/Location.o Spatial/LocationMap.o Spatial/MBR.o Queries/helper.o Queries/socialQueries.o Queries/spatialQueries.o GeoReach/RangeReach.o FileOperations/fileLoading.o Graph/graph.o Spatial/rTree.o Helper/clock.o Helper/utility.o Structures/boostTypes.o bfl/bfl.o
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'makefile', line 39):
+	$(CC) $(CFLAGS) $(LDFLAGS) $(OBJECTS) runRangeReach.cpp -o Executables/runRangeReach $(LDADD)
+
+# Not a target:
+Spatial/LocationMap.o:
+#  Implicit rule search has been done.
+#  Last modified 2022-06-02 10:47:57.924543246
+#  File has been updated.
+#  Successfully updated.
+
+runSocialFirst: Queries/hybridQueries.o Structures/IntervalScheme.o Spatial/Location.o Spatial/LocationMap.o Spatial/MBR.o Queries/helper.o Queries/socialQueries.o Queries/spatialQueries.o GeoReach/RangeReach.o FileOperations/fileLoading.o Graph/graph.o Spatial/rTree.o Helper/clock.o Helper/utility.o Structures/boostTypes.o bfl/bfl.o
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'makefile', line 30):
+	$(CC) $(CFLAGS) $(LDFLAGS) $(OBJECTS) runSocialFirst.cpp -o Executables/runSocialFirst $(LDADD)
+
+# files hash-table stats:
+# Load=37/1024=4%, Rehash=0, Collisions=15/301=5%
+# VPATH Search Paths
+
+# No 'vpath' search paths.
+
+# No general ('VPATH' variable) search path.
+
+# strcache buffers: 1 (0) / strings = 71 / storage = 1066 B / avg = 15 B
+# current buf: size = 8162 B / used = 1066 B / count = 71 / avg = 15 B
+
+# strcache performance: lookups = 317 / hit rate = 77%
+# hash-table stats:
+# Load=71/8192=1%, Rehash=0, Collisions=1/317=0%
+# Finished Make data base on Fri Jun 24 21:16:01 2022
+
+ 

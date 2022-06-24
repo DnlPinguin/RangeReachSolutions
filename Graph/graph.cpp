@@ -405,12 +405,12 @@ void Graph::getAllChildren(int root, unordered_set<int>* children)
         Q.pop();
         if (this->AllEdgesGoingIntoKeyNode.count(currnode) != 0)
         {
-            alreadyVisited[currnode] = true;
-            for (unordered_set<int>::iterator t = AllEdgesGoingIntoKeyNode[currnode]->begin(); t != AllEdgesGoingIntoKeyNode[currnode]->end(); t++)
-            {
-                children->insert(*t);
-                alreadyVisited[*t] = true;
-            }
+            // alreadyVisited[currnode] = true;
+            // for (unordered_set<int>::iterator t = AllEdgesGoingIntoKeyNode[currnode]->begin(); t != AllEdgesGoingIntoKeyNode[currnode]->end(); t++)
+            // {
+            //     children->insert(*t);
+            //     alreadyVisited[*t] = true;
+            // }
         }
         else 
         {
@@ -707,108 +707,75 @@ double Graph::graphPropagation(string filepath,bool createReverseScheme, Locatio
     this->AllEdgesGoingIntoKeyNode.clear();
     ofstream file;
     filepath = filepath;
-    if (writeAfterEveryIteration){
-        file.open(filepath);
-    }
-    vector<ofstream*> txtFiles;
+    vector<ofstream*> streams;
     // Get Maximum number of threads defined in main
     int num_of_threads =  omp_get_max_threads();
-    
+        // Create Pointer to ofstream files
+    vector<ofstream*> txtFiles;
+    for (int i = 0 ; i < num_of_threads; i++)
+    {
+        string fileName = filepath + "_" + to_string(i);
+        txtFiles.push_back( new ofstream(filepath + "_" + to_string(i)));
+    }
+
+
     int chunk_size = ceil(postOrder.size() / num_of_threads);
 
     clock.start();
 
     int t = 0;
+    #pragma omp parallel for schedule(static)
+    for(int i = postOrder.size()- 1; i >= 0 ; i--){
+        t++;
+        if (t % 15000 == 0)
+            cout << t <<  " / " << postOrder.size() <<  "    " << (((float)t / (float)postOrder.size()) * 100)  << "%" << endl;
 
-
-    if (createReverseScheme){
-        #pragma omp parallel for schedule(static)
-        for(int i = postOrder.size()- 1; i >= 0 ; i--){
-            t++;
-            if (t % 15000 == 0)
-                cout << t <<  " / " << postOrder.size() <<  "    " << (((float)t / (float)postOrder.size()) * 100)  << "%" << endl;
-
-            unordered_set<int> Ancestors;
+        unordered_set<int> Ancestors;
+        if (createReverseScheme){
             getAllChildren(postOrder[i], &Ancestors);
-            this->AllEdgesGoingIntoKeyNode[postOrder[i]] = &Ancestors;
-            vector<IntervalScheme> newCompressedIntervalScheme;
-            boost::dynamic_bitset<> IntervalBitsetArray(postOrder.size() + 2);
-            for (unordered_set<int>::iterator node = Ancestors.begin(); node != Ancestors.end(); node++)
-            {
-                IntervalBitsetArray[postOrderWithIndex[*node]] = 1;
-            }
-            int pre = 0;
-            int post = 0;
-            for (boost::dynamic_bitset<>::size_type bit = 1; bit < IntervalBitsetArray.size() - 1; bit++) {
-                if (IntervalBitsetArray[bit] == 1 && IntervalBitsetArray[(bit - 1)] == 0) {
-                    pre = bit;
-                }
-                if (IntervalBitsetArray[bit] == 1 && IntervalBitsetArray[(bit + 1)] == 0) {
-                    post = bit;
-                    newCompressedIntervalScheme.push_back(IntervalScheme(pre, post));
-                }
-            }
-        
-            // this->IntervalSchemeGraphMap[postOrder[i]] = newCompressedIntervalScheme;
-            if (writeAfterEveryIteration){
-                string entry;
-                entry = to_string(postOrder[i]);
-                for (vector<IntervalScheme>::iterator interval = newCompressedIntervalScheme.begin(); interval != newCompressedIntervalScheme.end(); interval++){
-                    entry = entry + "\t" + to_string(interval->pre) + "\t" + to_string(interval->post);
-                }
-                entry = entry + "\n";
-                #pragma omp critical
-                    file << entry;
-            }
-        }
-
-    }else{
-        #pragma omp parallel for schedule(static)
-        for(int i = 0; i < postOrder.size(); i++){
-            t++;
-            if (t % 15000 == 0)
-                cout << t <<  " / " << postOrder.size() <<  "    " << (((float)t / (float)postOrder.size()) * 100)  << "%" << endl;
-            unordered_set<int> Ancestors;
+        } else {
             getAllParents(postOrder[i], &Ancestors);
-            this->AllEdgesGoingIntoKeyNode[postOrder[i]] = &Ancestors;
-            vector<IntervalScheme> newCompressedIntervalScheme;
-            boost::dynamic_bitset<> IntervalBitsetArray(postOrder.size() + 2);
-            for (unordered_set<int>::iterator node = Ancestors.begin(); node != Ancestors.end(); node++)
-            {
-                IntervalBitsetArray[postOrderWithIndex[*node]] = 1;
-            }
-            int pre = 0;
-            int post = 0;
-            for (boost::dynamic_bitset<>::size_type bit = 1; bit < IntervalBitsetArray.size() - 1; bit++) {
-                if (IntervalBitsetArray[bit] == 1 && IntervalBitsetArray[(bit - 1)] == 0) {
-                    pre = bit;
-                }
-                if (IntervalBitsetArray[bit] == 1 && IntervalBitsetArray[(bit + 1)] == 0) {
-                    post = bit;
-                    newCompressedIntervalScheme.push_back(IntervalScheme(pre, post));
-                }
-            }
-        
-            // this->IntervalSchemeGraphMap[postOrder[i]] = newCompressedIntervalScheme;
-            if (writeAfterEveryIteration){
-                string entry;
-                entry = to_string(postOrder[i]);
-                for (vector<IntervalScheme>::iterator interval = newCompressedIntervalScheme.begin(); interval != newCompressedIntervalScheme.end(); interval++){
-                    entry = entry + "\t" + to_string(interval->pre) + "\t" + to_string(interval->post);
-                }
-                entry = entry + "\n";
-                #pragma omp critical
-                    file << entry;
-            }
-
         }
+        // this->AllEdgesGoingIntoKeyNode[postOrder[i]] = &Ancestors;
+
+        vector<IntervalScheme> newCompressedIntervalScheme;
+        boost::dynamic_bitset<> IntervalBitsetArray(postOrder.size() + 2);
+        for (unordered_set<int>::iterator node = Ancestors.begin(); node != Ancestors.end(); node++)
+        {
+            IntervalBitsetArray[postOrderWithIndex[*node]] = 1;
+        }
+        int pre = 0;
+        int post = 0;
+        for (boost::dynamic_bitset<>::size_type bit = 1; bit < IntervalBitsetArray.size() - 1; bit++) {
+            if (IntervalBitsetArray[bit] == 1 && IntervalBitsetArray[(bit - 1)] == 0) {
+                pre = bit;
+            }
+            if (IntervalBitsetArray[bit] == 1 && IntervalBitsetArray[(bit + 1)] == 0) {
+                post = bit;
+                newCompressedIntervalScheme.push_back(IntervalScheme(pre, post));
+            }
+        }
+
+        string interval_string = to_string(postOrder[i]);
+        for (vector<IntervalScheme>::iterator interval = newCompressedIntervalScheme.begin(); interval != newCompressedIntervalScheme.end(); interval++)
+        {
+            interval_string.append("\t" + to_string(interval->pre) + "\t" + to_string(interval->post));
+        }
+        interval_string.append("\n");
+        *(txtFiles)[omp_get_thread_num()] << interval_string;
     }
+
 
     double creationTime = clock.stop();
     // Write the labeling scheme to the file
     // writeLabelingSchemeToFile(filepath + "_parallel_" + to_string(num_of_threads), &(this->IntervalSchemeGraphMap));
-    if (!writeAfterEveryIteration){
-        writeLabelingSchemeToFile(filepath, &(this->IntervalSchemeGraphMap));
+    // Close all text files
+
+    // merge files 
+    for (int i = 0 ; i < num_of_threads; i++)
+    {
+        // cout << "Close File: " << i << endl;
+        txtFiles[i]->close();
     }
 
     return creationTime;
@@ -1014,6 +981,8 @@ void Graph::readReducedGraph(string filePath)
     this->GraphScheme.clear();
     cout << "Read reduced graph file: ";
     ifstream file;
+
+    vector<ifstream> streams;
     file.open(filePath);
     string line;
     bool isRootNode = true;
