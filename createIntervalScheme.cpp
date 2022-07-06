@@ -14,55 +14,53 @@ string getApproachMethod(){
 	return getApproachMethod();
 }
 
+
+
+// NOTE: Traditional and Queue are strictly limited by processing memory. Not working on private machines.
+
+// Create Interval scheme
+// To execute the creation:
+//
+//
+// To execute on multiple machines:
+// Executables/createIntervalScheme {{filename}} parallel {{number of threads}} {{machineId}} {{total number of machines}}
+
 int main(int argc, char** argv)
 {
-	string filename, num_of_threads_input, method;
+	string filename, method;
+	int numOfThreads, machineId, totalNumberOfMachines;
 
-    cout << "Enter filename: \n";
-    cin >> filename;
+	if (argc != 6){
+		cout << "Only supporting parallel now, other methods are not up to date" << endl;
+		return 0 ;
+	}	
 
-	method = getApproachMethod();
+	filename = argv[1];
+	method = argv[2];
+	numOfThreads = stoi(argv[3]) - 1;
+	omp_set_num_threads(numOfThreads);
+	machineId = stoi(argv[4]);
+	totalNumberOfMachines = stoi(argv[5]);
 
-	if (method == "parallel"){
-		cout << "Specifiy number of threads \n";
-		cin >> num_of_threads_input;
-		omp_set_num_threads(stoi(num_of_threads_input));		
+	if (machineId >= totalNumberOfMachines){
+		cout << "machineId is exceeding allowed number of total machines" << endl;
+		return 0 ;
 	}
-
-	string contrustructionTime; 
 
 	Timer clock;
 	Graph SocialGeoGraph;
-	LocationMap LocationGraph ;
-
-	// loadFile(filename, &SocialGeoGraph);
-	// loadVanillaGeoFileData(filename,&LocationGraph);
-
-	clock.start();
-	// SocialGeoGraph.createSCCsUsingTarjans();
-	double sccConstructiontime = clock.stop();
-
-	// SocialGeoGraph.writeSuperConnectedComponents(filename);
-	// SocialGeoGraph.writeReducedGraph(filename);
-
-	clock.start();
-	// SocialGeoGraph.createSpanningTree();
-	// SocialGeoGraph.createPostorderTraversal(filename);
-	double postorderContrsuctionTime = clock.stop();
+	LocationMap LocationGraph;
 
 	SocialGeoGraph.readReducedGraph("./data/processed/" + filename + "_reduced_scheme");
 	SocialGeoGraph.readSuperConnectedComponents("./data/processed/" + filename + "_strongly_connected_components");
 	SocialGeoGraph.readPostorder("./data/processed/" + filename + "_postorder");
-    // LocationGraph.createMbrs(&SocialGeoGraph.SuperConnectedComponents);
-	// LocationGraph.writeMapToFile("./data/processed/" + filename + "_reduced_spatial_data");
-	// LocationGraph.readFileForMap("./data/processed/" + filename + "_reduced_spatial_data");
-	double timeParallel, timeParallelReverse, timeQueue, timeQueueReverse, timeTraditional, timeTraditionalReverse = 0;
+	double timeParallel, timeParallelReverse, timeQueue, timeQueueReverse, timeTraditional, timeTraditionalReverse = 0, sccConstructiontime = 0, postorderContrsuctionTime = 0;
+
 
 	if (method == "parallel")
 	{
-
-		double timeParallel = SocialGeoGraph.graphPropagation("./data/interval_scheme/" + filename + "_interval_scheme", false, &LocationGraph, true);
-		double timeParallelReverse = SocialGeoGraph.graphPropagation("./data/interval_scheme/" + filename + "_interval_scheme_reverse", true, &LocationGraph, true);
+		double timeParallel = SocialGeoGraph.graphPropagation("./data/interval_scheme/" + filename + "_interval_scheme", false, &LocationGraph, machineId, totalNumberOfMachines);
+		double timeParallelReverse = SocialGeoGraph.graphPropagation("./data/interval_scheme/" + filename + "_interval_scheme_reverse", true, &LocationGraph, machineId, totalNumberOfMachines);
 	}
 		else if (method == "queue")
 	{
@@ -87,11 +85,10 @@ int main(int argc, char** argv)
 		double timeQueueReverse = SocialGeoGraph.createLabelingSchemeWithOneQueue("./data/interval_scheme/" + filename + "_interval_scheme_reverse", true);
 		
 		cout << "Specifiy number of threads \n";
-		cin >> num_of_threads_input;
-        omp_set_num_threads(stoi(num_of_threads_input));
-		double timeParallel = SocialGeoGraph.graphPropagation("./data/interval_scheme/" + filename + "_interval_scheme", false, &LocationGraph, false);
-		double timeParallelReverse = SocialGeoGraph.graphPropagation("./data/interval_scheme/" + filename + "_interval_scheme_reverse", true, &LocationGraph, false);
-	
+		cin >> numOfThreads;
+        omp_set_num_threads(numOfThreads);
+		double timeParallel = SocialGeoGraph.graphPropagation("./data/interval_scheme/" + filename + "_interval_scheme", false, &LocationGraph, machineId, totalNumberOfMachines);
+		double timeParallelReverse = SocialGeoGraph.graphPropagation("./data/interval_scheme/" + filename + "_interval_scheme_reverse", true, &LocationGraph, machineId, totalNumberOfMachines);
 	
 		ofstream file;
 		file.open("data/results/construction/" + filename + "_construction");
@@ -100,8 +97,6 @@ int main(int argc, char** argv)
 		file << "queue" << "\t" << to_string(sccConstructiontime) << "\t" << to_string(postorderContrsuctionTime) << "\t"<< to_string(timeQueueReverse) << "\t" << to_string(timeQueue) << "\n";
 		file << "parallel" << "\t" << to_string(sccConstructiontime) << "\t" << to_string(postorderContrsuctionTime) << "\t"<< to_string(timeParallelReverse) << "\t" << to_string(timeParallel) << "\n";
 	}
-
-
 }
 
 

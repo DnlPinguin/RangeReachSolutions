@@ -6,7 +6,7 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Wed Jul  6 08:35:12 2022
+# Make data base, printed on Wed Jul  6 08:43:46 2022
 
 # Variables
 
@@ -193,7 +193,7 @@ CC = g++
 # environment
 GNOME_SHELL_SESSION_MODE = ubuntu
 # environment
-VSCODE_IPC_HOOK_EXTHOST = /run/user/1000/vscode-ipc-298804aa-2309-44a8-9ccf-68ff40e373f6.sock
+VSCODE_IPC_HOOK_EXTHOST = /run/user/1000/vscode-ipc-ec49eaf4-b4a3-46a7-819f-2987996c369d.sock
 # default
 MAKE_VERSION := 4.2.1
 # environment
@@ -385,7 +385,7 @@ createQueries: Queries/hybridQueries.o Structures/IntervalScheme.o Spatial/Locat
 # Not a target:
 bfl/bfl.o:
 #  Implicit rule search has been done.
-#  Last modified 2022-07-06 08:33:56.92433938
+#  Last modified 2022-07-06 08:41:53.040080437
 #  File has been updated.
 #  Successfully updated.
 
@@ -533,7 +533,6 @@ FileOperations/fileLoading.o:
 # Not a target:
 Queries/hybridQueries.o:
 #  Implicit rule search has been done.
- 
 #  Last modified 2022-07-06 08:34:12.96882329
 #  File has been updated.
 #  Successfully updated.
@@ -547,6 +546,7 @@ createIntervalScheme: Queries/hybridQueries.o Structures/IntervalScheme.o Spatia
 # automatic
 # @ := createIntervalScheme
 # automatic
+ 
 # % := 
 # automatic
 # * := 
@@ -599,7 +599,8 @@ runSocialFirst: Queries/hybridQueries.o Structures/IntervalScheme.o Spatial/Loca
 
 # strcache performance: lookups = 317 / hit rate = 77%
 # hash-table stats:
+ 
 # Load=71/8192=1%, Rehash=0, Collisions=1/317=0%
-# Finished Make data base on Wed Jul  6 08:35:12 2022
+# Finished Make data base on Wed Jul  6 08:43:46 2022
 
  

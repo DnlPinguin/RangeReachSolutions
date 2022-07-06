@@ -104,7 +104,7 @@ public:
     void createSCCsUsingTarjans();
 
     //Expands the Interval Scheme by adding the not included Edges
-    double graphPropagation(string fileName, bool createReverseScheme, LocationMap* SpatialGraph, bool writeAfterEveryIteration);
+    double graphPropagation(string fileName, bool createReverseScheme, LocationMap* SpatialGraph, int machineId, int totalNumberOfMachines);
     double traditionalGraphPropagation(string filename,bool createReverseScheme);
     double createLabelingSchemeWithOneQueue(string filepath, bool createReverseScheme);
     vector<IntervalScheme>* getReverseIntervalSchemeForNode(int node);

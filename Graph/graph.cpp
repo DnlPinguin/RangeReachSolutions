@@ -700,47 +700,53 @@ double Graph::traditionalGraphPropagation(string filepath, bool createReverseSch
  * @param SpatialGraph 
  * @return double 
  */
-double Graph::graphPropagation(string filepath,bool createReverseScheme, LocationMap* SpatialGraph, bool writeAfterEveryIteration)
+double Graph::graphPropagation(string filepath, bool createReverseScheme, LocationMap* SpatialGraph,int machineId = 1, int totalNumberOfMachines = 1)
 {
+    // Create Timer Object
     Timer clock;
-    this->IntervalSchemeGraphMap.clear();
-    this->AllEdgesGoingIntoKeyNode.clear();
-    ofstream file;
-    filepath = filepath;
-    vector<ofstream*> streams;
+
     // Get Maximum number of threads defined in main
     int num_of_threads =  omp_get_max_threads();
-        // Create Pointer to ofstream files
+    
+    // Delete exisiting Interval map before writing new data
+    this->IntervalSchemeGraphMap.clear();
+
+    ofstream file;
+    vector<ofstream*> streams;
+    
+    // Create Pointer to ofstream files
     vector<ofstream*> txtFiles;
     for (int i = 0 ; i < num_of_threads; i++)
-    {
-        string fileName = filepath + "_" + to_string(i);
-        txtFiles.push_back( new ofstream(filepath + "_" + to_string(i)));
-    }
-
-
-    int chunk_size = ceil(postOrder.size() / num_of_threads);
+        txtFiles.push_back(new ofstream(filepath + "_machine_" + to_string(machineId) + "_" + to_string(totalNumberOfMachines) + "_thread_" + to_string(i)));
 
     clock.start();
 
-    int t = 0;
+    
+    int chunkSize = ceil((float)postOrder.size() / (float)totalNumberOfMachines);
+    int offset = chunkSize * machineId;
+    int currentChunkLimit = min((offset + chunkSize), (int)postOrder.size());
+    int progressCounter = offset;
+
     #pragma omp parallel for schedule(static)
-    for(int i = postOrder.size()- 1; i >= 0 ; i--){
-        t++;
-        if (t % 15000 == 0)
-            cout << t <<  " / " << postOrder.size() <<  "    " << (((float)t / (float)postOrder.size()) * 100)  << "%" << endl;
+    for(int i = 0 + offset; i < currentChunkLimit ; i++){
+        // Log progress to detect abnomalies
+        progressCounter++;
+        if (progressCounter % 15000 == 0)
+            cout << progressCounter <<  " / " << currentChunkLimit <<  "    " << (((float)progressCounter / (float)currentChunkLimit) * 100)  << "%" << endl;
 
-        unordered_set<int> Ancestors;
+
+        // Get all nodes that are required for the labeling process
+        unordered_set<int> ReachableNodes;
         if (createReverseScheme){
-            getAllChildren(postOrder[i], &Ancestors);
+            getAllChildren(postOrder[i], &ReachableNodes);
         } else {
-            getAllParents(postOrder[i], &Ancestors);
+            getAllParents(postOrder[i], &ReachableNodes);
         }
-        // this->AllEdgesGoingIntoKeyNode[postOrder[i]] = &Ancestors;
 
+        // Create Bitset Array to compress the labeling scheme
         vector<IntervalScheme> newCompressedIntervalScheme;
         boost::dynamic_bitset<> IntervalBitsetArray(postOrder.size() + 2);
-        for (unordered_set<int>::iterator node = Ancestors.begin(); node != Ancestors.end(); node++)
+        for (unordered_set<int>::iterator node = ReachableNodes.begin(); node != ReachableNodes.end(); node++)
         {
             IntervalBitsetArray[postOrderWithIndex[*node]] = 1;
         }
@@ -756,6 +762,7 @@ double Graph::graphPropagation(string filepath,bool createReverseScheme, Locatio
             }
         }
 
+        // Write 
         string interval_string = to_string(postOrder[i]);
         for (vector<IntervalScheme>::iterator interval = newCompressedIntervalScheme.begin(); interval != newCompressedIntervalScheme.end(); interval++)
         {
@@ -767,15 +774,10 @@ double Graph::graphPropagation(string filepath,bool createReverseScheme, Locatio
 
 
     double creationTime = clock.stop();
-    // Write the labeling scheme to the file
-    // writeLabelingSchemeToFile(filepath + "_parallel_" + to_string(num_of_threads), &(this->IntervalSchemeGraphMap));
-    // Close all text files
 
-    // merge files 
+    // Merge all files 
     for (int i = 0 ; i < num_of_threads; i++)
     {
-        // cout << "Close File: " << i << endl;
-        
         txtFiles[i]->close();
     }
 
