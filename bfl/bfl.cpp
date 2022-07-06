@@ -29,6 +29,7 @@ void read_graph_for_bfl(const char *filename) {
     }
     fgetc(file);
     while (!feof(file) && fscanf(file, "%d", &v) == 1) {
+      cout << u << " " << v << endl; 
       N_O[u].push_back(v);
       N_I[v].push_back(u);
       counter.insert(u);
@@ -38,7 +39,7 @@ void read_graph_for_bfl(const char *filename) {
   }
   fclose(file);
   
-  cout << counter.size();
+
   for (int u = 0; u < n; u++) {
     nodes[u].N_O_SZ = N_O[u].size();
     nodes[u].N_O = new int[N_O[u].size()];
@@ -156,9 +157,9 @@ void bfl_index_construction() {
   }
 
   gettimeofday(&end_at, 0);
-  printf("index time: %.3fs\n",
-         end_at.tv_sec - start_at.tv_sec +
-             double(end_at.tv_usec - start_at.tv_usec) / 1000000);
+  // printf("index time: %.3fs\n",
+  //        end_at.tv_sec - start_at.tv_sec +
+  //            double(end_at.tv_usec - start_at.tv_usec) / 1000000);
   long long index_size = 0;
   for (int u = 0; u < nodes.size(); u++) {
     index_size +=
@@ -167,7 +168,7 @@ void bfl_index_construction() {
         nodes[u].N_O_SZ == 0 ? sizeof(nodes[u].h_out) : sizeof(nodes[u].L_out);
     index_size += sizeof(nodes[u].L_interval);
   }
-  printf("index space: %.3fMB\n", double(index_size) / (1024 * 1024));
+  // printf("index space: %.3fMB\n", double(index_size) / (1024 * 1024));
 }
 
 bool reach(node &u, node &v) {
@@ -178,18 +179,22 @@ bool reach(node &u, node &v) {
   }
 
   if (v.N_I_SZ == 0) {
+    cout << 1 << endl;
     return false;
   }
   if (u.N_O_SZ == 0) {
+    cout << 2 << endl;
     return false;
   }
   if (v.N_O_SZ == 0) {
     if ((u.L_out[v.h_out >> 5] & (1 << (v.h_out & 31))) == 0) {
+      cout << 3 << endl;
       return false;
     }
   } else {
     for (int i = 0; i < K; i++) {
       if ((u.L_out[i] & v.L_out[i]) != v.L_out[i]) {
+        cout << 4 << endl;
         return false;
       }
     }
@@ -201,29 +206,34 @@ bool reach(node &u, node &v) {
   } else {
     for (int i = 0; i < K; i++) {
       if ((u.L_in[i] & v.L_in[i]) != u.L_in[i]) {
+        cout << 5 << endl;
         return false;
       }
     }
   }
 
   for (int i = 0; i < u.N_O_SZ; i++) {
+    cout << nodes[u.N_O[i]].vis << " im here " << vis_cur << endl;
     if (nodes[u.N_O[i]].vis != vis_cur) {
+      cout << "im here 2" << endl;
       nodes[u.N_O[i]].vis = vis_cur;
       if (reach(nodes[u.N_O[i]], v)) {
         return true;
       }
     }
   }
-
+  cout << 6 << endl;
   return false;
 }
 
 bool run_single_bfl_query(int source, int target){
   // read_graph_for_bfl("./data/bfl/dummy_graph.sample");
-  bfl_index_construction();
+  // bfl_index_construction();
 
-  cout << source << " " << target << endl;
-  return reach(nodes[source], nodes[target]);
+  bool reached = reach(nodes[source], nodes[target]);
+  cout << source << " " << target << " " <<  reached <<endl;
+ 
+  return reached;
 }
 
 bool run_all_bfl_queries(vector<pair<int,int>> queries){

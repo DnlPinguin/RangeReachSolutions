@@ -60,6 +60,7 @@ string getQueryFileName(){
 
 
 int main(int argc, char **argv) {
+    cout << "Run Breadth First Query!" << endl;
     string superFile, queryFile;
 	if (argc == 3){
         superFile = argv[1];

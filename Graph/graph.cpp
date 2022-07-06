@@ -775,6 +775,7 @@ double Graph::graphPropagation(string filepath,bool createReverseScheme, Locatio
     for (int i = 0 ; i < num_of_threads; i++)
     {
         // cout << "Close File: " << i << endl;
+        
         txtFiles[i]->close();
     }
 
@@ -1425,7 +1426,7 @@ void Graph::readBflForNodeIdentifer(string filePath){
 
 void Graph::createBflFileForQuerying(string filename){
     ofstream file;
-    string filepath = "./data/bfl/" + filename + "_graph.sample";
+    string filepath = "./data/bfl/" + filename + "_graph";
     string filepathForBflId = "./data/bfl/" + filename + "_bfl_id";
 
     int counter = 0;

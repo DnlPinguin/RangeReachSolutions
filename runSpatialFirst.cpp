@@ -17,7 +17,7 @@ void runStrictSpatialFirstQueryUsingBfl(Graph* SocialGeoGraph, LocationMap* Loca
 		out << "time\tresult\tarea\tdegree\tcardinality\n";
 	#endif
 
-	bfl_index_construction();
+	// bfl_index_construction();
 	
 	for (vector<queryParameter>::iterator it = queries->begin(); it != queries->end(); it++)
 	{
@@ -36,7 +36,6 @@ void runStrictSpatialFirstQueryUsingBfl(Graph* SocialGeoGraph, LocationMap* Loca
 			out << fixed << timer << "\t" << result << "\t" << it->spaceUsed << "\t" << it->nodeDegree << "\t" << it->cardinality << endl;
 		#endif
 	}
- 	runBfl("./data/bfl/graph.sample", "./data/bfl/queries.sample");
 
 
 }
@@ -57,7 +56,7 @@ void runStrictSpatialFirstQueryUsingBflWithMbr(Graph* SocialGeoGraph, LocationMa
 
 	spatialFirstResult statistics;
 	
-	bfl_index_construction();
+	// bfl_index_construction();
  
 	for (vector<queryParameter>::iterator it = queries->begin(); it != queries->end(); it++)
 	{
@@ -94,7 +93,7 @@ void runSpatialFirstQueryUsingBfl(Graph* SocialGeoGraph, LocationMap* LocationGr
 		out << "time\tresult\tarea\tdegree\tcardinality\n";
 	#endif
 
-	bfl_index_construction();
+	// bfl_index_construction();
 
 
 	for (vector<queryParameter>::iterator it = queries->begin(); it != queries->end(); it++)
@@ -134,7 +133,7 @@ void runSpatialFirstMbrQueryUsingBfl(Graph* SocialGeoGraph, LocationMap* Locatio
 
 	spatialFirstResult statistics;
 	
-	bfl_index_construction();
+	// bfl_index_construction();
 
 
 	for (vector<queryParameter>::iterator it = queries->begin(); it != queries->end(); it++)
@@ -353,9 +352,11 @@ int main(int argc, char **argv) {
     
      
 	if (useBfl){
-		string bflFileName = "data/bfl/" + superFile + "_graph.sample"; 
+
+		string bflFileName = "data/bfl/" + superFile + "_graph"; 
 		SocialGeoGraph.readBflForNodeIdentifer("data/bfl/" + superFile + "_bfl_id");
 		read_graph_for_bfl(bflFileName.c_str());
+		bfl_index_construction();
 	}
     SocialGeoGraph.readReducedGraph("data/processed/" + superFile + "_reduced_scheme");
 	SocialGeoGraph.readSuperConnectedComponents("data/processed/" + superFile + "_strongly_connected_components");

@@ -6,7 +6,7 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Fri Jun 24 21:16:01 2022
+# Make data base, printed on Wed Jul  6 08:35:12 2022
 
 # Variables
 
@@ -43,13 +43,13 @@ CURDIR := /home/danielkowalski/RangeReachCode
 # makefile
 SHELL = /bin/sh
 # environment
-SNAP_DATA = /var/snap/code/95
+SNAP_DATA = /var/snap/code/99
 # environment
 VTE_VERSION = 6003
 # environment
 VSCODE_NLS_CONFIG = {"locale":"en-us","availableLanguages":{},"_languagePackSupport":true}
 # environment
-JOURNAL_STREAM = 8:29415
+JOURNAL_STREAM = 8:34961
 # makefile (from 'makefile', line 11)
 CFLAGS = -O3 -mavx -std=c++17 -w -march=native -fopenmp
 # environment
@@ -73,11 +73,11 @@ MAKELEVEL := 0
 # environment
 XDG_DATA_DIRS = /usr/share/ubuntu:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop
 # environment
-DBUS_SESSION_BUS_ADDRESS = unix:path=/run/user/1000/bus,guid=77bb04f66541b1f4e1345fb76298594f
+DBUS_SESSION_BUS_ADDRESS = unix:path=/run/user/1000/bus,guid=a1d523484e575b43a526174362c52284
 # environment
 VSCODE_VERBOSE_LOGGING = true
 # environment
-MANAGERPID = 1081
+MANAGERPID = 1093
 # environment
 LESSOPEN = | /usr/bin/lesspipe %s
 # environment
@@ -85,7 +85,7 @@ LC_NAME = de_DE.UTF-8
 # environment
 VSCODE_CWD = /home/danielkowalski/RangeReachCode
 # environment
-GSETTINGS_SCHEMA_DIR = /snap/code/95/usr/share/glib-2.0/schemas
+GSETTINGS_SCHEMA_DIR = /snap/code/99/usr/share/glib-2.0/schemas
 # default
 MAKE_HOST := x86_64-pc-linux-gnu
 # environment
@@ -93,15 +93,15 @@ PATH = /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/
 # environment
 GPG_AGENT_INFO = /run/user/1000/gnupg/S.gpg-agent:0:1
 # environment
-SESSION_MANAGER = local/danielkowalski-VirtualBox:@/tmp/.ICE-unix/1365,unix/danielkowalski-VirtualBox:/tmp/.ICE-unix/1365
+SESSION_MANAGER = local/danielkowalski-VirtualBox:@/tmp/.ICE-unix/1377,unix/danielkowalski-VirtualBox:/tmp/.ICE-unix/1377
 # environment
 XDG_RUNTIME_DIR = /run/user/1000
 # environment
 GDK_PIXBUF_MODULE_FILE = /home/danielkowalski/snap/code/common/.cache/gdk-pixbuf-loaders.cache
 # environment
-SNAP = /snap/code/95
+SNAP = /snap/code/99
 # environment
-SNAP_VERSION = 57fd6d01
+SNAP_VERSION = 30d9c6cd
 # environment
 XDG_MENU_PREFIX = gnome-
 # environment
@@ -111,11 +111,11 @@ DISABLE_WAYLAND = 1
 # environment
 ELECTRON_RUN_AS_NODE = 1
 # environment
-INVOCATION_ID = 8ada4f5541e147fabb4c3daa58caf3f9
+INVOCATION_ID = 882da17d4ed343299cedd7b6bfc5ff87
 # makefile (from 'makefile', line 12)
 LDFLAGS = 
 # environment
-GDK_PIXBUF_MODULEDIR = /snap/code/95/usr/lib/x86_64-linux-gnu/gdk-pixbuf-2.0/2.10.0/loaders
+GDK_PIXBUF_MODULEDIR = /snap/code/99/usr/lib/x86_64-linux-gnu/gdk-pixbuf-2.0/2.10.0/loaders
 # default
 .FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell archives jobserver output-sync check-symlink load
 # environment
@@ -137,9 +137,9 @@ PWD = /home/danielkowalski/RangeReachCode
 # default
 .LOADED := 
 # environment
-SSH_AGENT_PID = 1300
+SSH_AGENT_PID = 1315
 # environment
-ORIGINAL_XDG_CURRENT_DESKTOP = ubuntu:GNOME
+ORIGINAL_XDG_CURRENT_DESKTOP = Unity
 # environment
 GTK_MODULES = gail:atk-bridge
 # environment
@@ -151,11 +151,11 @@ LESSCLOSE = /usr/bin/lesspipe %s %s
 # environment
 VSCODE_CLI = 1
 # environment
-VSCODE_CODE_CACHE_PATH = /home/danielkowalski/.config/Code/CachedData/57fd6d0195bb9b9d1b49f6da5db789060795de47
+VSCODE_CODE_CACHE_PATH = /home/danielkowalski/.config/Code/CachedData/30d9c6cd9483b2cc586687151bcbcd635f373630
 # environment
 LOGNAME = danielkowalski
 # environment
-APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = true
+APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = 1
 # environment
 SNAP_LIBRARY_PATH = /var/lib/snapd/lib/gl:/var/lib/snapd/lib/gl32:/var/lib/snapd/void
 # environment
@@ -185,7 +185,7 @@ MAKECMDGOALS := all
 # environment
 QT_IM_MODULE = ibus
 # environment
-SNAP_USER_DATA = /home/danielkowalski/snap/code/95
+SNAP_USER_DATA = /home/danielkowalski/snap/code/99
 # environment
 SHLVL = 1
 # makefile (from 'makefile', line 10)
@@ -193,13 +193,13 @@ CC = g++
 # environment
 GNOME_SHELL_SESSION_MODE = ubuntu
 # environment
-VSCODE_IPC_HOOK_EXTHOST = /run/user/1000/vscode-ipc-bdc4561a-81ad-406b-81e8-75b3be64c1ef.sock
+VSCODE_IPC_HOOK_EXTHOST = /run/user/1000/vscode-ipc-298804aa-2309-44a8-9ccf-68ff40e373f6.sock
 # default
 MAKE_VERSION := 4.2.1
 # environment
 USER = danielkowalski
 # environment
-SNAP_REVISION = 95
+SNAP_REVISION = 99
 # environment
 LC_MONETARY = de_DE.UTF-8
 # makefile
@@ -219,7 +219,7 @@ MAKE_COMMAND := make
 # makefile (from 'makefile', line 1)
 OS := Linux
 # environment
-VSCODE_IPC_HOOK = /run/user/1000/vscode-b951797c-1.67.0-main.sock
+VSCODE_IPC_HOOK = /run/user/1000/vscode-b951797c-1.68.1-main.sock
 # makefile
 MAKEFLAGS = pqrR
 # environment
@@ -253,11 +253,11 @@ LC_ALL = C
 # environment
 DBUS_STARTER_BUS_TYPE = session
 # environment
-GNOME_TERMINAL_SCREEN = /org/gnome/Terminal/screen/e90fac78_a828_4bad_9e41_459bcea7d413
+GNOME_TERMINAL_SCREEN = /org/gnome/Terminal/screen/a6c35c93_ec3e_4ef2_ba7d_86d75040fdaa
 # automatic
 ^F = $(notdir $^)
 # environment
-GNOME_TERMINAL_SERVICE = :1.331
+GNOME_TERMINAL_SERVICE = :1.197
 # default
 SUFFIXES := 
 # environment
@@ -282,9 +282,9 @@ LANG = C
 # environment
 TERM = xterm-256color
 # environment
-VSCODE_PID = 24776
+VSCODE_PID = 46692
 # environment
-DBUS_STARTER_ADDRESS = unix:path=/run/user/1000/bus,guid=77bb04f66541b1f4e1345fb76298594f
+DBUS_STARTER_ADDRESS = unix:path=/run/user/1000/bus,guid=a1d523484e575b43a526174362c52284
 # variable set hash-table stats:
 # Load=137/1024=13%, Rehash=0, Collisions=19/203=9%
 
@@ -307,7 +307,7 @@ DBUS_STARTER_ADDRESS = unix:path=/run/user/1000/bus,guid=77bb04f66541b1f4e1345fb
 # Not a target:
 GeoReach/RangeReach.o:
 #  Implicit rule search has been done.
-#  Last modified 2022-06-02 10:48:00.060536841
+#  Last modified 2022-07-06 08:34:13.708844204
 #  File has been updated.
 #  Successfully updated.
 
@@ -321,7 +321,7 @@ createTransitiveClosure: Queries/hybridQueries.o Structures/IntervalScheme.o Spa
 # Not a target:
 Queries/spatialQueries.o:
 #  Implicit rule search has been done.
-#  Last modified 2022-06-02 10:47:59.952537166
+#  Last modified 2022-07-06 08:34:13.028824993
 #  File has been updated.
 #  Successfully updated.
 
@@ -351,7 +351,7 @@ createHybrid: Queries/hybridQueries.o Structures/IntervalScheme.o Spatial/Locati
 # Not a target:
 Spatial/rTree.o:
 #  Implicit rule search has been done.
-#  Last modified 2022-06-02 10:48:01.900531286
+#  Last modified 2022-07-06 08:34:15.348890169
 #  File has been updated.
 #  Successfully updated.
 
@@ -385,21 +385,21 @@ createQueries: Queries/hybridQueries.o Structures/IntervalScheme.o Spatial/Locat
 # Not a target:
 bfl/bfl.o:
 #  Implicit rule search has been done.
-#  Last modified 2022-06-02 10:47:35.22460844
+#  Last modified 2022-07-06 08:33:56.92433938
 #  File has been updated.
 #  Successfully updated.
 
 # Not a target:
 Helper/utility.o:
 #  Implicit rule search has been done.
-#  Last modified 2022-06-02 10:47:33.648612766
+#  Last modified 2022-07-06 08:33:55.228284774
 #  File has been updated.
 #  Successfully updated.
 
 # Not a target:
 Graph/graph.o:
 #  Implicit rule search has been done.
-#  Last modified 2022-06-02 10:48:01.708531866
+#  Last modified 2022-07-06 08:34:14.952879143
 #  File has been updated.
 #  Successfully updated.
 
@@ -413,7 +413,7 @@ makefile:
 # Not a target:
 Structures/boostTypes.o:
 #  Implicit rule search has been done.
-#  Last modified 2022-06-02 10:47:56.952546146
+#  Last modified 2022-07-06 08:34:10.828762066
 #  File has been updated.
 #  Successfully updated.
 
@@ -434,7 +434,7 @@ runQueries: Queries/hybridQueries.o Structures/IntervalScheme.o Spatial/Location
 # Not a target:
 Queries/socialQueries.o:
 #  Implicit rule search has been done.
-#  Last modified 2022-06-02 10:47:55.408550733
+#  Last modified 2022-07-06 08:34:10.336747842
 #  File has been updated.
 #  Successfully updated.
 
@@ -448,7 +448,7 @@ createRangeReach: Queries/hybridQueries.o Structures/IntervalScheme.o Spatial/Lo
 # Not a target:
 Helper/clock.o:
 #  Implicit rule search has been done.
-#  Last modified 2022-06-02 10:47:31.360619001
+#  Last modified 2022-07-06 08:33:53.500228447
 #  File has been updated.
 #  Successfully updated.
 
@@ -498,49 +498,49 @@ clean:
 # Not a target:
 Spatial/MBR.o:
 #  Implicit rule search has been done.
-#  Last modified 2022-06-02 10:47:57.284545156
+#  Last modified 2022-07-06 08:34:10.908764379
 #  File has been updated.
 #  Successfully updated.
 
 # Not a target:
 Spatial/Location.o:
 #  Implicit rule search has been done.
-#  Last modified 2022-06-02 10:47:55.508550435
+#  Last modified 2022-07-06 08:34:11.352777138
 #  File has been updated.
 #  Successfully updated.
 
 # Not a target:
 Queries/helper.o:
 #  Implicit rule search has been done.
-#  Last modified 2022-06-02 10:47:56.776546669
+#  Last modified 2022-07-06 08:34:11.036768073
 #  File has been updated.
 #  Successfully updated.
 
 # Not a target:
 Structures/IntervalScheme.o:
 #  Implicit rule search has been done.
-#  Last modified 2022-06-02 10:47:32.348616316
+#  Last modified 2022-07-06 08:33:54.472260213
 #  File has been updated.
 #  Successfully updated.
 
 # Not a target:
 FileOperations/fileLoading.o:
 #  Implicit rule search has been done.
-#  Last modified 2022-06-02 10:47:56.260548204
+#  Last modified 2022-07-06 08:34:12.364806094
 #  File has been updated.
 #  Successfully updated.
 
 # Not a target:
 Queries/hybridQueries.o:
 #  Implicit rule search has been done.
-#  Last modified 2022-06-02 10:47:58.460541643
+ 
+#  Last modified 2022-07-06 08:34:12.96882329
 #  File has been updated.
 #  Successfully updated.
 
 createIntervalScheme: Queries/hybridQueries.o Structures/IntervalScheme.o Spatial/Location.o Spatial/LocationMap.o Spatial/MBR.o Queries/helper.o Queries/socialQueries.o Queries/spatialQueries.o GeoReach/RangeReach.o FileOperations/fileLoading.o Graph/graph.o Spatial/rTree.o Helper/clock.o Helper/utility.o Structures/boostTypes.o bfl/bfl.o
 #  Implicit rule search has not been done.
 #  Implicit/static pattern stem: ''
- 
 #  File does not exist.
 #  File has been updated.
 #  Needs to be updated (-q is set).
@@ -575,7 +575,7 @@ runRangeReach: Queries/hybridQueries.o Structures/IntervalScheme.o Spatial/Locat
 # Not a target:
 Spatial/LocationMap.o:
 #  Implicit rule search has been done.
-#  Last modified 2022-06-02 10:47:57.924543246
+#  Last modified 2022-07-06 08:34:10.752759869
 #  File has been updated.
 #  Successfully updated.
 
@@ -600,6 +600,6 @@ runSocialFirst: Queries/hybridQueries.o Structures/IntervalScheme.o Spatial/Loca
 # strcache performance: lookups = 317 / hit rate = 77%
 # hash-table stats:
 # Load=71/8192=1%, Rehash=0, Collisions=1/317=0%
-# Finished Make data base on Fri Jun 24 21:16:01 2022
+# Finished Make data base on Wed Jul  6 08:35:12 2022
 
  

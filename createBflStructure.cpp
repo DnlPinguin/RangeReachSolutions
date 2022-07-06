@@ -18,8 +18,8 @@ int main(int argc, char **argv){
     SocialGeoGraph.readReducedGraph("data/processed/" + filename + "_transitive_closure");
 
     unordered_map<int,vector<int>>::iterator graphIterator;
-
-    string filepath = "./data/bfl/" + filename + "_graph.sample";
+    unordered_map<int,int> bflIdToNodeIdentifier;
+    string filepath = "./data/bfl/" + filename + "_graph";
     string filepathForBflId = "./data/bfl/" + filename + "_bfl_id";
     
     ofstream fileGraph;
@@ -37,20 +37,31 @@ int main(int argc, char **argv){
         string line;
         if (SocialGeoGraph.nodeToBflIdentifier.count(source) == 0){
             SocialGeoGraph.nodeToBflIdentifier[source] = counter;
+            bflIdToNodeIdentifier[counter] = source;
             fileBflID << source << "\t" << counter << "\n";
             counter++;
         }
-        fileGraph << SocialGeoGraph.nodeToBflIdentifier[source] << ":";
+        // fileGraph << SocialGeoGraph.nodeToBflIdentifier[source] << ":";
         
         for (int target : SocialGeoGraph.GraphScheme[source]){
             if (SocialGeoGraph.nodeToBflIdentifier.count(target) == 0){
                 SocialGeoGraph.nodeToBflIdentifier[target] = counter;
+                bflIdToNodeIdentifier[counter] = target;
                 fileBflID << target << "\t" << counter << "\n";
                 counter++;
 
             }
-            fileGraph << " " << SocialGeoGraph.nodeToBflIdentifier[target];
+            // fileGraph << " " << SocialGeoGraph.nodeToBflIdentifier[target];
         }
-        fileGraph << "\n";
+        // fileGraph << "#\n";
     };
+
+    for (int i = 0; i <= counter; i++){
+            fileGraph << i << ": ";
+            for (int target : SocialGeoGraph.GraphScheme[bflIdToNodeIdentifier[i]]){
+                fileGraph << SocialGeoGraph.nodeToBflIdentifier[target] << " ";
+            }
+            fileGraph << "#\n";
+
+    }
 }
