@@ -230,6 +230,7 @@ bool run_single_bfl_query(int source, int target){
   // read_graph_for_bfl("./data/bfl/dummy_graph.sample");
   // bfl_index_construction();
 
+  vis_cur++;
   bool reached = reach(nodes[source], nodes[target]);
   cout << source << " " << target << " " <<  reached <<endl;
  
