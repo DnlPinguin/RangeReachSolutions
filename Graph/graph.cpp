@@ -720,7 +720,6 @@ double Graph::graphPropagation(string filepath, bool createReverseScheme, Locati
         txtFiles.push_back(new ofstream(filepath + "_machine_" + to_string(machineId) + "_" + to_string(totalNumberOfMachines) + "_thread_" + to_string(i)));
 
     clock.start();
-
     
     int chunkSize = ceil((float)postOrder.size() / (float)totalNumberOfMachines);
     int offset = chunkSize * machineId;
@@ -732,8 +731,7 @@ double Graph::graphPropagation(string filepath, bool createReverseScheme, Locati
         // Log progress to detect abnomalies
         progressCounter++;
         if (progressCounter % 15000 == 0)
-            cout << progressCounter <<  " / " << currentChunkLimit <<  "    " << (((float)progressCounter / (float)currentChunkLimit) * 100)  << "%" << endl;
-
+            cout << "Machine " << machineId << " at " << progressCounter <<  " / " << currentChunkLimit <<  "    " << (((float)progressCounter / (float)currentChunkLimit) * 100)  << "%" << endl;
 
         // Get all nodes that are required for the labeling process
         unordered_set<int> ReachableNodes;

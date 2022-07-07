@@ -6,7 +6,7 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Wed Jul  6 08:43:46 2022
+# Make data base, printed on Thu Jul  7 11:16:48 2022
 
 # Variables
 
@@ -49,7 +49,7 @@ VTE_VERSION = 6003
 # environment
 VSCODE_NLS_CONFIG = {"locale":"en-us","availableLanguages":{},"_languagePackSupport":true}
 # environment
-JOURNAL_STREAM = 8:34961
+JOURNAL_STREAM = 8:31670
 # makefile (from 'makefile', line 11)
 CFLAGS = -O3 -mavx -std=c++17 -w -march=native -fopenmp
 # environment
@@ -73,11 +73,11 @@ MAKELEVEL := 0
 # environment
 XDG_DATA_DIRS = /usr/share/ubuntu:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop
 # environment
-DBUS_SESSION_BUS_ADDRESS = unix:path=/run/user/1000/bus,guid=a1d523484e575b43a526174362c52284
+DBUS_SESSION_BUS_ADDRESS = unix:path=/run/user/1000/bus,guid=e072a7199cefa492db9cdc7262c6a43a
 # environment
 VSCODE_VERBOSE_LOGGING = true
 # environment
-MANAGERPID = 1093
+MANAGERPID = 1062
 # environment
 LESSOPEN = | /usr/bin/lesspipe %s
 # environment
@@ -93,7 +93,7 @@ PATH = /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/
 # environment
 GPG_AGENT_INFO = /run/user/1000/gnupg/S.gpg-agent:0:1
 # environment
-SESSION_MANAGER = local/danielkowalski-VirtualBox:@/tmp/.ICE-unix/1377,unix/danielkowalski-VirtualBox:/tmp/.ICE-unix/1377
+SESSION_MANAGER = local/danielkowalski-VirtualBox:@/tmp/.ICE-unix/1346,unix/danielkowalski-VirtualBox:/tmp/.ICE-unix/1346
 # environment
 XDG_RUNTIME_DIR = /run/user/1000
 # environment
@@ -111,7 +111,7 @@ DISABLE_WAYLAND = 1
 # environment
 ELECTRON_RUN_AS_NODE = 1
 # environment
-INVOCATION_ID = 882da17d4ed343299cedd7b6bfc5ff87
+INVOCATION_ID = 9937d17876c04ee0a96329988fc7bb5f
 # makefile (from 'makefile', line 12)
 LDFLAGS = 
 # environment
@@ -137,9 +137,9 @@ PWD = /home/danielkowalski/RangeReachCode
 # default
 .LOADED := 
 # environment
-SSH_AGENT_PID = 1315
+SSH_AGENT_PID = 1281
 # environment
-ORIGINAL_XDG_CURRENT_DESKTOP = Unity
+ORIGINAL_XDG_CURRENT_DESKTOP = ubuntu:GNOME
 # environment
 GTK_MODULES = gail:atk-bridge
 # environment
@@ -155,7 +155,7 @@ VSCODE_CODE_CACHE_PATH = /home/danielkowalski/.config/Code/CachedData/30d9c6cd94
 # environment
 LOGNAME = danielkowalski
 # environment
-APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = 1
+APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = true
 # environment
 SNAP_LIBRARY_PATH = /var/lib/snapd/lib/gl:/var/lib/snapd/lib/gl32:/var/lib/snapd/void
 # environment
@@ -193,7 +193,7 @@ CC = g++
 # environment
 GNOME_SHELL_SESSION_MODE = ubuntu
 # environment
-VSCODE_IPC_HOOK_EXTHOST = /run/user/1000/vscode-ipc-ec49eaf4-b4a3-46a7-819f-2987996c369d.sock
+VSCODE_IPC_HOOK_EXTHOST = /run/user/1000/vscode-ipc-5ced240d-f465-4e09-86c0-bcff7fd6a720.sock
 # default
 MAKE_VERSION := 4.2.1
 # environment
@@ -253,11 +253,11 @@ LC_ALL = C
 # environment
 DBUS_STARTER_BUS_TYPE = session
 # environment
-GNOME_TERMINAL_SCREEN = /org/gnome/Terminal/screen/a6c35c93_ec3e_4ef2_ba7d_86d75040fdaa
+GNOME_TERMINAL_SCREEN = /org/gnome/Terminal/screen/dd7211bc_7330_4c2e_970d_cc6fa67d74a5
 # automatic
 ^F = $(notdir $^)
 # environment
-GNOME_TERMINAL_SERVICE = :1.197
+GNOME_TERMINAL_SERVICE = :1.78
 # default
 SUFFIXES := 
 # environment
@@ -275,16 +275,16 @@ LC_IDENTIFICATION = de_DE.UTF-8
 # makefile (from 'makefile', line 16)
 OBJECTS = $(SOURCES:.cpp=.o)
 # environment
- 
 LC_ADDRESS = de_DE.UTF-8
+ 
 # environment
 LANG = C
 # environment
 TERM = xterm-256color
 # environment
-VSCODE_PID = 46692
+VSCODE_PID = 1833
 # environment
-DBUS_STARTER_ADDRESS = unix:path=/run/user/1000/bus,guid=a1d523484e575b43a526174362c52284
+DBUS_STARTER_ADDRESS = unix:path=/run/user/1000/bus,guid=e072a7199cefa492db9cdc7262c6a43a
 # variable set hash-table stats:
 # Load=137/1024=13%, Rehash=0, Collisions=19/203=9%
 
@@ -294,9 +294,9 @@ DBUS_STARTER_ADDRESS = unix:path=/run/user/1000/bus,guid=a1d523484e575b43a526174
 
 # Directories
 
-# . (device 2053, inode 409601): 33 files, no impossibilities.
+# . (device 2053, inode 409601): 34 files, no impossibilities.
 
-# 33 files, no impossibilities in 1 directories.
+# 34 files, no impossibilities in 1 directories.
 
 # Implicit Rules
 
@@ -399,7 +399,7 @@ Helper/utility.o:
 # Not a target:
 Graph/graph.o:
 #  Implicit rule search has been done.
-#  Last modified 2022-07-06 08:34:14.952879143
+#  Last modified 2022-07-06 20:36:20.144418992
 #  File has been updated.
 #  Successfully updated.
 
@@ -546,8 +546,8 @@ createIntervalScheme: Queries/hybridQueries.o Structures/IntervalScheme.o Spatia
 # automatic
 # @ := createIntervalScheme
 # automatic
- 
 # % := 
+ 
 # automatic
 # * := 
 # automatic
@@ -594,13 +594,12 @@ runSocialFirst: Queries/hybridQueries.o Structures/IntervalScheme.o Spatial/Loca
 
 # No general ('VPATH' variable) search path.
 
-# strcache buffers: 1 (0) / strings = 71 / storage = 1066 B / avg = 15 B
-# current buf: size = 8162 B / used = 1066 B / count = 71 / avg = 15 B
+# strcache buffers: 1 (0) / strings = 72 / storage = 1095 B / avg = 15 B
+# current buf: size = 8162 B / used = 1095 B / count = 72 / avg = 15 B
 
-# strcache performance: lookups = 317 / hit rate = 77%
+# strcache performance: lookups = 318 / hit rate = 77%
 # hash-table stats:
- 
-# Load=71/8192=1%, Rehash=0, Collisions=1/317=0%
-# Finished Make data base on Wed Jul  6 08:43:46 2022
+# Load=72/8192=1%, Rehash=0, Collisions=1/318=0%
+# Finished Make data base on Thu Jul  7 11:16:48 2022
 
  
