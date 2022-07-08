@@ -9,7 +9,6 @@
 #SBATCH --mem=10G           # Memory per node
 #SBATCH -t 600               # Time in minutes
 
-set -e
 
 # Next we load all modules we need. Loading these in the script ensures a consistent environment.
 module purge

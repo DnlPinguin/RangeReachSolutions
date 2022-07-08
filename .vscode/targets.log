@@ -6,7 +6,7 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Fri Jul  8 08:58:56 2022
+# Make data base, printed on Fri Jul  8 09:26:33 2022
 
 # Variables
 
@@ -49,7 +49,7 @@ VTE_VERSION = 6003
 # environment
 VSCODE_NLS_CONFIG = {"locale":"en-us","availableLanguages":{},"_languagePackSupport":true}
 # environment
-JOURNAL_STREAM = 8:33009
+JOURNAL_STREAM = 8:31514
 # makefile (from 'makefile', line 11)
 CFLAGS = -O3 -mavx -std=c++17 -w -march=native -fopenmp
 # environment
@@ -73,7 +73,7 @@ MAKELEVEL := 0
 # environment
 XDG_DATA_DIRS = /usr/share/ubuntu:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop
 # environment
-DBUS_SESSION_BUS_ADDRESS = unix:path=/run/user/1000/bus,guid=056391ab1a674ffdddbfc48b62c7d563
+DBUS_SESSION_BUS_ADDRESS = unix:path=/run/user/1000/bus,guid=915fbfebc1a4475d4c95392a62c7db4a
 # environment
 VSCODE_VERBOSE_LOGGING = true
 # environment
@@ -93,7 +93,7 @@ PATH = /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/
 # environment
 GPG_AGENT_INFO = /run/user/1000/gnupg/S.gpg-agent:0:1
 # environment
-SESSION_MANAGER = local/danielkowalski-VirtualBox:@/tmp/.ICE-unix/1351,unix/danielkowalski-VirtualBox:/tmp/.ICE-unix/1351
+SESSION_MANAGER = local/danielkowalski-VirtualBox:@/tmp/.ICE-unix/1352,unix/danielkowalski-VirtualBox:/tmp/.ICE-unix/1352
 # environment
 XDG_RUNTIME_DIR = /run/user/1000
 # environment
@@ -111,7 +111,7 @@ DISABLE_WAYLAND = 1
 # environment
 ELECTRON_RUN_AS_NODE = 1
 # environment
-INVOCATION_ID = 16c720fba91e43e5b00aec381c64e9e0
+INVOCATION_ID = c762bbfcaac74ef2ae8a57d7bead3bbd
 # makefile (from 'makefile', line 12)
 LDFLAGS = 
 # environment
@@ -137,7 +137,7 @@ PWD = /home/danielkowalski/RangeReachCode
 # default
 .LOADED := 
 # environment
-SSH_AGENT_PID = 1281
+SSH_AGENT_PID = 1286
 # environment
 ORIGINAL_XDG_CURRENT_DESKTOP = ubuntu:GNOME
 # environment
@@ -193,7 +193,7 @@ CC = g++
 # environment
 GNOME_SHELL_SESSION_MODE = ubuntu
 # environment
-VSCODE_IPC_HOOK_EXTHOST = /run/user/1000/vscode-ipc-882364bb-3bca-4f9d-8fbb-ede9454a8dcc.sock
+VSCODE_IPC_HOOK_EXTHOST = /run/user/1000/vscode-ipc-ce74e30d-4af5-4db7-a2c9-c276e3fea2ee.sock
 # default
 MAKE_VERSION := 4.2.1
 # environment
@@ -253,11 +253,11 @@ LC_ALL = C
 # environment
 DBUS_STARTER_BUS_TYPE = session
 # environment
-GNOME_TERMINAL_SCREEN = /org/gnome/Terminal/screen/22e30aa3_07cf_414a_977e_2bf186543433
+GNOME_TERMINAL_SCREEN = /org/gnome/Terminal/screen/55d15f13_82ce_4e3b_ad22_2466e7ec9240
 # automatic
 ^F = $(notdir $^)
 # environment
-GNOME_TERMINAL_SERVICE = :1.77
+GNOME_TERMINAL_SERVICE = :1.81
 # default
 SUFFIXES := 
 # environment
@@ -275,16 +275,15 @@ LC_IDENTIFICATION = de_DE.UTF-8
 # makefile (from 'makefile', line 16)
 OBJECTS = $(SOURCES:.cpp=.o)
 # environment
- 
 LC_ADDRESS = de_DE.UTF-8
 # environment
 LANG = C
 # environment
 TERM = xterm-256color
 # environment
-VSCODE_PID = 1819
+VSCODE_PID = 1910
 # environment
-DBUS_STARTER_ADDRESS = unix:path=/run/user/1000/bus,guid=056391ab1a674ffdddbfc48b62c7d563
+DBUS_STARTER_ADDRESS = unix:path=/run/user/1000/bus,guid=915fbfebc1a4475d4c95392a62c7db4a
 # variable set hash-table stats:
 # Load=137/1024=13%, Rehash=0, Collisions=19/203=9%
 
@@ -348,6 +347,7 @@ createHybrid: Queries/hybridQueries.o Structures/IntervalScheme.o Spatial/Locati
 #  recipe to execute (from 'makefile', line 45):
 	$(CC) $(CFLAGS) $(LDFLAGS) $(OBJECTS) createHybrid.cpp -o Executables/createHybrid $(LDADD)
 
+ 
 # Not a target:
 Spatial/rTree.o:
 #  Implicit rule search has been done.
@@ -546,7 +546,6 @@ createIntervalScheme: Queries/hybridQueries.o Structures/IntervalScheme.o Spatia
 # automatic
 # @ := createIntervalScheme
 # automatic
- 
 # % := 
 # automatic
 # * := 
@@ -600,6 +599,6 @@ runSocialFirst: Queries/hybridQueries.o Structures/IntervalScheme.o Spatial/Loca
 # strcache performance: lookups = 318 / hit rate = 77%
 # hash-table stats:
 # Load=72/8192=1%, Rehash=0, Collisions=1/318=0%
-# Finished Make data base on Fri Jul  8 08:58:56 2022
+# Finished Make data base on Fri Jul  8 09:26:33 2022
 
  
