@@ -21,8 +21,9 @@ machine_id=0
 total_number_of_machines=4
 
 # Build the executable
+make clean
 make createIntervalScheme
-make -j
+
 
 # Launch executable
 ./Executables/createIntervalScheme $datasource parallel $number_of_threads $machine_id $total_number_of_machines
