@@ -26,4 +26,4 @@ make createIntervalScheme
 
 
 # Launch executable
-./Executables/createIntervalScheme $datasource parallel $number_of_threads $machine_id $total_number_of_machines
+srun ./Executables/createIntervalScheme $datasource parallel $number_of_threads $machine_id $total_number_of_machines
