@@ -27,4 +27,4 @@ make createIntervalScheme
 
 
 # Launch executable
-srun ./Executables/createIntervalScheme $datasource parallel $number_of_threads $machine_id $total_number_of_machines
+srun -J createIntervalSchemeOne -A m2_jgu-evgeosreachq -C broadwell -p parallel -N 1 -n 1 -c 8 --mem=32G -t 1200 ./Executables/createIntervalScheme $datasource parallel $number_of_threads $machine_id $total_number_of_machines
