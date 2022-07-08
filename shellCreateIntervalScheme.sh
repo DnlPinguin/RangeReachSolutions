@@ -21,7 +21,7 @@ machine_id=0
 total_number_of_machines=4
 
 # Build the executable
-make clean
+make createIntervalScheme
 make -j
 
 # Launch executable
