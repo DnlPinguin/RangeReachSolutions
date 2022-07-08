@@ -1,14 +1,14 @@
 #!/bin/bash
 
-#SBATCH -J createIntervalScheme         # Job name
+#SBATCH -J createIntervalSchemeOne         # Job name
 #SBATCH -A m2_jgu-evgeosreachq          # Account name
-#SBATCH -p bigmem                       # Queue name
+#SBATCH -C broadwell                    # MachineType
+#SBATCH -p parallel                     # Queue name
+#SBATCH -N 1                # Reserving whole mache
 #SBATCH -n 1                # Number of tasks
 #SBATCH -c 8                # Number of CPUs
-#SBATCH --gres=gpu:1        # Total number of GPUs
-#SBATCH --mem=10G           # Memory per node
-#SBATCH -t 600               # Time in minutes
-
+#SBATCH --mem=32G           # Memory per node
+#SBATCH -t 1200               # Time in minutes
 
 # Next we load all modules we need. Loading these in the script ensures a consistent environment.
 module purge
