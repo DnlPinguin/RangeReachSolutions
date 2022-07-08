@@ -22,8 +22,8 @@ machine_id=0
 total_number_of_machines=5
 
 # Build the executable
-make clean
-make createIntervalScheme
+# make clean
+# make createIntervalScheme
 
 
 # Launch executable
