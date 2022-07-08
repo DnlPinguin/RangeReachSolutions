@@ -2,7 +2,7 @@
 
 #SBATCH -J createIntervalScheme         # Job name
 #SBATCH -A m2_jgu-evgeosreachq          # Account name
-#SBATCH -p m2_jgu                       # Queue name
+#SBATCH -p bigmem                       # Queue name
 #SBATCH -n 1                # Number of tasks
 #SBATCH -c 8                # Number of CPUs
 #SBATCH --gres=gpu:1        # Total number of GPUs
