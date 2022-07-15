@@ -29,7 +29,6 @@ void read_graph_for_bfl(const char *filename) {
     }
     fgetc(file);
     while (!feof(file) && fscanf(file, "%d", &v) == 1) {
-      cout << u << " " << v << endl; 
       N_O[u].push_back(v);
       N_I[v].push_back(u);
       counter.insert(u);
@@ -179,22 +178,18 @@ bool reach(node &u, node &v) {
   }
 
   if (v.N_I_SZ == 0) {
-    cout << 1 << endl;
     return false;
   }
   if (u.N_O_SZ == 0) {
-    cout << 2 << endl;
     return false;
   }
   if (v.N_O_SZ == 0) {
     if ((u.L_out[v.h_out >> 5] & (1 << (v.h_out & 31))) == 0) {
-      cout << 3 << endl;
       return false;
     }
   } else {
     for (int i = 0; i < K; i++) {
       if ((u.L_out[i] & v.L_out[i]) != v.L_out[i]) {
-        cout << 4 << endl;
         return false;
       }
     }
@@ -206,23 +201,19 @@ bool reach(node &u, node &v) {
   } else {
     for (int i = 0; i < K; i++) {
       if ((u.L_in[i] & v.L_in[i]) != u.L_in[i]) {
-        cout << 5 << endl;
         return false;
       }
     }
   }
 
   for (int i = 0; i < u.N_O_SZ; i++) {
-    cout << nodes[u.N_O[i]].vis << " im here " << vis_cur << endl;
     if (nodes[u.N_O[i]].vis != vis_cur) {
-      cout << "im here 2" << endl;
       nodes[u.N_O[i]].vis = vis_cur;
       if (reach(nodes[u.N_O[i]], v)) {
         return true;
       }
     }
   }
-  cout << 6 << endl;
   return false;
 }
 
@@ -232,7 +223,6 @@ bool run_single_bfl_query(int source, int target){
 
   vis_cur++;
   bool reached = reach(nodes[source], nodes[target]);
-  cout << source << " " << target << " " <<  reached <<endl;
  
   return reached;
 }
