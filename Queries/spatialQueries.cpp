@@ -7,7 +7,6 @@ bool spatialFirstQuery(Graph* SocialGraph, bgi::rtree<SpatialNode, bgi::linear<1
     box spatialRegion = queryParam->spatialRegion;
     box mbr =     queryParam->spatialRegion;
 
-    cout << "im here" << endl;
     for (auto it = rTree->qbegin(bgi::intersects(spatialRegion)); it != rTree->qend(); ++it)
     {
         cout << node << " => " << it->second << endl;;
