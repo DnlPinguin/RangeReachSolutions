@@ -25,10 +25,10 @@ int main(int argc, char **argv){
         query_filename = getQueryFileName();
     }
     
-    bool runHybrid = false;
-    bool runSpatial = false;
-    bool runSocial = false;
-    bool runRangeReach = false;
+    bool runHybrid = true;
+    bool runSpatial = true;
+    bool runSocial = true;
+    bool runRangeReach = true;
     bool runBfl = true;
 
     system(("Executables/runBreadthFirstQuery " + filename + " " + query_filename).c_str());

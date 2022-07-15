@@ -1,6 +1,5 @@
 make --dry-run --always-make --keep-going --print-directory
 make: Entering directory '/home/danielkowalski/RangeReachCode'
- 
 g++ -O3 -mavx -std=c++17 -w -march=native -fopenmp -c Queries/hybridQueries.cpp -o Queries/hybridQueries.o
 g++ -O3 -mavx -std=c++17 -w -march=native -fopenmp -c Structures/IntervalScheme.cpp -o Structures/IntervalScheme.o
 g++ -O3 -mavx -std=c++17 -w -march=native -fopenmp -c Spatial/Location.cpp -o Spatial/Location.o
