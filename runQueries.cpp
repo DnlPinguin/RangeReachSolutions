@@ -27,7 +27,7 @@ int main(int argc, char **argv){
     
     bool runHybrid = true;
     bool runSpatial = true;
-    bool runSocial = true;
+    bool runSocial = false;
     bool runRangeReach = true;
     bool runBfl = true;
 

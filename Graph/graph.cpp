@@ -1306,7 +1306,6 @@ void Graph::createSCCsUsingTarjans()
     int *low = new int[graphSize];
     bool *stackMember = new bool[graphSize];
     stack<int> *st = new stack<int>();
-    cout << "im here" << endl;
     // Initialize disc and low, and stackMember arrays
     for (int i : V)
     {
@@ -1315,7 +1314,6 @@ void Graph::createSCCsUsingTarjans()
         stackMember[i] = false;
     }
  
-    cout << "im here  2" << endl;
 
     // Call the recursive helper function to find strongly
     // connected components in DFS tree with vertex 'i'
@@ -1328,7 +1326,6 @@ void Graph::createSCCsUsingTarjans()
         }
     }
 
-    cout << "im here  3" << endl;
 
 
     /**
@@ -1351,7 +1348,6 @@ void Graph::createSCCsUsingTarjans()
         }
     }
 
-    cout << "im here  4" << endl;
 
 
     /**
@@ -1363,7 +1359,6 @@ void Graph::createSCCsUsingTarjans()
     }
 
 
-    cout << "im here  5" << endl;
 
     /**
      * Check which reachable nodes are stored inside a strongly connected component and
@@ -1385,7 +1380,6 @@ void Graph::createSCCsUsingTarjans()
         }
     }
 
-    cout << "im here  6" << endl;
    
     /**
      * Clear the orignal Bi and reverse scheme and refill it 
