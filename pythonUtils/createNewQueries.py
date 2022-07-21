@@ -103,8 +103,8 @@ file = input()
 
 # findQueriesWithDegreAndArea(file, cardinality=1000,  area=0.1)
 # findQueriesWithDegreAndArea(file, cardinality=1000, degree=10)
-findQueriesWithDegreAndArea(file, area=0.1)
-findQueriesWithDegreAndArea(file, degree=10)
+# findQueriesWithDegreAndArea(file, area=0.1)
+findQueriesWithDegreAndArea(file)
 
 # getAllTrueQueries("", "foursquare_bfs")
 

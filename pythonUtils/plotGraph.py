@@ -1,7 +1,5 @@
 import matplotlib.pyplot as plt
-import matplotlib
-from collections import defaultdict
-import numpy as np
+import os.path
 
 query_file_names = [   # filenames for all queries to evaluate
              "first_bfl_sequential_mbr",
@@ -43,8 +41,11 @@ def read_files(file_name):
 
     data = {}
     for file_appendix in query_file_names:
-        geo_file = open("./data/results/" + file_name + "_" + file_appendix, "r")
-        
+        file_path = "./data/results/" + file_name + "_" + file_appendix
+        if (os.path.exists(file_path)):
+            geo_file = open(file_path, "r")
+        else:
+            continue
         data[file_appendix] = {'entries' : [], 'time': [], 'cardinality' : [], 'area': [], 'degree': []}
         next(geo_file)
         
@@ -63,7 +64,7 @@ def read_files(file_name):
             data[file_appendix]['degree'].append(degree)
             data[file_appendix]['cardinality'].append(cardinality)
 
-
+    print(data.keys())
     fig, ax = plt.subplots()
     for method in data:
         linestyle='-'
@@ -80,18 +81,19 @@ def read_files(file_name):
         if "spareach" in method: 
             color='c'
 
-        ax.plot(data[method]['cardinality'], data[method]['time'], label = method, linestyle=linestyle, color = color)
-        ax.set_title("Cardinality Rising")
-    plt.legend()
-    plt.show()
+    #     ax.plot(data[method]['degree'], data[method]['time'], label = method, linestyle=linestyle, color = color)
+    #     ax.set_title("Cardinality Rising")
+    # plt.legend()
+
+    # plt.show()
 
 
     # for method in data:
 
-    #     ax.plot(data[method]['area'], data[method]['time'], label = method, linestyle= linestyle)
-    #     ax.set_title("area Rising")
-    # plt.legend()
-    # plt.show()
+        ax.plot(data[method]['area'], data[method]['time'], label = method, linestyle= linestyle)
+        ax.set_title("area Rising")
+    plt.legend()
+    plt.show()
 
     # for method in data:
     #     ax.plot(data[method]['degree'], data[method]['time'], label = method)
@@ -970,4 +972,9 @@ def read_file(super_file):  # read result files and create dictionary
     return
 
 
-read_files("foursquare")
+
+
+print("Enter filename: ")
+file_name = input()
+
+read_files(file_name)

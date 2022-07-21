@@ -56,7 +56,11 @@ int main(int argc, char **argv){
         system(("Executables/runSpatialFirst " + filename + " sequential mbr noBfl " + query_filename).c_str());
         system(("Executables/runSpatialFirst " + filename + " sequential points noBfl " + query_filename).c_str());
     }
-
+    if (runRangeReach)
+    {
+        cout << "Run RangeReach" << endl;
+        system(("Executables/runRangeReach " + filename + " " + query_filename).c_str());
+    }
     if (runSocial)
     {
         cout << "Run social first" << endl;
@@ -64,11 +68,5 @@ int main(int argc, char **argv){
         system(("Executables/runSocialFirst " + filename + " strict mbr " + query_filename).c_str());
         system(("Executables/runSocialFirst " + filename + " sequential mbr " + query_filename).c_str());
         system(("Executables/runSocialFirst " + filename + " sequential points " + query_filename).c_str());
-    }
-
-    if (runRangeReach)
-    {
-        cout << "Run RangeReach" << endl;
-        system(("Executables/runRangeReach " + filename + " " + query_filename).c_str());
     }
 }
