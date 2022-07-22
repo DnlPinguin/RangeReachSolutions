@@ -6,7 +6,7 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Thu Jul 21 22:11:28 2022
+# Make data base, printed on Fri Jul 22 09:19:31 2022
 
 # Variables
 
@@ -47,7 +47,7 @@ VTE_VERSION = 6003
 # environment
 VSCODE_NLS_CONFIG = {"locale":"en-us","availableLanguages":{},"_languagePackSupport":true}
 # environment
-JOURNAL_STREAM = 8:33892
+JOURNAL_STREAM = 8:29567
 # makefile (from 'makefile', line 11)
 CFLAGS = -O3 -mavx -std=c++17 -w -march=native -fopenmp
 # environment
@@ -71,9 +71,9 @@ MAKELEVEL := 0
 # environment
 XDG_DATA_DIRS = /usr/share/ubuntu:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop
 # environment
-DBUS_SESSION_BUS_ADDRESS = unix:path=/run/user/1000/bus,guid=554984ae0566922b4742538762d9aef3
+DBUS_SESSION_BUS_ADDRESS = unix:path=/run/user/1000/bus,guid=8a528d58ed7ca83c9bb96fd062da4b81
 # environment
-MANAGERPID = 1066
+MANAGERPID = 1099
 # environment
 LESSOPEN = | /usr/bin/lesspipe %s
 # environment
@@ -89,7 +89,8 @@ PATH = /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/
 # environment
 GPG_AGENT_INFO = /run/user/1000/gnupg/S.gpg-agent:0:1
 # environment
-SESSION_MANAGER = local/danielkowalski-VirtualBox:@/tmp/.ICE-unix/1349,unix/danielkowalski-VirtualBox:/tmp/.ICE-unix/1349
+ 
+SESSION_MANAGER = local/danielkowalski-VirtualBox:@/tmp/.ICE-unix/1383,unix/danielkowalski-VirtualBox:/tmp/.ICE-unix/1383
 # environment
 XDG_RUNTIME_DIR = /run/user/1000
 # environment
@@ -105,7 +106,7 @@ DISABLE_WAYLAND = 1
 # environment
 ELECTRON_RUN_AS_NODE = 1
 # environment
-INVOCATION_ID = e63f9d487d0b476caee2d8aa77140ffb
+INVOCATION_ID = 7e315e4b37e042b69a186c4dec6f6876
 # makefile (from 'makefile', line 12)
 LDFLAGS = 
 # environment
@@ -129,7 +130,7 @@ PWD = /home/danielkowalski/RangeReachCode
 # default
 .LOADED := 
 # environment
-SSH_AGENT_PID = 1283
+SSH_AGENT_PID = 1319
 # environment
 ORIGINAL_XDG_CURRENT_DESKTOP = ubuntu:GNOME
 # environment
@@ -147,7 +148,7 @@ VSCODE_CODE_CACHE_PATH = /home/danielkowalski/.config/Code/CachedData/3b889b090b
 # environment
 LOGNAME = danielkowalski
 # environment
-APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = 1
+APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = true
 # environment
 SNAP_LIBRARY_PATH = /var/lib/snapd/lib/gl:/var/lib/snapd/lib/gl32:/var/lib/snapd/void
 # environment
@@ -243,11 +244,11 @@ LC_ALL = C
 # environment
 DBUS_STARTER_BUS_TYPE = session
 # environment
-GNOME_TERMINAL_SCREEN = /org/gnome/Terminal/screen/3ac72d1e_1dce_4a29_81ee_149d855c7637
+GNOME_TERMINAL_SCREEN = /org/gnome/Terminal/screen/216133e2_368b_4e14_b82f_8df4abd6c987
 # automatic
 ^F = $(notdir $^)
 # environment
-GNOME_TERMINAL_SERVICE = :1.83
+GNOME_TERMINAL_SERVICE = :1.81
 # default
 SUFFIXES := 
 # environment
@@ -271,11 +272,10 @@ LANG = C
 # environment
 TERM = xterm-256color
 # environment
-VSCODE_PID = 2084
+VSCODE_PID = 2005
 # environment
-DBUS_STARTER_ADDRESS = unix:path=/run/user/1000/bus,guid=554984ae0566922b4742538762d9aef3
+DBUS_STARTER_ADDRESS = unix:path=/run/user/1000/bus,guid=8a528d58ed7ca83c9bb96fd062da4b81
 # variable set hash-table stats:
- 
 # Load=132/1024=13%, Rehash=0, Collisions=18/198=9%
 
 # Pattern-specific Variable Values
@@ -345,6 +345,7 @@ Spatial/rTree.o:
 #  File has been updated.
 #  Successfully updated.
 
+ 
 createBflStructure: Queries/hybridQueries.o Structures/IntervalScheme.o Spatial/Location.o Spatial/LocationMap.o Spatial/MBR.o Queries/helper.o Queries/socialQueries.o Queries/spatialQueries.o GeoReach/RangeReach.o FileOperations/fileLoading.o Graph/graph.o Spatial/rTree.o Helper/clock.o Helper/utility.o Structures/boostTypes.o bfl/bfl.o
 #  Implicit rule search has not been done.
 #  Modification time never checked.
@@ -590,6 +591,6 @@ runSocialFirst: Queries/hybridQueries.o Structures/IntervalScheme.o Spatial/Loca
 # strcache performance: lookups = 322 / hit rate = 76%
 # hash-table stats:
 # Load=76/8192=1%, Rehash=0, Collisions=2/322=1%
-# Finished Make data base on Thu Jul 21 22:11:28 2022
+# Finished Make data base on Fri Jul 22 09:19:31 2022
 
  

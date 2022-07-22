@@ -64,7 +64,6 @@ def read_files(file_name):
             data[file_appendix]['degree'].append(degree)
             data[file_appendix]['cardinality'].append(cardinality)
 
-    print(data.keys())
     fig, ax = plt.subplots()
     for method in data:
         linestyle='-'
@@ -89,9 +88,25 @@ def read_files(file_name):
 
 
     # for method in data:
+        area = {}
+        for column in data[method]:
+            x = []
+            y = []
+            for i in range(0, len(data[method]["area"])):
+                curr_area = data[method]['area'][i]
+                curr_time = data[method]['time'][i]
+                if (curr_area in area):
+                    area[curr_area].append(curr_time)
+                else: 
+                    area[curr_area] = [curr_time]
 
-        ax.plot(data[method]['area'], data[method]['time'], label = method, linestyle= linestyle)
+            for i in area:
+                x.append(i)
+                y.append(sum(area[i]) / len(area[i]))     
+
+        ax.plot(x, y, label = method)
         ax.set_title("area Rising")
+
     plt.legend()
     plt.show()
 
